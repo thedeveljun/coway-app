@@ -231,7 +231,7 @@ body{
   border-radius:8px;
   text-align:center;
   font-size:17px;
-  font-weight:700;
+  font-weight:600;
   background:#fff;
   outline:none;
   -moz-appearance:textfield;
@@ -239,6 +239,12 @@ body{
 
 .num-input.zero{
   color:#C0C4CC;
+  font-weight:400; /* ← 여기 400 → 300으로 변경 */
+}
+
+/* 🔥 추가 */
+.num-input,
+.num-input.zero{
   font-weight:400;
 }
 .num-input::-webkit-outer-spin-button,
