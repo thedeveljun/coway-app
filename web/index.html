@@ -942,41 +942,41 @@ function buildInputView(wds){
 
     <div class="num-wrap">
   <input
-    type="number"
-    min="0"
-    id="nd-${i}-신규"
-    class="num-input nw ${d.신규===0?'zero':''}"
-    value="${d.신규===0?'':d.신규}"
-    placeholder="0"
-    onfocus="handleFocus(this)"
-    onblur="handleBlur(this,'${selMem}',${i},'신규')"
-    oninput="setDayValue('${selMem}',${i},'신규',this.value)">
+  type="number"
+  min="0"
+  id="nd-${i}-신규"
+  class="num-input nw ${d.신규===0?'zero':''}"
+  value="${d.신규===0?'':d.신규}"
+  placeholder="0"
+  onfocus="handleFocus(this)"
+  onblur="handleBlur(this,'${selMem}',${i},'신규')"
+  oninput="setDayValue('${selMem}',${i},'신규',this.value)">
 </div>
 
     <div class="num-wrap">
       <input
-        type="number"
-        min="0"
-        id="nd-${i}-정수"
-        class="num-input gn ${d.정수===0?'zero':''}"
-        value="${d.정수===0?'':d.정수}"
-        placeholder="0"
-        onfocus="handleFocus(this)"
-        onblur="handleBlur(this,'${selMem}',${i},'정수')"
-        oninput="setDayValue('${selMem}',${i},'정수',this.value)">
+  type="number"
+  min="0"
+  id="nd-${i}-정수"
+  class="num-input nw ${d.정수===0?'zero':''}"
+  value="${d.정수===0?'':d.정수}"
+  placeholder="0"
+  onfocus="handleFocus(this)"
+  onblur="handleBlur(this,'${selMem}',${i},'정수')"
+  oninput="setDayValue('${selMem}',${i},'정수',this.value)">
     </div>
 
     <div class="num-wrap">
       <input
-        type="number"
-        min="0"
-        id="nd-${i}-전략"
-        class="num-input am ${d.전략===0?'zero':''}"
-        value="${d.전략===0?'':d.전략}"
-        placeholder="0"
-        onfocus="handleFocus(this)"
-        onblur="handleBlur(this,'${selMem}',${i},'전략')"
-        oninput="setDayValue('${selMem}',${i},'전략',this.value)">
+  type="number"
+  min="0"
+  id="nd-${i}-전략"
+  class="num-input nw ${d.전략===0?'zero':''}"function handleFocus(el){
+  value="${d.전략===0?'':d.전략}"
+  placeholder="0"
+  onfocus="handleFocus(this)"
+  onblur="handleBlur(this,'${selMem}',${i},'전략')"
+  oninput="setDayValue('${selMem}',${i},'전략',this.value)">
     </div>
 
     <div id="dct-${i}" style="text-align:right;font-size:16px;font-weight:700;color:var(--blue);">${dt}</div>
@@ -997,36 +997,49 @@ function buildInputView(wds){
 // 🔥 여기 추가 (setDayValue 위)
 function handleFocus(el){
   el.classList.remove('zero');
+  el.placeholder = '';
+
+  if(el.value === '0'){
+    el.value = '';
+  }
 }
 
 function handleBlur(el, mid, di, type){
   if(el.value === ""){
     el.classList.add('zero');
+    el.placeholder = '0';
 
     const rec = getRec(Y, W, mid);
     rec.days[di][type] = 0;
     setRec(Y, W, mid, rec.days);
     renderWeekly();
+  } else {
+    el.placeholder = '0';
   }
 }
 
-function setDayValue(mid,di,type,value){
-  const rec=getRec(Y,W,mid);
-  const num=Math.max(0,parseInt(value||0,10)||0);
-  rec.days[di][type]=num;
-  setRec(Y,W,mid,rec.days);
+function setDayValue(mid, di, type, value){
+  const rec = getRec(Y, W, mid);
 
-  const dct=document.getElementById(`dct-${di}`);
-  if(dct){
-    const d=rec.days[di];
-    dct.textContent=d.신규+d.정수+d.전략;
+  if(value === ''){
+    rec.days[di][type] = 0;
+  } else {
+    rec.days[di][type] = Math.max(0, parseInt(value, 10) || 0);
   }
 
-  const ws=wSum(Y,W,mid);
-  const totEl=document.getElementById('ws-tot'); if(totEl) totEl.textContent=ws.신규+ws.정수+ws.전략;
-  const nwEl=document.getElementById('ws-nw'); if(nwEl) nwEl.textContent=ws.신규;
-  const gnEl=document.getElementById('ws-gn'); if(gnEl) gnEl.textContent=ws.정수;
-  const amEl=document.getElementById('ws-am'); if(amEl) amEl.textContent=ws.전략;
+  setRec(Y, W, mid, rec.days);
+
+  const dct = document.getElementById(`dct-${di}`);
+  if(dct){
+    const d = rec.days[di];
+    dct.textContent = d.신규 + d.정수 + d.전략;
+  }
+
+  const ws = wSum(Y, W, mid);
+  const totEl = document.getElementById('ws-tot'); if(totEl) totEl.textContent = ws.신규 + ws.정수 + ws.전략;
+  const nwEl = document.getElementById('ws-nw'); if(nwEl) nwEl.textContent = ws.신규;
+  const gnEl = document.getElementById('ws-gn'); if(gnEl) gnEl.textContent = ws.정수;
+  const amEl = document.getElementById('ws-am'); if(amEl) amEl.textContent = ws.전략;
 }
 
 function buildStatusView(wds){
