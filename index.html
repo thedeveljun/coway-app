@@ -61,7 +61,6 @@
   --safe-b:env(safe-area-inset-bottom,0px);
   --safe-t:env(safe-area-inset-top,0px);
 }
-
 *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent;}
 html,body{height:100%;overflow:hidden;background:var(--bg);}
 body{
@@ -105,11 +104,7 @@ body{
 
 /* Common */
 .section{padding:14px 14px 0;}
-.sec-title{
-  font-size:17px;
-  font-weight:600;
-  letter-spacing:-0.2px;
-}
+.sec-title{font-size:13px;font-weight:500;color:var(--text);}
 .card{
   background:var(--surf);border-radius:var(--r);box-shadow:var(--sh);
   overflow:hidden;margin-bottom:12px;
@@ -145,8 +140,8 @@ body{
 .hero-stat{
   background:rgba(255,255,255,.16);border-radius:12px;padding:7px 8px;text-align:center;
 }
-.hero-stat-val{font-size:30px;font-weight:700;line-height:1.1;}
-.hero-stat-lbl{font-size:14px;font-weight:400;opacity:1;margin-top:4px;}
+.hero-stat-val{font-size:32px;font-weight:700;line-height:1.1;}
+.hero-stat-lbl{font-size:13px;font-weight:400;opacity:1;margin-top:4px;}
 
 .kpi-row{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:10px;}
 .kpi{
@@ -216,7 +211,7 @@ body{
 .ws{
   background:var(--surf);border-radius:10px;padding:9px 4px;text-align:center;box-shadow:var(--sh);
 }
-.ws-v{font-size:22px;font-weight:600;}
+.ws-v{font-size:18px;font-weight:600;}
 .ws-l{font-size:12px;color:var(--text2);font-weight:600;margin-top:1px;}
 .ws.tot .ws-v,.ws.nw .ws-v{color:var(--blue);}
 .ws.gn .ws-v{color:var(--green);}
@@ -225,21 +220,9 @@ body{
 /* Weekly input unified box */
 .num-wrap{display:flex;align-items:center;justify-content:center;}
 .num-input{
-  width:52px;
-  height:34px;
-  border:1.5px solid var(--bd);
-  border-radius:8px;
-  text-align:center;
-  font-size:17px;
-  font-weight:700;
-  background:#fff;
-  outline:none;
+  width:52px;height:34px;border:1.5px solid var(--bd);border-radius:8px;
+  text-align:center;font-size:16px;font-weight:600;background:#fff;outline:none;
   -moz-appearance:textfield;
-}
-
-.num-input.zero{
-  color:#C0C4CC;
-  font-weight:400;
 }
 .num-input::-webkit-outer-spin-button,
 .num-input::-webkit-inner-spin-button{-webkit-appearance:none;margin:0;}
@@ -272,24 +255,24 @@ body{
 .stbl{border-collapse:collapse;background:var(--surf);font-size:12px;white-space:nowrap;}
 .cn{
   position:sticky;left:0;z-index:3;background:var(--surf2);width:68px;min-width:68px;
-  padding:5px 6px 5px 10px;font-weight:600;font-size:14px;text-align:center;border-right:2px solid var(--bd);
+  padding:5px 6px 5px 10px;font-weight:700;font-size:15px;text-align:left;border-right:2px solid var(--bd);
 }
-.stbl thead .cn{background:#EDF2FA;color:var(--text2);font-size:14px;font-weight:600;}
+.stbl thead .cn{background:#EDF2FA;color:var(--text2);font-size:10px;font-weight:700;}
 .cd{
-  min-width:40px;padding:7px 3px;font-size:14px;font-weight:600;color:var(--text2);
+  min-width:40px;padding:7px 3px;font-size:15px;font-weight:700;color:var(--text2);
   background:#EDF2FA;text-align:center;border-bottom:1px solid var(--bd);
 }
 .cd.tdy{background:#DDE8F8;color:var(--blue);}
 .cd.wkd{color:#C62828;}
 .dcel{
-  min-width:40px;padding:6px 3px;font-size:15px;font-weight:500;color:var(--text);
+  min-width:40px;padding:6px 3px;font-size:17px;font-weight:700;color:var(--text);
   text-align:center;border-bottom:1px solid var(--bd);
 }
 .dcel.zero{color:var(--text3);font-weight:400;font-size:12px;}
 .dcel.tdy{background:#F0F6FF;}
 .cs{
-  width:42px;min-width:42px;padding:9px 6px;background:var(--sky);font-size:15px;
-  font-weight:600;color:var(--blue);text-align:center;border-left:2px solid var(--sky2);
+  width:42px;min-width:42px;padding:9px 6px;background:var(--sky);font-size:17px;
+  font-weight:800;color:var(--blue);text-align:center;border-left:2px solid var(--sky2);
   position:sticky;right:0;z-index:3;border-bottom:1px solid var(--sky2);
 }
 .stbl thead .cs{background:#DDE8F8;font-size:10px;font-weight:700;color:var(--blue);}
@@ -312,13 +295,8 @@ body{
 .mkpi-c{
   background:var(--surf);border-radius:12px;padding:7px 8px;text-align:center;box-shadow:var(--sh);
 }
-.mkpi-v{font-size:24px;font-weight:600;line-height:1.1;}
-.mkpi-l{
-  font-size:14px;
-  color:var(--text2);
-  font-weight:600;
-  margin-top:2px;
-}
+.mkpi-v{font-size:28px;font-weight:500;line-height:1.1;}
+.mkpi-l{font-size:13px;color:var(--text2);font-weight:600;margin-top:2px;}
 .mkpi-c.nw .mkpi-v{color:var(--blue);}
 .mkpi-c.gn .mkpi-v{color:var(--green);}
 .mkpi-c.am .mkpi-v{color:var(--amber);}
@@ -664,15 +642,13 @@ function normalizePhoneInput(value){
 
 const renders={dashboard:renderDash,weekly:renderWeekly,monthly:renderMonthly,members:renderMembers};
 
-function goPage(page, btn){
-  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
-  document.querySelectorAll('.nav-tab').forEach(b => b.classList.remove('active'));
-  document.getElementById('pg-' + page).classList.add('active');
-
-  if (btn) btn.classList.add('active');
-
-  curPage = page;
-  document.getElementById('fab').style.display = page === 'members' ? 'flex' : 'none';
+function goPage(page,btn){
+  document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+  document.querySelectorAll('.nav-tab').forEach(b=>b.classList.remove('active'));
+  document.getElementById('pg-'+page).classList.add('active');
+  btn.classList.add('active');
+  curPage=page;
+  document.getElementById('fab').style.display=page==='members'?'flex':'none';
   renders[page]();
 }
 
@@ -749,102 +725,62 @@ function saveMemberInfo(){
 }
 
 function renderDash(){
-  const el = document.getElementById('pg-dashboard');
-  const wds = weekDates(Y, W);
-  const wt = twSum(Y, W);
-  const mt = tmSum(Y, Mo);
+  const el=document.getElementById('pg-dashboard');
+  const wds=weekDates(Y,W);
+  const wt=twSum(Y,W), mt=tmSum(Y,Mo);
+  const ranked=[...S.members].map(m=>{
+    const s=wSum(Y,W,m.id);
+    return {...m,...s,total:s.신규+s.정수+s.전략};
+  }).sort((a,b)=>b.total-a.total);
+  const mx=ranked[0]?.total||1;
+  const rc=['g','s','b'], re=['🥇','🥈','🥉'];
 
-  const ranked = [...S.members]
-    .map(m => {
-      const s = wSum(Y, W, m.id);
-      return {
-        ...m,
-        ...s,
-        total: s.신규 + s.정수 + s.전략
-      };
-    })
-    .sort((a, b) => b.total - a.total);
-
-  const mx = ranked[0]?.total || 1;
-  const rc = ['g', 's', 'b'];
-  const re = ['🥇', '🥈', '🥉'];
-
-  el.innerHTML = `
-    <div class="hero fi">
-      <div class="hero-label">${Y}년 제${W}주</div>
-      <div class="hero-week">${fmt(wds[0])} ~ ${fmt(wds[6])} 팀 실적</div>
-      <div class="hero-date">팀원 ${S.members.length}명</div>
-      <div class="hero-grid">
-        <div class="hero-stat">
-          <div class="hero-stat-val">${wt.신규}</div>
-          <div class="hero-stat-lbl">신규건수</div>
-        </div>
-        <div class="hero-stat">
-          <div class="hero-stat-val">${wt.정수}</div>
-          <div class="hero-stat-lbl">정수건수</div>
-        </div>
-        <div class="hero-stat">
-          <div class="hero-stat-val">${wt.전략}</div>
-          <div class="hero-stat-lbl">전략건수</div>
-        </div>
-      </div>
+  el.innerHTML=`
+  <div class="hero fi">
+    <div class="hero-label">${Y}년 제${W}주</div>
+    <div class="hero-week">${fmt(wds[0])} ~ ${fmt(wds[6])} 팀 실적</div>
+    <div class="hero-date">팀원 ${S.members.length}명</div>
+    <div class="hero-grid">
+      <div class="hero-stat"><div class="hero-stat-val">${wt.신규}</div><div class="hero-stat-lbl">신규건수</div></div>
+      <div class="hero-stat"><div class="hero-stat-val">${wt.정수}</div><div class="hero-stat-lbl">정수건수</div></div>
+      <div class="hero-stat"><div class="hero-stat-val">${wt.전략}</div><div class="hero-stat-lbl">전략건수</div></div>
     </div>
+  </div>
 
-    <div class="section" style="padding-top:10px;">
-      <div class="sec-title">이번 달 누적 (${Y}.${String(Mo).padStart(2,'0')})</div>
-      <div class="kpi-row">
-        <div class="kpi nw">
-          <div class="kpi-v">${mt.신규}</div>
-          <div class="kpi-l">신규</div>
-        </div>
-        <div class="kpi gn">
-          <div class="kpi-v">${mt.정수}</div>
-          <div class="kpi-l">정수</div>
-        </div>
-        <div class="kpi am">
-          <div class="kpi-v">${mt.전략}</div>
-          <div class="kpi-l">전략</div>
-        </div>
-      </div>
+  <div class="section" style="padding-top:10px;">
+    <div class="sec-title">이번 달 누적 (${Y}.${String(Mo).padStart(2,'0')})</div>
+    <div class="kpi-row">
+      <div class="kpi nw"><div class="kpi-v">${mt.신규}</div><div class="kpi-l">신규</div></div>
+      <div class="kpi gn"><div class="kpi-v">${mt.정수}</div><div class="kpi-l">정수</div></div>
+      <div class="kpi am"><div class="kpi-v">${mt.전략}</div><div class="kpi-l">전략</div></div>
     </div>
+  </div>
 
-    <div class="section">
-      <div class="sec-title">이번 주 팀원 순위</div>
-      <div class="card">
-        ${ranked.map((m, i) => `
-          <div class="rank-row fi" style="animation-delay:${i * 0.05}s">
-            <div class="rnk ${rc[i] || 'n'}">${i < 3 ? re[i] : i + 1}</div>
-
-            <div style="flex:1;min-width:0;">
-              <div style="display:flex;align-items:center;gap:6px;flex-wrap:wrap;">
-                <span style="font-weight:700;font-size:16px;white-space:nowrap;">${m.name}</span>
-                <span class="chip ${m.type}">${m.type === 'kodak' ? '코닥' : '코디'}</span>
-              </div>
-
-              <div class="bm">
-                <div class="bt"><div class="bf nw" style="width:${Math.round((m.신규 / mx) * 100)}%"></div></div>
-                <div class="bt"><div class="bf gn" style="width:${Math.round((m.정수 / mx) * 100)}%"></div></div>
-                <div class="bt"><div class="bf am" style="width:${Math.round((m.전략 / mx) * 100)}%"></div></div>
-              </div>
-
-              <div style="font-size:11px;color:var(--text2);margin-top:4px;font-weight:300;white-space:nowrap;">
-  신규 ${m.신규} · 정수 ${m.정수} · 전략 ${m.전략}
-</div>
+  <div class="section">
+    <div class="sec-title">이번 주 팀원 순위</div>
+    <div class="card">
+      ${ranked.map((m,i)=>`
+        <div class="rank-row fi" style="animation-delay:${i*.05}s">
+          <div class="rnk ${rc[i]||'n'}">${i<3?re[i]:i+1}</div>
+          <div style="flex:1;">
+            <div style="display:flex;align-items:center;gap:5px;">
+              <span style="font-weight:600;font-size:16px;">${m.name}</span>
+              <span class="chip ${m.type}">${m.type==='kodak'?'코닥':'코디'}</span>
             </div>
-
-            <div style="text-align:right;flex-shrink:0;min-width:42px;">
-              <div style="font-size:18px;font-weight:900;color:var(--blue);line-height:1;">
-                ${m.total}
-              </div>
-              <div style="font-size:11px;color:var(--text2);font-weight:600;margin-top:4px;">
-                합계
-              </div>
+            <div class="bm">
+              <div class="bt"><div class="bf nw" style="width:${Math.round(m.신규/mx*100)}%"></div></div>
+              <div class="bt"><div class="bf gn" style="width:${Math.round(m.정수/mx*100)}%"></div></div>
+              <div class="bt"><div class="bf am" style="width:${Math.round(m.전략/mx*100)}%"></div></div>
             </div>
+            <div style="font-size:13px;color:var(--text3);margin-top:2px;">신규 ${m.신규} · 정수 ${m.정수} · 전략 ${m.전략}</div>
           </div>
-        `).join('')}
-      </div>
+          <div style="text-align:right;">
+            <div style="font-size:16px;font-weight:800;color:var(--blue);">${m.total}</div>
+            <div style="font-size:10px;color:var(--text3);">합계</div>
+          </div>
+        </div>`).join('')}
     </div>
-  `;
+  </div>`;
 }
 
 function renderWeekly(){
@@ -909,7 +845,7 @@ function buildInputView(wds){
         align-items:center;
         padding:4px 6px 8px;
         font-size:13px;
-        font-weight:700;
+        font-weight:800;
         color:var(--text2);
         border-bottom:1px solid var(--bd);
       ">
@@ -921,67 +857,43 @@ function buildInputView(wds){
       </div>
 
       ${wds.map((date,i)=>{
-  const d=rec.days[i];
-  const dt=d.신규+d.정수+d.전략;
-  const isTdy=isToday(date);
-  const isWk=i>=5;
-  return `
-  <div style="
-    display:grid;
-    grid-template-columns:52px 1fr 1fr 1fr 44px;
-    align-items:center;
-    padding:6px;
-    column-gap:4px;
-    border-bottom:${i<6?'1px solid var(--bd)':'none'};
-    ${isTdy?'background:#F0F6FF;border-radius:8px;':''}
-  ">
-    <div style="display:flex;flex-direction:column;gap:0;">
-      <span style="font-size:13px;font-weight:800;${isWk?'color:#C62828;':''}">${DAYS[i]}</span>
-      <span style="font-size:10px;color:var(--text2);">${fmt(date)}</span>
-    </div>
+        const d=rec.days[i];
+        const dt=d.신규+d.정수+d.전략;
+        const isTdy=isToday(date);
+        const isWk=i>=5;
+        return `
+        <div style="
+          display:grid;
+          grid-template-columns:52px 1fr 1fr 1fr 44px;
+          align-items:center;
+          padding:6px;
+          column-gap:4px;
+          border-bottom:${i<6?'1px solid var(--bd)':'none'};
+          ${isTdy?'background:#F0F6FF;border-radius:8px;':''}
+        ">
+          <div style="display:flex;flex-direction:column;gap:0;">
+            <span style="font-size:13px;font-weight:800;${isWk?'color:#C62828;':''}">${DAYS[i]}</span>
+            <span style="font-size:10px;color:var(--text2);">${fmt(date)}</span>
+          </div>
 
-    <div class="num-wrap">
-  <input
-    type="number"
-    min="0"
-    id="nd-${i}-신규"
-    class="num-input nw ${d.신규===0?'zero':''}"
-    value="${d.신규===0?'':d.신규}"
-    placeholder="0"
-    onfocus="handleFocus(this)"
-    onblur="handleBlur(this,'${selMem}',${i},'신규')"
-    oninput="setDayValue('${selMem}',${i},'신규',this.value)">
-</div>
+          <div class="num-wrap">
+            <input type="number" min="0" class="num-input nw" id="nd-${i}-신규"
+              value="${d.신규}" oninput="setDayValue('${selMem}',${i},'신규',this.value)">
+          </div>
 
-    <div class="num-wrap">
-      <input
-        type="number"
-        min="0"
-        id="nd-${i}-정수"
-        class="num-input gn ${d.정수===0?'zero':''}"
-        value="${d.정수===0?'':d.정수}"
-        placeholder="0"
-        onfocus="handleFocus(this)"
-        onblur="handleBlur(this,'${selMem}',${i},'정수')"
-        oninput="setDayValue('${selMem}',${i},'정수',this.value)">
-    </div>
+          <div class="num-wrap">
+            <input type="number" min="0" class="num-input gn" id="nd-${i}-정수"
+              value="${d.정수}" oninput="setDayValue('${selMem}',${i},'정수',this.value)">
+          </div>
 
-    <div class="num-wrap">
-      <input
-        type="number"
-        min="0"
-        id="nd-${i}-전략"
-        class="num-input am ${d.전략===0?'zero':''}"
-        value="${d.전략===0?'':d.전략}"
-        placeholder="0"
-        onfocus="handleFocus(this)"
-        onblur="handleBlur(this,'${selMem}',${i},'전략')"
-        oninput="setDayValue('${selMem}',${i},'전략',this.value)">
-    </div>
+          <div class="num-wrap">
+            <input type="number" min="0" class="num-input am" id="nd-${i}-전략"
+              value="${d.전략}" oninput="setDayValue('${selMem}',${i},'전략',this.value)">
+          </div>
 
-    <div id="dct-${i}" style="text-align:right;font-size:16px;font-weight:700;color:var(--blue);">${dt}</div>
-  </div>`;
-}).join('')}
+          <div id="dct-${i}" style="text-align:right;font-size:16px;font-weight:800;color:var(--blue);">${dt}</div>
+        </div>`;
+      }).join('')}
     </div>
   </div>
 
@@ -993,21 +905,6 @@ function buildInputView(wds){
       <div class="kpi am"><div class="kpi-v" style="font-size:24px;">${wt.전략}</div><div class="kpi-l">전략</div></div>
     </div>
   </div>`;
-}
-// 🔥 여기 추가 (setDayValue 위)
-function handleFocus(el){
-  el.classList.remove('zero');
-}
-
-function handleBlur(el, mid, di, type){
-  if(el.value === ""){
-    el.classList.add('zero');
-
-    const rec = getRec(Y, W, mid);
-    rec.days[di][type] = 0;
-    setRec(Y, W, mid, rec.days);
-    renderWeekly();
-  }
 }
 
 function setDayValue(mid,di,type,value){
@@ -1065,7 +962,7 @@ function buildStatusView(wds){
     <th class="cn">이름</th>
     ${wds.map((d,i)=>{
       const isTdy=i===todayIdx, isWk=i>=5;
-      return `<th class="cd${isTdy?' tdy':''}${isWk?' wkd':''}">${DAYS[i]}<br><span style="font-size:11px;font-weight:500;">${fmt(d)}</span></th>`;
+      return `<th class="cd${isTdy?' tdy':''}${isWk?' wkd':''}">${DAYS[i]}<br><span style="font-size:9px;font-weight:400;">${fmt(d)}</span></th>`;
     }).join('')}
     <th class="cs">합계</th>
   </tr></thead>`;
@@ -1242,26 +1139,14 @@ function addMember(){
   toast(`${name} 팀원이 추가되었습니다`);
 }
 function delMember(id){
-  const m = S.members.find(x => x.id === id);
+  const m=S.members.find(x=>x.id===id);
   if(!m) return;
-
   if(!confirm(`"${m.name}" 팀원을 삭제하시겠습니까?\n실적 데이터도 함께 삭제됩니다.`)) return;
-
-  S.members = S.members.filter(x => x.id !== id);
-
-  Object.keys(S.records).forEach(k => {
-    if(k.includes(id)) delete S.records[k];
-  });
-
+  S.members=S.members.filter(x=>x.id!==id);
+  Object.keys(S.records).forEach(k=>{if(k.includes(id)) delete S.records[k];});
   save();
-
-  if(selMem === id) selMem = S.members[0]?.id || null;
-
-  if(curPage === 'members') renderMembers();
-  if(curPage === 'weekly') renderWeekly();
-  if(curPage === 'monthly') renderMonthly();
-  if(curPage === 'dashboard') renderDash();
-
+  if(selMem===id) selMem=S.members[0]?.id||null;
+  renderMembers();
   toast(`${m.name} 팀원이 삭제되었습니다`);
 }
 
