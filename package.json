@@ -1,0 +1,28 @@
+{
+  "name": "coway_app",
+  "version": "1.0.0",
+  "description": "A new Flutter project.",
+  "main": "service-worker.js",
+  "directories": {
+    "lib": "lib",
+    "test": "test"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/thedeveljun/coway-app.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/thedeveljun/coway-app/issues"
+  },
+  "homepage": "https://github.com/thedeveljun/coway-app#readme",
+  "devDependencies": {
+    "javascript-obfuscator": "^5.4.1"
+  }
+}
