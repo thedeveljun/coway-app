@@ -76,7 +76,8 @@ body{font-family:'Pretendard','Apple SD Gothic Neo','Malgun Gothic',sans-serif;c
 .hero-stat{background:rgba(255,255,255,.18);border-radius:12px;padding:7px 4px;text-align:center;box-shadow:0 1px 6px rgba(0,0,0,.15);}
 .hero-stat-val{font-size:24px;font-weight:700;line-height:1.1;color:#fff;}
 .hero-stat-lbl{font-size:13px;font-weight:400;opacity:.85;margin-top:3px;color:rgba(255,255,255,.85);}
-.hero-stat.total .hero-stat-val{color:#1e5fd4;font-weight:800;}
+.hero-stat.total .hero-stat-val{color:#0d3fa6;font-weight:800;}
+.hero-stat.total .hero-stat-lbl{color:#0d3fa6;opacity:1;font-weight:700;}
 .hero-stat.total{background:rgba(255,255,255,.55);}
 
 .kpi-row{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;margin-bottom:10px;}
@@ -106,8 +107,8 @@ body{font-family:'Pretendard','Apple SD Gothic Neo','Malgun Gothic',sans-serif;c
 .view-tabs{display:flex;background:var(--surf2);border-bottom:1px solid var(--bd);}
 .vt{flex:1;padding:13px 0;text-align:center;font-size:16px;font-weight:500;color:var(--text3);border-bottom:2.5px solid transparent;cursor:pointer;transition:all .15s;}
 .vt.active{color:var(--blue);border-bottom-color:var(--blue);background:var(--surf);font-size:17px;font-weight:600;}
-.num-input{width:46px;height:32px;border:1.5px solid var(--bd);border-radius:8px;text-align:center;font-size:15px;font-weight:300;background:#fff;outline:none;-moz-appearance:textfield;}
-.num-input.zero{color:#C0C4CC;font-weight:300;}
+.num-input{width:46px;height:32px;border:1.5px solid var(--bd);border-radius:8px;text-align:center;font-size:15px;font-weight:600;background:#fff;outline:none;-moz-appearance:textfield;}
+.num-input.zero{color:#C0C4CC;font-weight:400;}
 .num-input::-webkit-outer-spin-button,.num-input::-webkit-inner-spin-button{-webkit-appearance:none;margin:0;}
 .num-input:focus{border-color:var(--blue);}
 .num-input.nw{color:var(--blue);}
@@ -158,7 +159,7 @@ body{font-family:'Pretendard','Apple SD Gothic Neo','Malgun Gothic',sans-serif;c
 .mem-item{background:var(--surf);border-radius:var(--rs);box-shadow:var(--sh);margin-bottom:5px;overflow:hidden;}
 .mem-top{display:flex;align-items:center;gap:8px;padding:6px 12px 3px;}
 .mem-info{flex:1;min-width:0;}
-.mem-name{font-size:15px;font-weight:600;line-height:1.1;}
+.mem-name{font-size:17px;font-weight:600;line-height:1.1;}
 .mem-sub{font-size:10px;font-weight:300;color:var(--text3);margin-left:6px;}
 .phone-row{display:flex;align-items:center;gap:6px;padding:0 12px 6px;}
 .phone-num{flex:1;font-size:17px;font-weight:400;color:#111827;letter-spacing:.6px;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
@@ -174,21 +175,21 @@ body{font-family:'Pretendard','Apple SD Gothic Neo','Malgun Gothic',sans-serif;c
 .fab:active{transform:scale(.92);}
 .ov{position:fixed;inset:0;background:rgba(0,0,0,.45);z-index:100;opacity:0;pointer-events:none;transition:opacity .25s;}
 .ov.show{opacity:1;pointer-events:auto;}
-.sheet{position:fixed;left:50%;transform:translateX(-50%) translateY(100%);bottom:0;width:92%;max-width:380px;background:var(--surf);border-radius:20px 20px 0 0;z-index:101;transition:transform .3s cubic-bezier(.32,0,.67,0);padding-bottom:var(--safe-b);}
+.sheet{position:fixed;left:50%;transform:translateX(-50%) translateY(110%);bottom:12px;width:92%;max-width:380px;background:var(--surf);border-radius:20px;z-index:101;transition:transform .3s cubic-bezier(.32,0,.67,0);padding-bottom:16px;}
 .sheet.show{transform:translateX(-50%) translateY(0);}
 .sh-handle{width:36px;height:4px;background:var(--bd);border-radius:2px;margin:12px auto 14px;}
 .sh-title{font-size:16px;font-weight:700;padding:0 16px 14px;border-bottom:1px solid var(--bd);}
 .sh-body{padding:16px;max-height:72vh;overflow-y:auto;}
-.fl{font-size:11px;font-weight:700;color:var(--text2);margin-bottom:6px;display:block;}
-.finput{width:100%;padding:12px 14px;border:1.5px solid var(--bd);border-radius:10px;font-size:14px;font-family:inherit;color:var(--text);background:var(--bg);outline:none;transition:border .15s;-webkit-appearance:none;}
+.fl{font-size:14px;font-weight:700;color:var(--text);margin-bottom:8px;display:block;}
+.finput{width:100%;padding:13px 14px;border:1.5px solid var(--bd);border-radius:10px;font-size:17px;font-family:inherit;color:var(--text);background:var(--bg);outline:none;transition:border .15s;-webkit-appearance:none;}
 .finput:focus{border-color:var(--blue);background:#fff;}
 .type-sel{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:14px;}
-.to{padding:12px;border:2px solid var(--bd);border-radius:10px;text-align:center;cursor:pointer;transition:all .15s;}
+.to{padding:8px 12px;border:2px solid var(--bd);border-radius:10px;text-align:center;cursor:pointer;transition:all .15s;}
 .to.sk{border-color:var(--kodak);background:var(--kodak-lt);}
 .to.si{border-color:var(--kodi);background:var(--kodi-lt);}
-.to-icon{font-size:24px;margin-bottom:4px;}
-.to-name{font-size:13px;font-weight:700;}
-.to-desc{font-size:10px;color:var(--text2);}
+.to-icon{display:none;}
+.to-name{font-size:17px;font-weight:700;}
+.to-desc{font-size:12px;color:var(--text2);margin-top:2px;}
 .btn-prim{width:100%;padding:14px;background:var(--blue);color:#fff;border:none;border-radius:12px;font-size:15px;font-weight:700;cursor:pointer;font-family:inherit;margin-top:6px;}
 .btn-prim:active{opacity:.88;}
 .pwa-install-strip{position:fixed;left:12px;right:12px;bottom:calc(var(--nav-h) + var(--safe-b) + 10px);z-index:400;max-width:430px;margin-left:auto;margin-right:auto;background:#153a62;color:#fff;border-radius:14px;padding:11px 12px;box-shadow:0 6px 24px rgba(0,0,0,.18);font-size:13px;line-height:1.4;display:none;align-items:center;gap:10px;border:1px solid rgba(255,255,255,.12);}
@@ -234,8 +235,8 @@ body{font-family:'Pretendard','Apple SD Gothic Neo','Malgun Gothic',sans-serif;c
     <div style="margin-bottom:14px;"><label class="fl">이름</label><input class="finput" id="inp-name" type="text" placeholder="팀원 이름" maxlength="10"></div>
     <div style="margin-bottom:4px;"><label class="fl">유형</label></div>
     <div class="type-sel">
-      <div class="to sk" id="to-kodak" onclick="selType('kodak')"><div class="to-icon">👨</div><div class="to-name" style="color:var(--kodak)">코닥</div><div class="to-desc">남성 팀원</div></div>
       <div class="to" id="to-kodi" onclick="selType('kodi')"><div class="to-icon">👩</div><div class="to-name" style="color:var(--kodi)">코디</div><div class="to-desc">여성 팀원</div></div>
+      <div class="to sk" id="to-kodak" onclick="selType('kodak')"><div class="to-icon">👨</div><div class="to-name" style="color:var(--kodak)">코닥</div><div class="to-desc">남성 팀원</div></div>
     </div>
     <div style="margin-bottom:14px;"><label class="fl">전화번호 (선택)</label><input class="finput" id="inp-phone" type="tel" placeholder="010-0000-0000" maxlength="13"></div>
     <button class="btn-prim" onclick="addMember()">추가하기</button>
@@ -244,13 +245,13 @@ body{font-family:'Pretendard','Apple SD Gothic Neo','Malgun Gothic',sans-serif;c
 <div class="sheet" id="sh-member">
   <div class="sh-handle"></div>
   <div class="sh-title" id="sh-member-title">팀원 정보 수정</div>
-  <div class="sh-body">
+  <div class="sh-body" style="padding-bottom:8px;">
     <div style="margin-bottom:14px;"><label class="fl">이름</label><input class="finput" id="inp-member-name-edit" type="text" placeholder="팀원 이름" maxlength="10"></div>
     <div style="margin-bottom:14px;"><label class="fl">전화번호</label><input class="finput" id="inp-member-phone-edit" type="tel" placeholder="010-0000-0000" maxlength="13"></div>
-    <div style="margin-bottom:4px;"><label class="fl">유형</label></div>
-    <div class="type-sel">
-      <div class="to" id="edit-to-kodak" onclick="selEditType('kodak')"><div class="to-icon">👨</div><div class="to-name" style="color:var(--kodak)">코닥</div><div class="to-desc">남성 팀원</div></div>
-      <div class="to" id="edit-to-kodi" onclick="selEditType('kodi')"><div class="to-icon">👩</div><div class="to-name" style="color:var(--kodi)">코디</div><div class="to-desc">여성 팀원</div></div>
+    <div style="margin-bottom:8px;"><label class="fl">유형</label></div>
+    <div class="type-sel" style="margin-bottom:10px;">
+      <div class="to" id="edit-to-kodi" onclick="selEditType('kodi')"><div class="to-name" style="color:var(--kodi)">코디</div><div class="to-desc">여성 팀원</div></div>
+      <div class="to" id="edit-to-kodak" onclick="selEditType('kodak')"><div class="to-name" style="color:var(--kodak)">코닥</div><div class="to-desc">남성 팀원</div></div>
     </div>
     <button class="btn-prim" onclick="saveMemberInfo()">저장</button>
   </div>
@@ -279,7 +280,7 @@ let S = {
 const today = new Date();
 let curPage='dashboard';
 let Y=today.getFullYear(), W=weekOfYear(today), Mo=today.getMonth()+1;
-let selMem=null, addType='kodak', editMemberId=null;
+let selMem=null, addType='kodi', editMemberId=null;
 let wView='input', statItem='total';
 const TYPES=['신규건수','정수건수','전략건수'];
 const TYPE_META={'신규건수':{cls:'nw'},'정수건수':{cls:'gn'},'전략건수':{cls:'am'}};
@@ -390,7 +391,7 @@ function selType(t){
   document.getElementById('to-kodak').className='to'+(t==='kodak'?' sk':'');
   document.getElementById('to-kodi').className='to'+(t==='kodi'?' si':'');
 }
-function openAddSheet(){document.getElementById('inp-name').value='';document.getElementById('inp-phone').value='';selType('kodak');openSheet('sh-add');}
+function openAddSheet(){document.getElementById('inp-name').value='';document.getElementById('inp-phone').value='';selType('kodi');openSheet('sh-add');}
 function selEditType(t){
   const k=document.getElementById('edit-to-kodak');
   const i=document.getElementById('edit-to-kodi');
@@ -479,7 +480,7 @@ function renderDash(){
                 <div class="bt"><div class="bf gn" style="width:${Math.round((m.정수건수/mx)*100)}%"></div></div>
                 <div class="bt"><div class="bf am" style="width:${Math.round((m.전략건수/mx)*100)}%"></div></div>
               </div>
-              <div style="font-size:13px;font-weight:400;color:#555;margin-top:3px;white-space:nowrap;">
+              <div style="font-size:14px;font-weight:500;color:#222;margin-top:3px;white-space:nowrap;">
                 신규 ${m.신규건수} · 정수 ${m.정수건수} · 전략 ${m.전략건수}
               </div>
             </div>
@@ -706,7 +707,7 @@ function renderMembers(){
     </div>
   </div>
   <div class="section" style="padding-bottom:20px;">
-    <div style="padding:12px;background:var(--sky);border-radius:12px;font-size:12px;color:var(--blue);font-weight:600;">
+    <div style="padding:12px;background:var(--sky);border-radius:12px;font-size:13px;color:var(--blue);font-weight:600;">
       💡 팀원은 최대 20명까지 등록 가능합니다. 현재 ${S.members.length}명 / 20명
     </div>
   </div>`;
