@@ -235,8 +235,8 @@ body{font-family:'Pretendard','Apple SD Gothic Neo','Malgun Gothic',sans-serif;c
     <div style="margin-bottom:14px;"><label class="fl">이름</label><input class="finput" id="inp-name" type="text" placeholder="팀원 이름" maxlength="10"></div>
     <div style="margin-bottom:4px;"><label class="fl">유형</label></div>
     <div class="type-sel">
-      <div class="to sk" id="to-kodak" onclick="selType('kodak')"><div class="to-icon">👨</div><div class="to-name" style="color:var(--kodak)">코닥</div><div class="to-desc">남성 팀원</div></div>
       <div class="to" id="to-kodi" onclick="selType('kodi')"><div class="to-icon">👩</div><div class="to-name" style="color:var(--kodi)">코디</div><div class="to-desc">여성 팀원</div></div>
+      <div class="to sk" id="to-kodak" onclick="selType('kodak')"><div class="to-icon">👨</div><div class="to-name" style="color:var(--kodak)">코닥</div><div class="to-desc">남성 팀원</div></div>
     </div>
     <div style="margin-bottom:14px;"><label class="fl">전화번호 (선택)</label><input class="finput" id="inp-phone" type="tel" placeholder="010-0000-0000" maxlength="13"></div>
     <button class="btn-prim" onclick="addMember()">추가하기</button>
@@ -250,8 +250,8 @@ body{font-family:'Pretendard','Apple SD Gothic Neo','Malgun Gothic',sans-serif;c
     <div style="margin-bottom:14px;"><label class="fl">전화번호</label><input class="finput" id="inp-member-phone-edit" type="tel" placeholder="010-0000-0000" maxlength="13"></div>
     <div style="margin-bottom:8px;"><label class="fl">유형</label></div>
     <div class="type-sel" style="margin-bottom:10px;">
-      <div class="to" id="edit-to-kodak" onclick="selEditType('kodak')"><div class="to-name" style="color:var(--kodak)">코닥</div><div class="to-desc">남성 팀원</div></div>
       <div class="to" id="edit-to-kodi" onclick="selEditType('kodi')"><div class="to-name" style="color:var(--kodi)">코디</div><div class="to-desc">여성 팀원</div></div>
+      <div class="to" id="edit-to-kodak" onclick="selEditType('kodak')"><div class="to-name" style="color:var(--kodak)">코닥</div><div class="to-desc">남성 팀원</div></div>
     </div>
     <button class="btn-prim" onclick="saveMemberInfo()">저장</button>
   </div>
@@ -707,7 +707,7 @@ function renderMembers(){
     </div>
   </div>
   <div class="section" style="padding-bottom:20px;">
-    <div style="padding:12px;background:var(--sky);border-radius:12px;font-size:12px;color:var(--blue);font-weight:600;">
+    <div style="padding:12px;background:var(--sky);border-radius:12px;font-size:13px;color:var(--blue);font-weight:600;">
       💡 팀원은 최대 20명까지 등록 가능합니다. 현재 ${S.members.length}명 / 20명
     </div>
   </div>`;
