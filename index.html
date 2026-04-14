@@ -280,7 +280,7 @@ let S = {
 const today = new Date();
 let curPage='dashboard';
 let Y=today.getFullYear(), W=weekOfYear(today), Mo=today.getMonth()+1;
-let selMem=null, addType='kodak', editMemberId=null;
+let selMem=null, addType='kodi', editMemberId=null;
 let wView='input', statItem='total';
 const TYPES=['신규건수','정수건수','전략건수'];
 const TYPE_META={'신규건수':{cls:'nw'},'정수건수':{cls:'gn'},'전략건수':{cls:'am'}};
@@ -391,7 +391,7 @@ function selType(t){
   document.getElementById('to-kodak').className='to'+(t==='kodak'?' sk':'');
   document.getElementById('to-kodi').className='to'+(t==='kodi'?' si':'');
 }
-function openAddSheet(){document.getElementById('inp-name').value='';document.getElementById('inp-phone').value='';selType('kodak');openSheet('sh-add');}
+function openAddSheet(){document.getElementById('inp-name').value='';document.getElementById('inp-phone').value='';selType('kodi');openSheet('sh-add');}
 function selEditType(t){
   const k=document.getElementById('edit-to-kodak');
   const i=document.getElementById('edit-to-kodi');
