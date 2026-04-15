@@ -206,6 +206,11 @@ body{font-family:'Pretendard','Apple SD Gothic Neo','Malgun Gothic',sans-serif;c
 .hbadge.nw{background:#E3F0FF;color:var(--blue);}
 .hbadge.gn{background:#E8F5E9;color:var(--green);}
 .hbadge.am{background:#FBE9E7;color:var(--amber);}
+.backup-bar{display:flex;gap:8px;padding:10px 14px;background:var(--surf);border-bottom:1px solid var(--bd);}
+.btn-backup{flex:1;padding:10px 0;border-radius:10px;font-size:13px;font-weight:700;cursor:pointer;border:none;font-family:inherit;}
+.btn-export{background:#E3F0FF;color:var(--blue);}
+.btn-import{background:#E8F5E9;color:var(--green);}
+
   </style>
   <link rel="manifest" href="manifest.json">
 </head>
@@ -289,6 +294,7 @@ document.addEventListener('keydown', e => {
   <button type="button" class="btn-pwa-install" id="pwa-install-btn" hidden>앱 설치</button>
   <button type="button" class="pwa-install-close" id="pwa-install-dismiss" title="닫기" aria-label="닫기">✕</button>
 </div>
+<input type="file" id="import-file" accept=".json" style="display:none" onchange="importData(event)">
 <div id="toast"></div>
 <script src="flutter_bootstrap.js" async></script>
 <script>
@@ -693,6 +699,10 @@ function chgMonth(d){Mo+=d;if(Mo<1){Y--;Mo=12;}if(Mo>12){Y++;Mo=1;}renderMonthly
 function renderMembers(){
   const el=document.getElementById('pg-members');
   el.innerHTML=`
+  <div class="backup-bar">
+    <button class="btn-backup btn-export" onclick="exportData()">📤 데이터 내보내기</button>
+    <button class="btn-backup btn-import" onclick="document.getElementById('import-file').click()">📥 데이터 가져오기</button>
+  </div>
   <div class="section" style="padding-top:10px;">
     <div class="sec-title">팀원 목록 (${S.members.length}명)</div>
     <div>
@@ -782,6 +792,37 @@ function setupPwaInstallUi(){
   }
   if(isHttpLan&&/Mobile|Android|iPhone/i.test(ua)){showStrip('이 주소(http)에서는 자동 설치가 제한될 수 있습니다.',false);}
 }
+
+function exportData(){
+  const json=JSON.stringify(S,null,2);
+  const blob=new Blob([json],{type:'application/json'});
+  const url=URL.createObjectURL(blob);
+  const a=document.createElement('a');
+  const now=new Date();
+  const stamp=now.getFullYear()+String(now.getMonth()+1).padStart(2,'0')+String(now.getDate()).padStart(2,'0');
+  a.href=url;a.download='coway_backup_'+stamp+'.json';
+  document.body.appendChild(a);a.click();document.body.removeChild(a);
+  URL.revokeObjectURL(url);
+  toast('백업 파일이 저장되었습니다');
+}
+function importData(e){
+  const file=e.target.files[0];
+  if(!file)return;
+  const reader=new FileReader();
+  reader.onload=function(ev){
+    try{
+      const data=JSON.parse(ev.target.result);
+      if(!data.members||!Array.isArray(data.members))throw new Error();
+      if(!confirm('기존 데이터를 가져온 데이터로 덮어쓸까요?\n현재 데이터는 사라집니다.'))return;
+      S=data;save();
+      renders[curPage]&&renders[curPage]();
+      toast('데이터를 성공적으로 가져왔습니다');
+    }catch(err){toast('올바른 백업 파일이 아닙니다');}
+    e.target.value='';
+  };
+  reader.readAsText(file);
+}
+
 if('serviceWorker' in navigator){window.addEventListener('load',function(){navigator.serviceWorker.register('service-worker.js').catch(function(){});});}
 </script>
 </body>
