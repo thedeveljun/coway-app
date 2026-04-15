@@ -206,6 +206,26 @@ body{font-family:'Pretendard','Apple SD Gothic Neo','Malgun Gothic',sans-serif;c
 .hbadge.nw{background:#E3F0FF;color:var(--blue);}
 .hbadge.gn{background:#E8F5E9;color:var(--green);}
 .hbadge.am{background:#FBE9E7;color:var(--amber);}
+/* ===== 비밀번호 화면 ===== */
+#pw-screen{position:fixed;inset:0;background:#0057B8;z-index:9999;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:30px;} #pw-input-field::placeholder{color:rgba(255,255,255,.5);letter-spacing:0;}
+.pw-logo{font-size:48px;margin-bottom:12px;}
+.pw-title{font-size:22px;font-weight:700;color:#fff;margin-bottom:4px;letter-spacing:-.3px;}
+.pw-sub{font-size:13px;color:rgba(255,255,255,.75);margin-bottom:36px;}
+.pw-dots{display:flex;gap:16px;margin-bottom:32px;}
+.pw-dot{width:16px;height:16px;border-radius:50%;background:rgba(255,255,255,.3);transition:background .15s;}
+.pw-dot.filled{background:#fff;}
+.pw-pad{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;width:100%;max-width:280px;}
+.pw-btn{height:64px;border-radius:16px;border:none;background:rgba(255,255,255,.15);color:#fff;font-size:24px;font-weight:600;cursor:pointer;transition:background .12s;font-family:inherit;}
+.pw-btn:active{background:rgba(255,255,255,.35);}
+.pw-btn.del{font-size:18px;}
+.pw-btn.empty{background:transparent;cursor:default;}
+.pw-error{color:#FFB3B3;font-size:13px;font-weight:600;margin-top:-20px;margin-bottom:16px;height:18px;}
+/* 비밀번호 변경 */
+.pw-change-wrap{padding:16px;}
+.pw-change-title{font-size:15px;font-weight:700;margin-bottom:14px;}
+.pw-input{width:100%;padding:13px 14px;border:1.5px solid var(--bd);border-radius:10px;font-size:17px;font-family:inherit;color:var(--text);background:var(--bg);outline:none;margin-bottom:10px;}
+.pw-input:focus{border-color:var(--blue);}
+
 .backup-bar{display:flex;gap:8px;padding:10px 14px;background:var(--surf);border-bottom:1px solid var(--bd);}
 .btn-backup{flex:1;padding:10px 0;border-radius:10px;font-size:13px;font-weight:700;cursor:pointer;border:none;font-family:inherit;}
 .btn-export{background:#E3F0FF;color:var(--blue);}
@@ -295,6 +315,41 @@ document.addEventListener('keydown', e => {
   <button type="button" class="pwa-install-close" id="pwa-install-dismiss" title="닫기" aria-label="닫기">✕</button>
 </div>
 <input type="file" id="import-file" accept=".json" style="display:none" onchange="importData(event)">
+
+<!-- 비밀번호 화면 -->
+<div id="pw-screen">
+  <div class="pw-logo">🏠</div>
+  <div class="pw-title">코웨이 통합관리</div>
+  <div class="pw-sub">비밀번호를 입력하세요</div>
+  <div style="width:100%;max-width:300px;margin-bottom:12px;position:relative;">
+    <input id="pw-input-field" type="password" placeholder="비밀번호 입력"
+      style="width:100%;padding:14px 48px 14px 16px;border-radius:12px;border:2px solid rgba(255,255,255,.4);background:rgba(255,255,255,.15);color:#fff;font-size:18px;font-family:inherit;outline:none;letter-spacing:2px;"
+      onkeydown="if(event.key==='Enter')checkPwField()"
+      oninput="document.getElementById('pw-error').textContent=''">
+    <button onclick="togglePwVisible()" id="pw-eye"
+      style="position:absolute;right:14px;top:50%;transform:translateY(-50%);background:none;border:none;color:rgba(255,255,255,.8);font-size:18px;cursor:pointer;">👁</button>
+  </div>
+  <div class="pw-error" id="pw-error"></div>
+  <button onclick="checkPwField()"
+    style="width:100%;max-width:300px;padding:14px;background:#fff;color:var(--blue);border:none;border-radius:12px;font-size:16px;font-weight:700;cursor:pointer;font-family:inherit;">
+    확인
+  </button>
+</div>
+
+<!-- 비밀번호 변경 시트 -->
+<div class="sheet" id="sh-pwchange">
+  <div class="sh-handle"></div>
+  <div class="sh-title">비밀번호 변경</div>
+  <div class="pw-change-wrap">
+    <label class="fl">현재 비밀번호</label>
+    <input class="pw-input" id="pw-cur" type="password" placeholder="현재 비밀번호">
+    <label class="fl">새 비밀번호</label>
+    <input class="pw-input" id="pw-new" type="password" placeholder="새 비밀번호 (숫자·영문·특수문자)">
+    <label class="fl">새 비밀번호 확인</label>
+    <input class="pw-input" id="pw-new2" type="password" placeholder="새 비밀번호 재입력">
+    <button class="btn-prim" onclick="changePw()">변경하기</button>
+  </div>
+</div>
 <div id="toast"></div>
 <script src="flutter_bootstrap.js" async></script>
 <script>
@@ -730,6 +785,12 @@ function renderMembers(){
     </div>
   </div>`;
   document.getElementById('fab').style.display='flex';
+  // 비밀번호 변경 버튼 추가
+  const pwBtn=document.createElement('div');
+  pwBtn.className='section';
+  pwBtn.style.paddingBottom='20px';
+  pwBtn.innerHTML=`<button onclick="openSheet('sh-pwchange')" style="width:100%;padding:13px;background:var(--bg);border:1.5px solid var(--bd);border-radius:12px;font-size:14px;font-weight:700;color:var(--text2);cursor:pointer;font-family:inherit;">🔒 비밀번호 변경</button>`;
+  el.appendChild(pwBtn);
 }
 
 function addMember(){
@@ -764,6 +825,10 @@ function init(){
   const d=today;
   document.getElementById('tb-date').textContent=`${d.getFullYear()}.${String(d.getMonth()+1).padStart(2,'0')}.${String(d.getDate()).padStart(2,'0')} (${['일','월','화','수','목','금','토'][d.getDay()]})`;
   bindPhoneInputs();renderDash();setupPwaInstallUi();
+  // 자동 로그인 체크
+  if(localStorage.getItem('coway_autologin')==='1'){
+    document.getElementById('pw-screen').style.display='none';
+  }
 }
 init();
 
@@ -791,6 +856,46 @@ function setupPwaInstallUi(){
     return;
   }
   if(isHttpLan&&/Mobile|Android|iPhone/i.test(ua)){showStrip('이 주소(http)에서는 자동 설치가 제한될 수 있습니다.',false);}
+}
+
+
+/* ===== 비밀번호 기능 ===== */
+const DEFAULT_PW = '981127';
+let pwVisible = false;
+
+function getPw(){ return localStorage.getItem('coway_pw') || DEFAULT_PW; }
+
+function togglePwVisible(){
+  pwVisible = !pwVisible;
+  const f = document.getElementById('pw-input-field');
+  f.type = pwVisible ? 'text' : 'password';
+}
+
+function checkPwField(){
+  const val = document.getElementById('pw-input-field').value;
+  if(val === getPw()){
+    localStorage.setItem('coway_autologin','1');
+    document.getElementById('pw-screen').style.display = 'none';
+    document.getElementById('pw-input-field').value = '';
+  } else {
+    document.getElementById('pw-error').textContent = '비밀번호가 틀렸습니다';
+    document.getElementById('pw-input-field').value = '';
+    document.getElementById('pw-input-field').focus();
+  }
+}
+
+function changePw(){
+  const cur = document.getElementById('pw-cur').value;
+  const nw  = document.getElementById('pw-new').value;
+  const nw2 = document.getElementById('pw-new2').value;
+  if(cur !== getPw()) return toast('현재 비밀번호가 틀렸습니다');
+  if(nw.length < 4) return toast('새 비밀번호는 4자리 이상 입력하세요');
+  if(nw !== nw2) return toast('새 비밀번호가 일치하지 않습니다');
+  localStorage.setItem('coway_pw', nw);
+  localStorage.removeItem('coway_autologin');
+  closeSheet();
+  ['pw-cur','pw-new','pw-new2'].forEach(id=>document.getElementById(id).value='');
+  toast('비밀번호가 변경되었습니다\n다음 접속 시 새 비밀번호를 입력하세요');
 }
 
 function exportData(){
