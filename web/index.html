@@ -209,6 +209,20 @@ body{font-family:'Pretendard','Apple SD Gothic Neo','Malgun Gothic',sans-serif;c
   <link rel="manifest" href="manifest.json">
 </head>
 <body>
+<script>
+document.addEventListener('contextmenu',e=>e.preventDefault());
+document.addEventListener('dragstart',e=>e.preventDefault());
+document.addEventListener('keydown',e=>{
+  if((e.ctrlKey&&['c','a','u','s','p'].includes(e.key.toLowerCase()))||
+     (e.ctrlKey&&e.shiftKey&&['i','j','c'].includes(e.key.toLowerCase()))||
+     e.key==='F12'){e.preventDefault();return false;}
+});
+setInterval(()=>{
+  if(window.outerWidth-window.innerWidth>160||window.outerHeight-window.innerHeight>160){
+    document.body.innerHTML='<div style="display:flex;align-items:center;justify-content:center;height:100vh;font-size:20px;font-weight:700;color:#333;">🔒 접근이 제한되었습니다</div>';
+  }
+},1000);
+</script>  
 <div id="app">
   <div class="topbar">
     <div style="display:flex;align-items:center;gap:10px;flex-wrap:nowrap;">
