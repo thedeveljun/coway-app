@@ -30,6 +30,13 @@
   <link rel="icon" type="image/png" href="favicon.png"/>
   <title>코웨이 통합관리</title>
   <style>
+    /* ===== 복사 방지 ===== */
+* { -webkit-user-select:none; -moz-user-select:none; -ms-user-select:none; user-select:none; }
+input, textarea { -webkit-user-select:text; -moz-user-select:text; user-select:text; }
+
+/* ===== 인쇄 차단 ===== */
+@media print { body { display:none !important; } }
+
 :root{
   --blue:#0057B8;--blue2:#0071E3;--sky:#E8F2FF;--sky2:#C5D9F5;
   --kodak:#0057B8;--kodi:#C2185B;--kodi-lt:#FCE4EC;--kodak-lt:#E3F0FF;
@@ -66,8 +73,6 @@ body{font-family:'Pretendard','Apple SD Gothic Neo','Malgun Gothic',sans-serif;c
 .chip.kodi{background:var(--kodi-lt);color:var(--kodi);}
 #toast{position:fixed;top:calc(var(--top-h)+12px);left:50%;transform:translateX(-50%) translateY(-8px);background:#1a1a2e;color:#fff;padding:10px 20px;border-radius:24px;font-size:13px;font-weight:600;opacity:0;transition:all .25s;pointer-events:none;z-index:300;white-space:nowrap;}
 #toast.show{opacity:1;transform:translateX(-50%) translateY(0);}
-
-/* ===== HERO - 수정된 색상 ===== */
 .hero{background:#1e5fd4;padding:14px 16px 16px;color:#fff;}
 .hero-label{font-size:12px;opacity:.85;margin-bottom:3px;color:rgba(255,255,255,.85);}
 .hero-week{font-size:20px;font-weight:500;letter-spacing:-.2px;color:#fff;}
@@ -79,7 +84,6 @@ body{font-family:'Pretendard','Apple SD Gothic Neo','Malgun Gothic',sans-serif;c
 .hero-stat.total .hero-stat-val{color:#0d3fa6;font-weight:800;}
 .hero-stat.total .hero-stat-lbl{color:#0d3fa6;opacity:1;font-weight:700;}
 .hero-stat.total{background:rgba(255,255,255,.55);}
-
 .kpi-row{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;margin-bottom:10px;}
 .kpi{background:var(--surf);border-radius:12px;padding:6px 4px;text-align:center;box-shadow:var(--sh);}
 .kpi-v{font-size:19px;font-weight:600;margin-bottom:1px;}
@@ -206,6 +210,30 @@ body{font-family:'Pretendard','Apple SD Gothic Neo','Malgun Gothic',sans-serif;c
   <link rel="manifest" href="manifest.json">
 </head>
 <body>
+<script>
+/* ===== 복사 방지 ===== */
+document.addEventListener('contextmenu', e => e.preventDefault());
+document.addEventListener('dragstart', e => e.preventDefault());
+
+/* 키보드 단축키 차단 (보완) */
+document.addEventListener('keydown', e => {
+  const key = e.key.toLowerCase();
+  /* Ctrl 조합 */
+  if (e.ctrlKey && ['c','a','u','s','p','f','g','h','r'].includes(key)) {
+    e.preventDefault(); return false;
+  }
+  /* Ctrl+Shift 조합 */
+  if (e.ctrlKey && e.shiftKey && ['i','j','c','k','e'].includes(key)) {
+    e.preventDefault(); return false;
+  }
+  /* F키 */
+  if (['f12','f11','f10'].includes(key)) {
+    e.preventDefault(); return false;
+  }
+});
+
+/* 개발자도구 감지 비활성화 */
+</script>
 <div id="app">
   <div class="topbar">
     <div style="display:flex;align-items:center;gap:10px;flex-wrap:nowrap;">
@@ -421,7 +449,6 @@ function saveMemberInfo(){
   delete m._editType;save();closeSheet();renders[curPage]&&renders[curPage]();toast('팀원 정보가 수정되었습니다');
 }
 
-/* ===== 대시보드 ===== */
 function renderDash(){
   const el=document.getElementById('pg-dashboard');
   const wds=weekDates(Y,W);
@@ -432,28 +459,15 @@ function renderDash(){
   const ranked=[...S.members].map(m=>{const s=mSum(Y,Mo,m.id);return{...m,...s,total:total(s)};}).sort((a,b)=>b.total-a.total);
   const mx=ranked[0]?.total||1;
   const rc=['g','s','b'];const re=['🥇','🥈','🥉'];
-
   el.innerHTML=`
     <div class="hero fi">
       <div class="hero-week">${fmt(wds[0])} ~ ${fmt(wds[6])} 실적</div>
       <div class="hero-date">팀원 ${S.members.length}명</div>
       <div class="hero-grid">
-        <div class="hero-stat">
-          <div class="hero-stat-val">${wt.신규건수}</div>
-          <div class="hero-stat-lbl">신규건수</div>
-        </div>
-        <div class="hero-stat">
-          <div class="hero-stat-val">${wt.정수건수}</div>
-          <div class="hero-stat-lbl">정수건수</div>
-        </div>
-        <div class="hero-stat">
-          <div class="hero-stat-val">${wt.전략건수}</div>
-          <div class="hero-stat-lbl">전략건수</div>
-        </div>
-        <div class="hero-stat total">
-          <div class="hero-stat-val">${wtTotal}</div>
-          <div class="hero-stat-lbl">합계</div>
-        </div>
+        <div class="hero-stat"><div class="hero-stat-val">${wt.신규건수}</div><div class="hero-stat-lbl">신규건수</div></div>
+        <div class="hero-stat"><div class="hero-stat-val">${wt.정수건수}</div><div class="hero-stat-lbl">정수건수</div></div>
+        <div class="hero-stat"><div class="hero-stat-val">${wt.전략건수}</div><div class="hero-stat-lbl">전략건수</div></div>
+        <div class="hero-stat total"><div class="hero-stat-val">${wtTotal}</div><div class="hero-stat-lbl">합계</div></div>
       </div>
     </div>
     <div class="section" style="padding-top:10px;">
@@ -492,7 +506,6 @@ function renderDash(){
     </div>`;
 }
 
-/* ===== 주간 입력 ===== */
 function renderWeekly(){
   const el=document.getElementById('pg-weekly');
   if(!selMem&&S.members.length>0)selMem=S.members[0].id;
@@ -532,7 +545,6 @@ function buildInputView(wds){
     const isTdy=i===todayIdx,isWk=i>=5;
     return `<th style="min-width:38px;padding:5px 2px;text-align:center;background:#EDF2FA;border-bottom:1px solid var(--bd);font-size:12px;font-weight:600;${isTdy?'background:#DDE8F8;color:var(--blue);':'color:var(--text2);'}${isWk?'color:#C62828;':''}">${DAYS[i]}<br><span style="font-size:11px;font-weight:400;">${fmt(d)}</span></th>`;
   }).join('');
-
   const bodyRows=memRecs.map((m,mi)=>{
     const ws=wSum(Y,W,m.id);
     const rowTotal=total(ws);
@@ -551,12 +563,10 @@ function buildInputView(wds){
       return `<tr>${nameCell}${lblCell}${cells}${sumCell}</tr>`;
     }).join('');
   }).join('');
-
   const teamCells=wds.map((_,di)=>{
     const d=teamDays[di]||zeroObj();const v=dayTotal(d);const isTdy=di===todayIdx;
     return `<td style="min-width:38px;padding:5px 2px;text-align:center;font-size:13px;font-weight:700;color:var(--blue);background:${isTdy?'#C5D9F5':'var(--sky)'};border-top:2px solid var(--sky2);">${v||'·'}</td>`;
   }).join('');
-
   return `<div class="section" style="padding-top:8px;padding-bottom:14px;">
     <div class="tbl-wrap" style="margin-bottom:10px;">
       <table class="stbl" style="font-size:12px;">
@@ -631,7 +641,6 @@ function buildStatusView(wds){
   </div>`;
 }
 
-/* ===== 월간 리포트 ===== */
 function renderMonthly(){
   const el=document.getElementById('pg-monthly');
   const mt=tmSum(Y,Mo);
@@ -681,7 +690,6 @@ function renderMonthly(){
 }
 function chgMonth(d){Mo+=d;if(Mo<1){Y--;Mo=12;}if(Mo>12){Y++;Mo=1;}renderMonthly();}
 
-/* ===== 팀원 관리 ===== */
 function renderMembers(){
   const el=document.getElementById('pg-members');
   el.innerHTML=`
@@ -707,8 +715,8 @@ function renderMembers(){
     </div>
   </div>
   <div class="section" style="padding-bottom:20px;">
-    <div style="padding:12px;background:var(--sky);border-radius:12px;font-size:13px;color:var(--blue);font-weight:600;">
-      💡 팀원은 최대 20명까지 등록 가능합니다. 현재 ${S.members.length}명 / 20명
+    <div style="padding:12px;background:var(--sky);border-radius:12px;font-size:14px;color:var(--blue);font-weight:600;text-align:left;">
+      <div style="display:flex;gap:6px;align-items:flex-start;"><span>💡</span><div>팀원은 최대 20명까지 등록 가능합니다.<br>현재 ${S.members.length}명 / 20명</div></div>
     </div>
   </div>`;
   document.getElementById('fab').style.display='flex';
