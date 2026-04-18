@@ -476,7 +476,7 @@ function renderDash(){
       <div style="margin-top:12px;border-top:1px solid rgba(255,255,255,.25);padding-top:10px;">
         <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:6px;">
           <div style="font-size:13px;color:rgba(255,255,255,.75);">📊 소유권 도래 4개월 평균</div>
-          <div style="font-size:13px;color:rgba(255,255,255,.75);">🎯 달성률</div>
+          <div style="font-size:13px;color:rgba(255,255,255,.75);">🎯 신규달성률</div>
         </div>
         <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:6px;align-items:stretch;">
           <div style="background:rgba(255,255,255,.18);border-radius:10px;padding:6px 4px;text-align:center;">
@@ -488,7 +488,7 @@ function renderDash(){
             <div style="font-size:13px;color:rgba(255,255,255,.8);margin-top:2px;">재렌탈</div>
           </div>
           <div style="background:rgba(255,255,255,.55);border-radius:10px;padding:6px 4px;text-align:center;">
-            <div style="font-size:22px;font-weight:700;color:#0d3fa6;line-height:1.1;">${mgRate(mgG,mgR)}</div>
+            <div style="font-size:22px;font-weight:700;color:#0d3fa6;line-height:1.1;">${mgRate1(mgG,mgR)}</div>
             <div style="font-size:13px;color:#0d3fa6;margin-top:2px;font-weight:600;">환산율</div>
           </div>
           <div style="background:rgba(255,255,255,.55);border-radius:10px;padding:6px 8px;display:flex;align-items:center;justify-content:center;min-height:52px;">
@@ -577,6 +577,10 @@ function getMgRec(y,mo,mid){
 function mgRate(g,r){
   if(!g||g===0) return '-';
   return Math.round(r/g*100)+'';
+}
+function mgRate1(g,r){
+  if(!g||g===0) return '-';
+  return (r/g*100).toFixed(1)+'%';
 }
 /* 5개월: 현재달=참고, +1~+4=합산 */
 function getMgMonths(baseY,baseMo){
@@ -681,6 +685,10 @@ function buildManageView(){
     }).join('');
     let mG=0,mR=0;
     sumMonths.forEach(({y:my,mo:mm})=>{const r=getMgRec(my,mm,m.id);mG+=r.건수||0;mR+=r.재렌탈||0;});
+    const mTarget=Math.round(mG*0.55);
+    const mShort=mTarget-mR;
+    const mShortColor=mShort<=0?'var(--text3)':'#C62828';
+    const mShortText=mShort<=0?'-':'-'+mShort;
     return `<tr>
       <td style="position:sticky;left:0;z-index:3;background:var(--surf2);padding:6px 4px;font-size:13px;font-weight:600;text-align:center;border-right:2px solid var(--bd);border-bottom:1px solid var(--bd);white-space:nowrap;min-width:44px;">${m.name}</td>
       ${cells}
@@ -692,6 +700,9 @@ function buildManageView(){
       </td>
       <td style="position:sticky;right:0;z-index:3;background:var(--sky);border-left:1px solid var(--sky2);padding:2px 3px;text-align:center;border-bottom:1px solid var(--sky2);min-width:36px;">
         <div id="mg-sum-p-${m.id}" style="font-size:12px;font-weight:700;color:var(--amber);line-height:1.4;">${mgRate(mG,mR)}</div>
+      </td>
+      <td style="position:sticky;right:0;z-index:3;background:#FFF5F5;border-left:1px solid #EF9A9A;padding:2px 3px;text-align:center;border-bottom:1px solid #EF9A9A;min-width:36px;">
+        <div id="mg-sum-short-${m.id}" style="font-size:12px;font-weight:700;color:${mShortColor};line-height:1.4;">${mShortText}</div>
       </td>
     </tr>`;
   }).join('');
@@ -718,6 +729,14 @@ function buildManageView(){
 
   let ttG=0,ttR=0;
   sumMonths.forEach(({y:my,mo:mm})=>{S.members.forEach(m=>{const r=getMgRec(my,mm,m.id);ttG+=r.건수||0;ttR+=r.재렌탈||0;});});
+  /* 팀원 부족 건수 합계 */
+  let ttShort=0;
+  S.members.forEach(m=>{
+    let mG=0,mR=0;
+    sumMonths.forEach(({y:my,mo:mm})=>{const r=getMgRec(my,mm,m.id);mG+=r.건수||0;mR+=r.재렌탈||0;});
+    const s=Math.round(mG*0.55)-mR;
+    if(s>0) ttShort+=s;
+  });
 
   /* 월 헤더: 마지막 서브컬럼(%)에 오른쪽 구분선 */
   const monthHdrs=months.map(({mo:mm,ref},mi)=>{
@@ -750,12 +769,13 @@ function buildManageView(){
         <tr>
           <th rowspan="2" style="position:sticky;left:0;z-index:4;background:#EDF2FA;padding:4px 4px;font-size:11px;font-weight:600;color:var(--text2);border-right:2px solid var(--bd);border-bottom:1px solid var(--bd);text-align:center;min-width:44px;">이름</th>
           ${monthHdrs}
-          <th colspan="3" style="position:sticky;right:0;z-index:4;background:#DDE8F8;padding:4px 3px;font-size:13px;font-weight:700;color:var(--blue);border-left:2px solid var(--sky2);border-bottom:1px solid var(--bd);text-align:center;">4개월 합산</th>
+          <th colspan="4" style="position:sticky;right:0;z-index:4;background:#DDE8F8;padding:4px 3px;font-size:13px;font-weight:700;color:var(--blue);border-left:2px solid var(--sky2);border-bottom:1px solid var(--bd);text-align:center;">4개월 합산</th>
         </tr>
         <tr>${subHdrs}
           <th style="position:sticky;right:0;z-index:4;padding:3px 2px;text-align:center;font-size:11px;font-weight:700;color:var(--blue);background:#DDE8F8;border-bottom:1px solid var(--bd);border-left:2px solid var(--sky2);min-width:34px;">건수</th>
           <th style="position:sticky;right:0;z-index:4;padding:3px 2px;text-align:center;font-size:11px;font-weight:700;color:var(--green);background:#DDE8F8;border-bottom:1px solid var(--bd);border-left:1px solid var(--sky2);min-width:34px;">재렌탈</th>
           <th style="position:sticky;right:0;z-index:4;padding:3px 2px;text-align:center;font-size:11px;font-weight:700;color:var(--amber);background:#DDE8F8;border-bottom:1px solid var(--bd);border-left:1px solid var(--sky2);min-width:34px;">%</th>
+          <th style="position:sticky;right:0;z-index:4;padding:3px 2px;text-align:center;font-size:11px;font-weight:700;color:#C62828;background:#FFEBEE;border-bottom:1px solid var(--bd);border-left:1px solid #EF9A9A;min-width:34px;">부족</th>
         </tr>
       </thead>
       <tbody>
@@ -771,6 +791,9 @@ function buildManageView(){
           </td>
           <td style="position:sticky;right:0;z-index:3;background:#C5D9F5;border-left:1px solid var(--sky2);padding:3px 3px;text-align:center;border-top:2px solid var(--sky2);">
             <div id="mg-team-sum-p" style="font-size:12px;font-weight:700;color:var(--amber);line-height:1.3;">${mgRate(ttG,ttR)}</div>
+          </td>
+          <td style="position:sticky;right:0;z-index:3;background:#FFCDD2;border-left:1px solid #EF9A9A;padding:3px 3px;text-align:center;border-top:2px solid #EF9A9A;">
+            <div id="mg-team-sum-short" style="font-size:12px;font-weight:700;color:${ttShort<=0?'var(--text3)':'#C62828'};line-height:1.3;">${ttShort<=0?'-':'-'+ttShort}</div>
           </td>
         </tr>
       </tbody>
