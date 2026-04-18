@@ -30,13 +30,6 @@
   <link rel="icon" type="image/png" href="favicon.png"/>
   <title>코웨이 통합관리</title>
   <style>
-    /* ===== 복사 방지 ===== */
-* { -webkit-user-select:none; -moz-user-select:none; -ms-user-select:none; user-select:none; }
-input, textarea { -webkit-user-select:text; -moz-user-select:text; user-select:text; }
-
-/* ===== 인쇄 차단 ===== */
-@media print { body { display:none !important; } }
-
 :root{
   --blue:#0057B8;--blue2:#0071E3;--sky:#E8F2FF;--sky2:#C5D9F5;
   --kodak:#0057B8;--kodi:#C2185B;--kodi-lt:#FCE4EC;--kodak-lt:#E3F0FF;
@@ -73,7 +66,9 @@ body{font-family:'Pretendard','Apple SD Gothic Neo','Malgun Gothic',sans-serif;c
 .chip.kodi{background:var(--kodi-lt);color:var(--kodi);}
 #toast{position:fixed;top:calc(var(--top-h)+12px);left:50%;transform:translateX(-50%) translateY(-8px);background:#1a1a2e;color:#fff;padding:10px 20px;border-radius:24px;font-size:13px;font-weight:600;opacity:0;transition:all .25s;pointer-events:none;z-index:300;white-space:nowrap;}
 #toast.show{opacity:1;transform:translateX(-50%) translateY(0);}
-.hero{background:#1e5fd4;padding:14px 16px 16px;color:#fff;}
+
+/* ===== HERO - 수정된 색상 ===== */
+.hero{background:#1e5fd4;padding:10px 16px 12px;color:#fff;}
 .hero-label{font-size:12px;opacity:.85;margin-bottom:3px;color:rgba(255,255,255,.85);}
 .hero-week{font-size:20px;font-weight:500;letter-spacing:-.2px;color:#fff;}
 .hero-date{font-size:12px;opacity:.75;margin-top:2px;color:rgba(255,255,255,.75);}
@@ -84,6 +79,7 @@ body{font-family:'Pretendard','Apple SD Gothic Neo','Malgun Gothic',sans-serif;c
 .hero-stat.total .hero-stat-val{color:#0d3fa6;font-weight:800;}
 .hero-stat.total .hero-stat-lbl{color:#0d3fa6;opacity:1;font-weight:700;}
 .hero-stat.total{background:rgba(255,255,255,.55);}
+
 .kpi-row{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;margin-bottom:10px;}
 .kpi{background:var(--surf);border-radius:12px;padding:6px 4px;text-align:center;box-shadow:var(--sh);}
 .kpi-v{font-size:19px;font-weight:600;margin-bottom:1px;}
@@ -206,59 +202,13 @@ body{font-family:'Pretendard','Apple SD Gothic Neo','Malgun Gothic',sans-serif;c
 .hbadge.nw{background:#E3F0FF;color:var(--blue);}
 .hbadge.gn{background:#E8F5E9;color:var(--green);}
 .hbadge.am{background:#FBE9E7;color:var(--amber);}
-/* ===== 비밀번호 화면 ===== */
-#pw-screen{position:fixed;inset:0;background:#0057B8;z-index:9999;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:30px;} #pw-input-field::placeholder{color:rgba(255,255,255,.5);letter-spacing:0;}
-.pw-logo{font-size:48px;margin-bottom:12px;}
-.pw-title{font-size:22px;font-weight:700;color:#fff;margin-bottom:4px;letter-spacing:-.3px;}
-.pw-sub{font-size:13px;color:rgba(255,255,255,.75);margin-bottom:36px;}
-.pw-dots{display:flex;gap:16px;margin-bottom:32px;}
-.pw-dot{width:16px;height:16px;border-radius:50%;background:rgba(255,255,255,.3);transition:background .15s;}
-.pw-dot.filled{background:#fff;}
-.pw-pad{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;width:100%;max-width:280px;}
-.pw-btn{height:64px;border-radius:16px;border:none;background:rgba(255,255,255,.15);color:#fff;font-size:24px;font-weight:600;cursor:pointer;transition:background .12s;font-family:inherit;}
-.pw-btn:active{background:rgba(255,255,255,.35);}
-.pw-btn.del{font-size:18px;}
-.pw-btn.empty{background:transparent;cursor:default;}
-.pw-error{color:#FFB3B3;font-size:13px;font-weight:600;margin-top:-20px;margin-bottom:16px;height:18px;}
-/* 비밀번호 변경 */
-.pw-change-wrap{padding:16px;}
-.pw-change-title{font-size:15px;font-weight:700;margin-bottom:14px;}
-.pw-input{width:100%;padding:13px 14px;border:1.5px solid var(--bd);border-radius:10px;font-size:17px;font-family:inherit;color:var(--text);background:var(--bg);outline:none;margin-bottom:10px;}
-.pw-input:focus{border-color:var(--blue);}
-
-.backup-bar{display:flex;gap:8px;padding:10px 14px;background:var(--surf);border-bottom:1px solid var(--bd);}
-.btn-backup{flex:1;padding:10px 0;border-radius:10px;font-size:13px;font-weight:700;cursor:pointer;border:none;font-family:inherit;}
-.btn-export{background:#E3F0FF;color:var(--blue);}
-.btn-import{background:#E8F5E9;color:var(--green);}
-
+input[type=number]::-webkit-outer-spin-button,
+input[type=number]::-webkit-inner-spin-button{-webkit-appearance:none;margin:0;}
+input[type=number]{-moz-appearance:textfield;appearance:textfield;}
   </style>
   <link rel="manifest" href="manifest.json">
 </head>
 <body>
-<script>
-/* ===== 복사 방지 ===== */
-document.addEventListener('contextmenu', e => e.preventDefault());
-document.addEventListener('dragstart', e => e.preventDefault());
-
-/* 키보드 단축키 차단 (보완) */
-document.addEventListener('keydown', e => {
-  const key = e.key.toLowerCase();
-  /* Ctrl 조합 */
-  if (e.ctrlKey && ['c','a','u','s','p','f','g','h','r'].includes(key)) {
-    e.preventDefault(); return false;
-  }
-  /* Ctrl+Shift 조합 */
-  if (e.ctrlKey && e.shiftKey && ['i','j','c','k','e'].includes(key)) {
-    e.preventDefault(); return false;
-  }
-  /* F키 */
-  if (['f12','f11','f10'].includes(key)) {
-    e.preventDefault(); return false;
-  }
-});
-
-/* 개발자도구 감지 비활성화 */
-</script>
 <div id="app">
   <div class="topbar">
     <div style="display:flex;align-items:center;gap:10px;flex-wrap:nowrap;">
@@ -313,45 +263,6 @@ document.addEventListener('keydown', e => {
   <p class="pwa-install-text" id="pwa-install-msg"></p>
   <button type="button" class="btn-pwa-install" id="pwa-install-btn" hidden>앱 설치</button>
   <button type="button" class="pwa-install-close" id="pwa-install-dismiss" title="닫기" aria-label="닫기">✕</button>
-</div>
-<input type="file" id="import-file" accept=".json" style="display:none" onchange="importData(event)">
-
-<!-- 비밀번호 화면 -->
-<div id="pw-screen">
-  <div class="pw-logo">🏠</div>
-  <div class="pw-title">코웨이 통합관리</div>
-  <div class="pw-sub">비밀번호를 입력하세요</div>
-  <div style="width:100%;max-width:300px;margin-bottom:12px;position:relative;">
-    <input id="pw-input-field" type="password" placeholder="비밀번호 입력"
-      style="width:100%;padding:14px 48px 14px 16px;border-radius:12px;border:2px solid rgba(255,255,255,.4);background:rgba(255,255,255,.15);color:#fff;font-size:18px;font-family:inherit;outline:none;letter-spacing:2px;"
-      onkeydown="if(event.key==='Enter')checkPwField()"
-      oninput="document.getElementById('pw-error').textContent=''">
-    <button onclick="togglePwVisible()" id="pw-eye"
-      style="position:absolute;right:14px;top:50%;transform:translateY(-50%);background:none;border:none;color:rgba(255,255,255,.8);font-size:18px;cursor:pointer;">👁</button>
-  </div>
-  <div class="pw-error" id="pw-error"></div>
-  <button onclick="checkPwField()"
-    style="width:100%;max-width:300px;padding:14px;background:#fff;color:var(--blue);border:none;border-radius:12px;font-size:16px;font-weight:700;cursor:pointer;font-family:inherit;">
-    확인
-  </button>
-</div>
-
-<!-- 비밀번호 변경 시트 -->
-<div class="sheet" id="sh-pwchange">
-  <div class="sh-handle"></div>
-  <div class="sh-title">비밀번호 변경</div>
-  <div class="pw-change-wrap">
-    <label class="fl">현재 비밀번호</label>
-    <input class="pw-input" id="pw-cur" type="password" placeholder="현재 비밀번호">
-    <label class="fl">새 비밀번호</label>
-    <input class="pw-input" id="pw-new" type="password" placeholder="새 비밀번호 (숫자·영문·특수문자)">
-    <label class="fl">새 비밀번호 확인</label>
-    <input class="pw-input" id="pw-new2" type="password" placeholder="새 비밀번호 재입력">
-    <div style="display:grid;grid-template-columns:1fr 2fr;gap:8px;margin-top:6px;">
-      <button onclick="closePwSheet()" style="padding:14px;border-radius:12px;border:1.5px solid var(--bd);background:var(--bg);font-size:15px;font-weight:700;cursor:pointer;font-family:inherit;color:var(--text2);">취소</button>
-      <button class="btn-prim" style="margin-top:0;" onclick="changePw()">변경하기</button>
-    </div>
-  </div>
 </div>
 <div id="toast"></div>
 <script src="flutter_bootstrap.js" async></script>
@@ -513,6 +424,7 @@ function saveMemberInfo(){
   delete m._editType;save();closeSheet();renders[curPage]&&renders[curPage]();toast('팀원 정보가 수정되었습니다');
 }
 
+/* ===== 대시보드 ===== */
 function renderDash(){
   const el=document.getElementById('pg-dashboard');
   const wds=weekDates(Y,W);
@@ -523,15 +435,58 @@ function renderDash(){
   const ranked=[...S.members].map(m=>{const s=mSum(Y,Mo,m.id);return{...m,...s,total:total(s)};}).sort((a,b)=>b.total-a.total);
   const mx=ranked[0]?.total||1;
   const rc=['g','s','b'];const re=['🥇','🥈','🥉'];
+
+  /* 관리계정 합산 실적 계산 (참고월 제외 4개월) */
+  if(!S.manage) S.manage={};
+  const mgMonths=getMgMonths(Y,Mo).filter(x=>!x.ref);
+  let mgG=0,mgR=0;
+  mgMonths.forEach(({y:my,mo:mm})=>{
+    S.members.forEach(m=>{
+      const r=getMgRec(my,mm,m.id);
+      mgG+=r.건수||0; mgR+=r.재렌탈||0;
+    });
+  });
+  const MN=['1월','2월','3월','4월','5월','6월','7월','8월','9월','10월','11월','12월'];
+  const mgLabel=mgMonths.map(x=>MN[x.mo-1]).join('·');
+
   el.innerHTML=`
     <div class="hero fi">
-      <div class="hero-week">${fmt(wds[0])} ~ ${fmt(wds[6])} 실적</div>
-      <div class="hero-date">팀원 ${S.members.length}명</div>
+      <div class="hero-week">${fmt(wds[0])} ~ ${fmt(wds[6])} 실적&nbsp;&nbsp;<span style="font-size:13px;font-weight:400;opacity:.8;">팀원 ${S.members.length}명</span></div>
       <div class="hero-grid">
-        <div class="hero-stat"><div class="hero-stat-val">${wt.신규건수}</div><div class="hero-stat-lbl">신규건수</div></div>
-        <div class="hero-stat"><div class="hero-stat-val">${wt.정수건수}</div><div class="hero-stat-lbl">정수건수</div></div>
-        <div class="hero-stat"><div class="hero-stat-val">${wt.전략건수}</div><div class="hero-stat-lbl">전략건수</div></div>
-        <div class="hero-stat total"><div class="hero-stat-val">${wtTotal}</div><div class="hero-stat-lbl">합계</div></div>
+        <div class="hero-stat">
+          <div class="hero-stat-val">${wt.신규건수}</div>
+          <div class="hero-stat-lbl">신규건수</div>
+        </div>
+        <div class="hero-stat">
+          <div class="hero-stat-val">${wt.정수건수}</div>
+          <div class="hero-stat-lbl">정수건수</div>
+        </div>
+        <div class="hero-stat">
+          <div class="hero-stat-val">${wt.전략건수}</div>
+          <div class="hero-stat-lbl">전략건수</div>
+        </div>
+        <div class="hero-stat total">
+          <div class="hero-stat-val">${wtTotal}</div>
+          <div class="hero-stat-lbl">합계</div>
+        </div>
+      </div>
+      <!-- 관리계정 합산 실적 -->
+      <div style="margin-top:12px;border-top:1px solid rgba(255,255,255,.25);padding-top:10px;">
+        <div style="font-size:13px;color:rgba(255,255,255,.75);margin-bottom:6px;">📊 관리계정 합산 (<span style="font-size:12px;">${mgLabel}</span>)</div>
+        <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:6px;">
+          <div style="background:rgba(255,255,255,.18);border-radius:10px;padding:6px 4px;text-align:center;">
+            <div style="font-size:22px;font-weight:700;color:#fff;line-height:1.1;">${mgG}</div>
+            <div style="font-size:13px;color:rgba(255,255,255,.8);margin-top:2px;">건수</div>
+          </div>
+          <div style="background:rgba(255,255,255,.18);border-radius:10px;padding:6px 4px;text-align:center;">
+            <div style="font-size:22px;font-weight:700;color:#fff;line-height:1.1;">${mgR}</div>
+            <div style="font-size:13px;color:rgba(255,255,255,.8);margin-top:2px;">재렌탈</div>
+          </div>
+          <div style="background:rgba(255,255,255,.55);border-radius:10px;padding:6px 4px;text-align:center;">
+            <div style="font-size:22px;font-weight:700;color:#0d3fa6;line-height:1.1;">${mgRate(mgG,mgR)}</div>
+            <div style="font-size:13px;color:#0d3fa6;margin-top:2px;font-weight:600;">환산율</div>
+          </div>
+        </div>
       </div>
     </div>
     <div class="section" style="padding-top:10px;">
@@ -570,11 +525,18 @@ function renderDash(){
     </div>`;
 }
 
+/* ===== 주간 입력 ===== */
 function renderWeekly(){
   const el=document.getElementById('pg-weekly');
   if(!selMem&&S.members.length>0)selMem=S.members[0].id;
   const wds=weekDates(Y,W);
-  el.innerHTML=buildWeekNav(wds)+buildViewTabs()+(wView==='input'?buildInputView(wds):buildStatusView(wds));
+  let content;
+  if(wView==='input') content=buildInputView(wds);
+  else if(wView==='manage') content=buildManageView();
+  else content=buildStatusView(wds);
+  /* 관리계정 탭에서는 주간 네비 숨김 */
+  const nav = wView==='manage' ? '' : buildWeekNav(wds);
+  el.innerHTML=nav+buildViewTabs()+content;
 }
 function buildWeekNav(wds){
   return `<div class="week-nav">
@@ -587,16 +549,229 @@ function buildWeekNav(wds){
   </div>`;
 }
 function buildViewTabs(){
-  return `<div class="view-tabs">
-    <div class="vt ${wView==='input'?'active':''}" onclick="setWView('input')">✏️ 개인입력</div>
-    <div class="vt ${wView==='status'?'active':''}" onclick="setWView('status')">📋 팀 현황표</div>
+  return `<div class="view-tabs" style="display:flex;">
+    <div class="vt ${wView==='input'?'active':''}" onclick="setWView('input')" style="font-size:16px;">✏️ 개인입력</div>
+    <div class="vt ${wView==='manage'?'active':''}" onclick="setWView('manage')" style="font-size:16px;">📊 관리계정</div>
+    <div class="vt ${wView==='status'?'active':''}" onclick="setWView('status')" style="font-size:16px;">📋 팀현황표</div>
   </div>`;
 }
 function setWView(v){wView=v;renderWeekly();}
 function chgWeek(d){W+=d;if(W<1){Y--;W=52;}if(W>53){Y++;W=1;}renderWeekly();}
 
+/* ===== 관리계정 ===== */
+function getMgRec(y,mo,mid){
+  if(!S.manage) S.manage={};
+  if(!S.manage[y]) S.manage[y]={};
+  if(!S.manage[y][mo]) S.manage[y][mo]={};
+  if(!S.manage[y][mo][mid]) S.manage[y][mo][mid]={건수:0,재렌탈:0};
+  return S.manage[y][mo][mid];
+}
+function mgRate(g,r){
+  if(!g||g===0) return '-';
+  return Math.round(r/g*100)+'';
+}
+/* 5개월: 현재달=참고, +1~+4=합산 */
+function getMgMonths(baseY,baseMo){
+  const months=[];
+  for(let i=0;i<=4;i++){
+    let mo=baseMo+i,y=baseY;
+    if(mo>12){mo-=12;y++;}
+    months.push({y,mo,ref:(i===0)});
+  }
+  return months;
+}
+function setMgVal(y,mo,mid,field,value){
+  getMgRec(y,mo,mid)[field]=value===''?0:Math.max(0,parseInt(value,10)||0);
+  save();
+  /* 해당 셀 % 갱신 */
+  const r=getMgRec(y,mo,mid);
+  const rateEl=document.getElementById('mg-rate-'+y+'-'+mo+'-'+mid);
+  if(rateEl) rateEl.textContent=mgRate(r.건수||0,r.재렌탈||0);
+  /* 해당 월 팀합계 갱신 */
+  let tG=0,tR=0;
+  S.members.forEach(m=>{const rec=getMgRec(y,mo,m.id);tG+=rec.건수||0;tR+=rec.재렌탈||0;});
+  const tgEl=document.getElementById('mg-team-g-'+y+'-'+mo);
+  const trEl=document.getElementById('mg-team-r-'+y+'-'+mo);
+  const tpEl=document.getElementById('mg-team-rate-'+y+'-'+mo);
+  if(tgEl) tgEl.textContent=tG;
+  if(trEl) trEl.textContent=tR;
+  if(tpEl) tpEl.textContent=mgRate(tG,tR);
+  /* 멤버 합산(참고월 제외) */
+  const baseY2=parseInt(document.getElementById('mg-base-y')?.value||Y);
+  const baseMo2=parseInt(document.getElementById('mg-base-mo')?.value||Mo);
+  const sumMonths=getMgMonths(baseY2,baseMo2).filter(x=>!x.ref);
+  let mG=0,mR=0;
+  sumMonths.forEach(({y:my,mo:mm})=>{const rec=getMgRec(my,mm,mid);mG+=rec.건수||0;mR+=rec.재렌탈||0;});
+  const sg=document.getElementById('mg-sum-g-'+mid);
+  const sr=document.getElementById('mg-sum-r-'+mid);
+  const sp=document.getElementById('mg-sum-p-'+mid);
+  if(sg) sg.textContent=mG; if(sr) sr.textContent=mR; if(sp) sp.textContent=mgRate(mG,mR);
+  /* 팀 합산 */
+  let ttG=0,ttR=0;
+  sumMonths.forEach(({y:my,mo:mm})=>{S.members.forEach(m=>{const rec=getMgRec(my,mm,m.id);ttG+=rec.건수||0;ttR+=rec.재렌탈||0;});});
+  const tsg=document.getElementById('mg-team-sum-g');const tsr=document.getElementById('mg-team-sum-r');const tsp=document.getElementById('mg-team-sum-p');
+  if(tsg) tsg.textContent=ttG; if(tsr) tsr.textContent=ttR; if(tsp) tsp.textContent=mgRate(ttG,ttR);
+  const kG=document.getElementById('mg-kpi-g');const kR=document.getElementById('mg-kpi-r');const kP=document.getElementById('mg-kpi-p');
+  if(kG) kG.textContent=ttG; if(kR) kR.textContent=ttR; if(kP) kP.textContent=mgRate(ttG,ttR);
+}
+
+function buildManageView(){
+  if(!S.manage) S.manage={};
+  const baseY=Y, baseMo=Mo;
+  const months=getMgMonths(baseY,baseMo);
+  const MN=['1월','2월','3월','4월','5월','6월','7월','8월','9월','10월','11월','12월'];
+  const sumMonths=months.filter(x=>!x.ref);
+
+  /* 입력 스타일: 스피너 완전 제거, 높이 30% 증가 21→27px */
+  const inpStyle=(color,bg)=>`width:36px;height:27px;font-size:13px;font-weight:600;`+
+    `border:1.5px solid var(--bd);border-radius:5px;text-align:center;`+
+    `background:${bg};color:${color};outline:none;display:block;margin:0 auto;`+
+    `appearance:none;-moz-appearance:textfield;-webkit-appearance:none;`+
+    `pointer-events:auto;`;
+
+  /* 멤버 행: 월 마지막 칸(%칸)에 오른쪽 구분선 추가 */
+  const memberRows=S.members.map((m)=>{
+    const cells=months.map(({y:my,mo:mm,ref},mi)=>{
+      const r=getMgRec(my,mm,m.id);
+      const g=r.건수||0, rv=r.재렌탈||0;
+      const bg=ref?'#f5f5f5':'#fff';
+      const op=ref?'opacity:.85;':'';
+      const isLast=(mi===months.length-1);
+      const divider=!isLast?'border-right:2px solid #c8d6e8;':'';
+      return `
+        <td style="padding:3px 2px;${op}border-bottom:1px solid var(--bd);">
+          <input type="number" min="0" inputmode="numeric" value="${g||''}" placeholder="0"
+            style="${inpStyle('var(--blue)',bg)}"
+            oninput="setMgVal(${my},${mm},'${m.id}','건수',this.value)"
+            onfocus="this.select()">
+        </td>
+        <td style="padding:3px 2px;${op}border-bottom:1px solid var(--bd);">
+          <input type="number" min="0" inputmode="numeric" value="${rv||''}" placeholder="0"
+            style="${inpStyle('var(--green)',bg)}"
+            oninput="setMgVal(${my},${mm},'${m.id}','재렌탈',this.value)"
+            onfocus="this.select()">
+        </td>
+        <td style="padding:3px 2px;text-align:center;font-size:12px;font-weight:700;${op}border-bottom:1px solid var(--bd);color:${ref?'#bbb':'var(--amber)'};${divider}">
+          <span id="mg-rate-${my}-${mm}-${m.id}">${mgRate(g,rv)}</span>
+        </td>`;
+    }).join('');
+    let mG=0,mR=0;
+    sumMonths.forEach(({y:my,mo:mm})=>{const r=getMgRec(my,mm,m.id);mG+=r.건수||0;mR+=r.재렌탈||0;});
+    return `<tr>
+      <td style="position:sticky;left:0;z-index:3;background:var(--surf2);padding:6px 4px;font-size:13px;font-weight:600;text-align:center;border-right:2px solid var(--bd);border-bottom:1px solid var(--bd);white-space:nowrap;min-width:44px;">${m.name}</td>
+      ${cells}
+      <td style="position:sticky;right:0;z-index:3;background:var(--sky);border-left:2px solid var(--sky2);padding:2px 3px;text-align:center;border-bottom:1px solid var(--sky2);min-width:36px;">
+        <div id="mg-sum-g-${m.id}" style="font-size:12px;font-weight:700;color:var(--blue);line-height:1.4;">${mG}</div>
+      </td>
+      <td style="position:sticky;right:0;z-index:3;background:var(--sky);border-left:1px solid var(--sky2);padding:2px 3px;text-align:center;border-bottom:1px solid var(--sky2);min-width:36px;">
+        <div id="mg-sum-r-${m.id}" style="font-size:12px;font-weight:700;color:var(--green);line-height:1.4;">${mR}</div>
+      </td>
+      <td style="position:sticky;right:0;z-index:3;background:var(--sky);border-left:1px solid var(--sky2);padding:2px 3px;text-align:center;border-bottom:1px solid var(--sky2);min-width:36px;">
+        <div id="mg-sum-p-${m.id}" style="font-size:12px;font-weight:700;color:var(--amber);line-height:1.4;">${mgRate(mG,mR)}</div>
+      </td>
+    </tr>`;
+  }).join('');
+
+  /* 팀합계 행 */
+  const teamCells=months.map(({y:my,mo:mm,ref},mi)=>{
+    let tG=0,tR=0;
+    S.members.forEach(m=>{const r=getMgRec(my,mm,m.id);tG+=r.건수||0;tR+=r.재렌탈||0;});
+    const bg=ref?'background:#eeeeee;':'background:var(--sky);';
+    const op=ref?'opacity:.85;':'';
+    const isLast=(mi===months.length-1);
+    const divider=!isLast?'border-right:2px solid #c8d6e8;':'';
+    return `
+      <td style="padding:3px 2px;text-align:center;${bg}${op}border-top:2px solid var(--sky2);">
+        <span id="mg-team-g-${my}-${mm}" style="font-size:12px;font-weight:700;color:var(--blue);">${tG}</span>
+      </td>
+      <td style="padding:3px 2px;text-align:center;${bg}${op}border-top:2px solid var(--sky2);">
+        <span id="mg-team-r-${my}-${mm}" style="font-size:12px;color:var(--green);">${tR}</span>
+      </td>
+      <td style="padding:3px 2px;text-align:center;${bg}${op}border-top:2px solid var(--sky2);${divider}">
+        <span id="mg-team-rate-${my}-${mm}" style="font-size:12px;font-weight:700;color:var(--amber);">${mgRate(tG,tR)}</span>
+      </td>`;
+  }).join('');
+
+  let ttG=0,ttR=0;
+  sumMonths.forEach(({y:my,mo:mm})=>{S.members.forEach(m=>{const r=getMgRec(my,mm,m.id);ttG+=r.건수||0;ttR+=r.재렌탈||0;});});
+
+  /* 월 헤더: 마지막 서브컬럼(%)에 오른쪽 구분선 */
+  const monthHdrs=months.map(({mo:mm,ref},mi)=>{
+    const isLast=(mi===months.length-1);
+    const divider=!isLast?'border-right:2px solid #c8d6e8;':'';
+    return `<th colspan="3" style="text-align:center;padding:4px 2px;background:${ref?'#e0e0e0':'#EDF2FA'};
+      font-size:12px;font-weight:700;color:${ref?'#555':'var(--blue)'};border-bottom:1px solid var(--bd);min-width:108px;${divider}">
+      ${MN[mm-1]}${ref?'&nbsp;<span style="font-size:10px;font-weight:400;color:#888;">(참고)</span>':''}
+    </th>`;
+  }).join('');
+
+  const subHdrs=months.map(({ref},mi)=>{
+    const isLast=(mi===months.length-1);
+    const divider=!isLast?'border-right:2px solid #c8d6e8;':'';
+    return `
+    <th style="padding:3px 2px;text-align:center;font-size:11px;font-weight:700;color:${ref?'#666':'var(--blue)'};background:${ref?'#e8e8e8':'#EDF2FA'};border-bottom:1px solid var(--bd);">건수</th>
+    <th style="padding:3px 2px;text-align:center;font-size:11px;font-weight:700;color:${ref?'#666':'var(--green)'};background:${ref?'#e8e8e8':'#EDF2FA'};border-bottom:1px solid var(--bd);">재렌탈</th>
+    <th style="padding:3px 2px;text-align:center;font-size:11px;font-weight:700;color:${ref?'#666':'var(--amber)'};background:${ref?'#e8e8e8':'#EDF2FA'};border-bottom:1px solid var(--bd);${divider}">%</th>`;
+  }).join('');
+
+  return `
+  <input type="hidden" id="mg-base-y" value="${baseY}">
+  <input type="hidden" id="mg-base-mo" value="${baseMo}">
+  <div style="padding:6px 14px 3px;font-size:13px;color:var(--text2);display:flex;gap:10px;">
+    <span><span style="display:inline-block;width:10px;height:10px;background:#fff;border:1px solid var(--bd);border-radius:2px;margin-right:4px;vertical-align:middle;"></span>합산: ${sumMonths.map(x=>MN[x.mo-1]).join('·')}</span>
+  </div>
+  <div style="overflow-x:auto;-webkit-overflow-scrolling:touch;margin:4px 0 0 0;padding:0 14px 10px;">
+    <table style="border-collapse:collapse;background:var(--surf);font-size:12px;white-space:nowrap;box-shadow:var(--sh);border-radius:var(--rs);overflow:hidden;">
+      <thead>
+        <tr>
+          <th rowspan="2" style="position:sticky;left:0;z-index:4;background:#EDF2FA;padding:4px 4px;font-size:11px;font-weight:600;color:var(--text2);border-right:2px solid var(--bd);border-bottom:1px solid var(--bd);text-align:center;min-width:44px;">이름</th>
+          ${monthHdrs}
+          <th colspan="3" style="position:sticky;right:0;z-index:4;background:#DDE8F8;padding:4px 3px;font-size:13px;font-weight:700;color:var(--blue);border-left:2px solid var(--sky2);border-bottom:1px solid var(--bd);text-align:center;">4개월 합산</th>
+        </tr>
+        <tr>${subHdrs}
+          <th style="position:sticky;right:0;z-index:4;padding:3px 2px;text-align:center;font-size:11px;font-weight:700;color:var(--blue);background:#DDE8F8;border-bottom:1px solid var(--bd);border-left:2px solid var(--sky2);min-width:34px;">건수</th>
+          <th style="position:sticky;right:0;z-index:4;padding:3px 2px;text-align:center;font-size:11px;font-weight:700;color:var(--green);background:#DDE8F8;border-bottom:1px solid var(--bd);border-left:1px solid var(--sky2);min-width:34px;">재렌탈</th>
+          <th style="position:sticky;right:0;z-index:4;padding:3px 2px;text-align:center;font-size:11px;font-weight:700;color:var(--amber);background:#DDE8F8;border-bottom:1px solid var(--bd);border-left:1px solid var(--sky2);min-width:34px;">%</th>
+        </tr>
+      </thead>
+      <tbody>
+        ${memberRows}
+        <tr>
+          <td style="position:sticky;left:0;z-index:3;background:#DDE8F8;padding:3px 4px;font-size:12px;font-weight:700;text-align:center;border-right:2px solid var(--bd);border-top:2px solid var(--sky2);">팀합계</td>
+          ${teamCells}
+          <td style="position:sticky;right:0;z-index:3;background:#C5D9F5;border-left:2px solid var(--sky2);padding:3px 3px;text-align:center;border-top:2px solid var(--sky2);">
+            <div id="mg-team-sum-g" style="font-size:12px;font-weight:700;color:var(--blue);line-height:1.3;">${ttG}</div>
+          </td>
+          <td style="position:sticky;right:0;z-index:3;background:#C5D9F5;border-left:1px solid var(--sky2);padding:3px 3px;text-align:center;border-top:2px solid var(--sky2);">
+            <div id="mg-team-sum-r" style="font-size:12px;font-weight:700;color:var(--green);line-height:1.3;">${ttR}</div>
+          </td>
+          <td style="position:sticky;right:0;z-index:3;background:#C5D9F5;border-left:1px solid var(--sky2);padding:3px 3px;text-align:center;border-top:2px solid var(--sky2);">
+            <div id="mg-team-sum-p" style="font-size:12px;font-weight:700;color:var(--amber);line-height:1.3;">${mgRate(ttG,ttR)}</div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <div style="padding:12px 14px 20px;">
+    <div class="sec-title" style="margin-bottom:8px;">합산 실적 (${sumMonths.map(x=>MN[x.mo-1]).join('+')})</div>
+    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:8px;width:100%;">
+      <div style="background:var(--surf);border-radius:12px;padding:9px 8px;text-align:center;box-shadow:var(--sh);">
+        <div id="mg-kpi-g" style="font-size:24px;font-weight:700;color:var(--blue);line-height:1.1;">${ttG}</div>
+        <div style="font-size:13px;color:var(--text2);font-weight:600;margin-top:3px;">건수</div>
+      </div>
+      <div style="background:var(--surf);border-radius:12px;padding:9px 8px;text-align:center;box-shadow:var(--sh);">
+        <div id="mg-kpi-r" style="font-size:24px;font-weight:700;color:var(--green);line-height:1.1;">${ttR}</div>
+        <div style="font-size:13px;color:var(--text2);font-weight:600;margin-top:3px;">재렌탈</div>
+      </div>
+      <div style="background:var(--surf);border-radius:12px;padding:9px 8px;text-align:center;box-shadow:var(--sh);">
+        <div id="mg-kpi-p" style="font-size:24px;font-weight:700;color:var(--amber);line-height:1.1;">${mgRate(ttG,ttR)}</div>
+        <div style="font-size:13px;color:var(--text2);font-weight:600;margin-top:3px;">환산율</div>
+      </div>
+    </div>
+  </div>`;
+}
+
 function buildInputView(wds){
-  if(!S.members.length)return'<div style="padding:24px;text-align:center;color:var(--text2);">팀원을 추가해 주세요</div>';
   const wt=twSum(Y,W);
   const todayIdx=wds.findIndex(d=>isToday(d));
   const memRecs=S.members.map(m=>({...m,rec:getRec(Y,W,m.id)}));
@@ -609,6 +784,7 @@ function buildInputView(wds){
     const isTdy=i===todayIdx,isWk=i>=5;
     return `<th style="min-width:38px;padding:5px 2px;text-align:center;background:#EDF2FA;border-bottom:1px solid var(--bd);font-size:12px;font-weight:600;${isTdy?'background:#DDE8F8;color:var(--blue);':'color:var(--text2);'}${isWk?'color:#C62828;':''}">${DAYS[i]}<br><span style="font-size:11px;font-weight:400;">${fmt(d)}</span></th>`;
   }).join('');
+
   const bodyRows=memRecs.map((m,mi)=>{
     const ws=wSum(Y,W,m.id);
     const rowTotal=total(ws);
@@ -627,10 +803,12 @@ function buildInputView(wds){
       return `<tr>${nameCell}${lblCell}${cells}${sumCell}</tr>`;
     }).join('');
   }).join('');
+
   const teamCells=wds.map((_,di)=>{
     const d=teamDays[di]||zeroObj();const v=dayTotal(d);const isTdy=di===todayIdx;
     return `<td style="min-width:38px;padding:5px 2px;text-align:center;font-size:13px;font-weight:700;color:var(--blue);background:${isTdy?'#C5D9F5':'var(--sky)'};border-top:2px solid var(--sky2);">${v||'·'}</td>`;
   }).join('');
+
   return `<div class="section" style="padding-top:8px;padding-bottom:14px;">
     <div class="tbl-wrap" style="margin-bottom:10px;">
       <table class="stbl" style="font-size:12px;">
@@ -705,6 +883,7 @@ function buildStatusView(wds){
   </div>`;
 }
 
+/* ===== 월간 리포트 ===== */
 function renderMonthly(){
   const el=document.getElementById('pg-monthly');
   const mt=tmSum(Y,Mo);
@@ -754,13 +933,10 @@ function renderMonthly(){
 }
 function chgMonth(d){Mo+=d;if(Mo<1){Y--;Mo=12;}if(Mo>12){Y++;Mo=1;}renderMonthly();}
 
+/* ===== 팀원 관리 ===== */
 function renderMembers(){
   const el=document.getElementById('pg-members');
   el.innerHTML=`
-  <div class="backup-bar">
-    <button class="btn-backup btn-export" onclick="exportData()">📤 데이터 내보내기</button>
-    <button class="btn-backup btn-import" onclick="document.getElementById('import-file').click()">📥 데이터 가져오기</button>
-  </div>
   <div class="section" style="padding-top:10px;">
     <div class="sec-title">팀원 목록 (${S.members.length}명)</div>
     <div>
@@ -783,17 +959,11 @@ function renderMembers(){
     </div>
   </div>
   <div class="section" style="padding-bottom:20px;">
-    <div style="padding:12px;background:var(--sky);border-radius:12px;font-size:14px;color:var(--blue);font-weight:600;text-align:left;">
-      <div style="display:flex;gap:6px;align-items:flex-start;"><span>💡</span><div>팀원은 최대 20명까지 등록 가능합니다.<br>현재 ${S.members.length}명 / 20명</div></div>
+    <div style="padding:12px;background:var(--sky);border-radius:12px;font-size:13px;color:var(--blue);font-weight:600;">
+      💡 팀원은 최대 20명까지 등록 가능합니다. 현재 ${S.members.length}명 / 20명
     </div>
   </div>`;
   document.getElementById('fab').style.display='flex';
-  // 비밀번호 변경 버튼 추가
-  const pwBtn=document.createElement('div');
-  pwBtn.className='section';
-  pwBtn.style.paddingBottom='20px';
-  pwBtn.innerHTML=`<button onclick="openSheet('sh-pwchange')" style="width:100%;padding:13px;background:var(--bg);border:1.5px solid var(--bd);border-radius:12px;font-size:14px;font-weight:700;color:var(--text2);cursor:pointer;font-family:inherit;">🔒 비밀번호 변경</button>`;
-  el.appendChild(pwBtn);
 }
 
 function addMember(){
@@ -828,10 +998,6 @@ function init(){
   const d=today;
   document.getElementById('tb-date').textContent=`${d.getFullYear()}.${String(d.getMonth()+1).padStart(2,'0')}.${String(d.getDate()).padStart(2,'0')} (${['일','월','화','수','목','금','토'][d.getDay()]})`;
   bindPhoneInputs();renderDash();setupPwaInstallUi();
-  // 자동 로그인 체크
-  if(localStorage.getItem('coway_autologin')==='1'){
-    document.getElementById('pw-screen').style.display='none';
-  }
 }
 init();
 
@@ -860,83 +1026,6 @@ function setupPwaInstallUi(){
   }
   if(isHttpLan&&/Mobile|Android|iPhone/i.test(ua)){showStrip('이 주소(http)에서는 자동 설치가 제한될 수 있습니다.',false);}
 }
-
-
-/* ===== 비밀번호 기능 ===== */
-const DEFAULT_PW = '981127';
-let pwVisible = false;
-
-function getPw(){ return localStorage.getItem('coway_pw') || DEFAULT_PW; }
-
-function togglePwVisible(){
-  pwVisible = !pwVisible;
-  const f = document.getElementById('pw-input-field');
-  f.type = pwVisible ? 'text' : 'password';
-}
-
-function checkPwField(){
-  const val = document.getElementById('pw-input-field').value;
-  if(val === getPw()){
-    localStorage.setItem('coway_autologin','1');
-    document.getElementById('pw-screen').style.display = 'none';
-    document.getElementById('pw-input-field').value = '';
-  } else {
-    document.getElementById('pw-error').textContent = '비밀번호가 틀렸습니다';
-    document.getElementById('pw-input-field').value = '';
-    document.getElementById('pw-input-field').focus();
-  }
-}
-
-function closePwSheet(){
-  ['pw-cur','pw-new','pw-new2'].forEach(id=>document.getElementById(id).value='');
-  closeSheet();
-}
-function changePw(){
-  const cur = document.getElementById('pw-cur').value;
-  const nw  = document.getElementById('pw-new').value;
-  const nw2 = document.getElementById('pw-new2').value;
-  if(cur !== getPw()) return toast('현재 비밀번호가 틀렸습니다');
-  if(nw.length < 4) return toast('새 비밀번호는 4자리 이상 입력하세요');
-  if(nw !== nw2) return toast('새 비밀번호가 일치하지 않습니다');
-  localStorage.setItem('coway_pw', nw);
-  localStorage.removeItem('coway_autologin');
-  ['pw-cur','pw-new','pw-new2'].forEach(id=>document.getElementById(id).value='');
-  // 시트 강제 닫기
-  document.getElementById('ov').classList.remove('show');
-  document.getElementById('sh-pwchange').classList.remove('show');
-  setTimeout(()=>toast('비밀번호가 변경되었습니다'),300);
-}
-
-function exportData(){
-  const json=JSON.stringify(S,null,2);
-  const blob=new Blob([json],{type:'application/json'});
-  const url=URL.createObjectURL(blob);
-  const a=document.createElement('a');
-  const now=new Date();
-  const stamp=now.getFullYear()+String(now.getMonth()+1).padStart(2,'0')+String(now.getDate()).padStart(2,'0');
-  a.href=url;a.download='coway_backup_'+stamp+'.json';
-  document.body.appendChild(a);a.click();document.body.removeChild(a);
-  URL.revokeObjectURL(url);
-  toast('백업 파일이 저장되었습니다');
-}
-function importData(e){
-  const file=e.target.files[0];
-  if(!file)return;
-  const reader=new FileReader();
-  reader.onload=function(ev){
-    try{
-      const data=JSON.parse(ev.target.result);
-      if(!data.members||!Array.isArray(data.members))throw new Error();
-      if(!confirm('기존 데이터를 가져온 데이터로 덮어쓸까요?\n현재 데이터는 사라집니다.'))return;
-      S=data;save();
-      renders[curPage]&&renders[curPage]();
-      toast('데이터를 성공적으로 가져왔습니다');
-    }catch(err){toast('올바른 백업 파일이 아닙니다');}
-    e.target.value='';
-  };
-  reader.readAsText(file);
-}
-
 if('serviceWorker' in navigator){window.addEventListener('load',function(){navigator.serviceWorker.register('service-worker.js').catch(function(){});});}
 </script>
 </body>
