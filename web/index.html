@@ -490,7 +490,7 @@ function renderDash(){
             <div style="font-size:13px;color:#0d3fa6;margin-top:2px;font-weight:600;">환산율</div>
           </div>
           <div style="background:rgba(255,255,255,.55);border-radius:10px;padding:6px 8px;display:flex;align-items:center;justify-content:center;min-height:52px;">
-            <div style="font-size:22px;font-weight:700;color:#0d3fa6;line-height:1;">${S.mgGoal?Math.round(mgG/S.mgGoal*100)+'%':'-'}</div>
+            <div style="font-size:22px;font-weight:700;color:#0d3fa6;line-height:1;">${S.mgGoal?(mgG/S.mgGoal*100).toFixed(2)+'%':'-'}</div>
           </div>
         </div>
       </div>
@@ -623,11 +623,11 @@ function setMgVal(y,mo,mid,field,value){
   const actualEl=document.getElementById('mg-achieve-actual');
   if(actualEl) actualEl.textContent=ttG;
   if(S.mgGoal){
-    const rate=Math.round(ttG/S.mgGoal*100);
+    const rate=(ttG/S.mgGoal*100);
     const rateEl=document.getElementById('mg-achieve-rate');
     const barEl=document.getElementById('mg-achieve-bar');
-    if(rateEl){rateEl.textContent=rate+'%';rateEl.style.color=ttG>=S.mgGoal?'var(--green)':'var(--amber)';}
-    if(barEl) barEl.style.width=Math.min(rate,100)+'%';
+    if(rateEl){rateEl.textContent=rate.toFixed(2)+'%';rateEl.style.color=ttG>=S.mgGoal?'var(--green)':'var(--amber)';}
+    if(barEl) barEl.style.width=Math.min(rate,100).toFixed(2)+'%';
   }
 }
 
@@ -792,8 +792,10 @@ function buildManageView(){
       <div style="display:flex;align-items:center;gap:10px;margin-bottom:12px;">
         <div style="font-size:16px;font-weight:600;color:var(--text);white-space:nowrap;">목표 건수</div>
         <input type="number" id="mg-goal-inp" inputmode="numeric"
-          value="${S.mgGoal||''}" placeholder="6300"
+          value="${S.mgGoal||0}" placeholder="0"
           style="width:110px;height:38px;border:1.5px solid var(--bd);border-radius:10px;padding:0 12px;font-size:18px;font-weight:600;color:var(--blue);background:var(--bg);outline:none;text-align:center;"
+          onfocus="if(this.value==='0')this.value=''"
+          onblur="if(this.value==='')this.value='0'"
           oninput="setMgGoal(this.value)">
         <div style="font-size:14px;font-weight:500;color:var(--text2);">건</div>
       </div>
@@ -808,11 +810,11 @@ function buildManageView(){
         </div>
         <div style="text-align:center;background:${S.mgGoal&&ttG>=S.mgGoal?'#E8F5E9':'#FFF8E1'};border-radius:10px;padding:6px 4px;">
           <div style="font-size:12px;color:var(--text2);font-weight:600;margin-bottom:4px;">달성률</div>
-          <div id="mg-achieve-rate" style="font-size:22px;font-weight:700;color:${S.mgGoal&&ttG>=S.mgGoal?'var(--green)':'var(--amber)'};line-height:1.1;">${S.mgGoal?Math.round(ttG/S.mgGoal*100)+'%':'-'}</div>
+          <div id="mg-achieve-rate" style="font-size:22px;font-weight:700;color:${S.mgGoal&&ttG>=S.mgGoal?'var(--green)':'var(--amber)'};line-height:1.1;">${S.mgGoal?(ttG/S.mgGoal*100).toFixed(2)+'%':'-'}</div>
         </div>
       </div>
       <div style="margin-top:10px;background:var(--bg);border-radius:8px;height:10px;overflow:hidden;">
-        <div id="mg-achieve-bar" style="height:100%;border-radius:8px;background:linear-gradient(90deg,var(--blue),var(--blue2));transition:width .4s;width:${S.mgGoal?Math.min(Math.round(ttG/S.mgGoal*100),100)+'%':'0%'};"></div>
+        <div id="mg-achieve-bar" style="height:100%;border-radius:8px;background:linear-gradient(90deg,var(--blue),var(--blue2));transition:width .4s;width:${S.mgGoal?Math.min((ttG/S.mgGoal*100),100).toFixed(2)+'%':'0%'};"></div>
       </div>
     </div>
   </div>`;
@@ -831,14 +833,14 @@ function setMgGoal(value){
   let ttG=0;
   sumMonths.forEach(({y:my,mo:mm})=>{S.members.forEach(m=>{ttG+=getMgRec(my,mm,m.id).건수||0;});});
   /* 달성률 */
-  const rate=S.mgGoal?Math.round(ttG/S.mgGoal*100):0;
+  const rate=S.mgGoal?(ttG/S.mgGoal*100):0;
   const rateEl=document.getElementById('mg-achieve-rate');
   const barEl=document.getElementById('mg-achieve-bar');
   const boxEl=rateEl?.parentElement;
-  if(rateEl) rateEl.textContent=S.mgGoal?rate+'%':'-';
+  if(rateEl) rateEl.textContent=S.mgGoal?rate.toFixed(2)+'%':'-';
   if(rateEl) rateEl.style.color=S.mgGoal&&ttG>=S.mgGoal?'var(--green)':'var(--amber)';
   if(boxEl) boxEl.style.background=S.mgGoal&&ttG>=S.mgGoal?'#E8F5E9':'#FFF8E1';
-  if(barEl) barEl.style.width=S.mgGoal?Math.min(rate,100)+'%':'0%';
+  if(barEl) barEl.style.width=S.mgGoal?Math.min(rate,100).toFixed(2)+'%':'0%';
 }
 
 function buildInputView(wds){
