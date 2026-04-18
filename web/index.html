@@ -472,8 +472,11 @@ function renderDash(){
       </div>
       <!-- 관리계정 합산 실적 -->
       <div style="margin-top:12px;border-top:1px solid rgba(255,255,255,.25);padding-top:10px;">
-        <div style="font-size:13px;color:rgba(255,255,255,.75);margin-bottom:6px;">📊 소유권 도래 4개월 평균</div>
-        <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:6px;">
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:6px;">
+          <div style="font-size:13px;color:rgba(255,255,255,.75);">📊 소유권 도래 4개월 평균</div>
+          <div style="font-size:13px;color:rgba(255,255,255,.75);">🎯 달성률</div>
+        </div>
+        <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:6px;align-items:stretch;">
           <div style="background:rgba(255,255,255,.18);border-radius:10px;padding:6px 4px;text-align:center;">
             <div style="font-size:22px;font-weight:700;color:#fff;line-height:1.1;">${mgG}</div>
             <div style="font-size:13px;color:rgba(255,255,255,.8);margin-top:2px;">건수</div>
@@ -486,9 +489,8 @@ function renderDash(){
             <div style="font-size:22px;font-weight:700;color:#0d3fa6;line-height:1.1;">${mgRate(mgG,mgR)}</div>
             <div style="font-size:13px;color:#0d3fa6;margin-top:2px;font-weight:600;">환산율</div>
           </div>
-          <div style="background:rgba(255,255,255,.55);border-radius:10px;padding:6px 4px;text-align:center;">
-            <div style="font-size:22px;font-weight:700;color:#0d3fa6;line-height:1.1;">${S.mgGoal?Math.round(mgG/S.mgGoal*100)+'%':'-'}</div>
-            <div style="font-size:13px;color:#0d3fa6;margin-top:2px;font-weight:600;">달성률</div>
+          <div style="background:rgba(255,255,255,.55);border-radius:10px;padding:6px 8px;display:flex;align-items:center;justify-content:center;min-height:52px;">
+            <div style="font-size:22px;font-weight:700;color:#0d3fa6;line-height:1;">${S.mgGoal?Math.round(mgG/S.mgGoal*100)+'%':'-'}</div>
           </div>
         </div>
       </div>
