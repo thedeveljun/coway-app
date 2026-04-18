@@ -634,8 +634,8 @@ function buildManageView(){
     const cells=months.map(({y:my,mo:mm,ref},mi)=>{
       const r=getMgRec(my,mm,m.id);
       const g=r.건수||0, rv=r.재렌탈||0;
-      const bg=ref?'#ebebeb':'#fff';
-      const op=ref?'opacity:.5;':'';
+      const bg=ref?'#f5f5f5':'#fff';
+      const op=ref?'opacity:.85;':'';
       const isLast=(mi===months.length-1);
       const divider=!isLast?'border-right:2px solid #c8d6e8;':'';
       return `
@@ -676,8 +676,8 @@ function buildManageView(){
   const teamCells=months.map(({y:my,mo:mm,ref},mi)=>{
     let tG=0,tR=0;
     S.members.forEach(m=>{const r=getMgRec(my,mm,m.id);tG+=r.건수||0;tR+=r.재렌탈||0;});
-    const bg=ref?'background:#e4e4e4;':'background:var(--sky);';
-    const op=ref?'opacity:.6;':'';
+    const bg=ref?'background:#eeeeee;':'background:var(--sky);';
+    const op=ref?'opacity:.85;':'';
     const isLast=(mi===months.length-1);
     const divider=!isLast?'border-right:2px solid #c8d6e8;':'';
     return `
@@ -699,9 +699,9 @@ function buildManageView(){
   const monthHdrs=months.map(({mo:mm,ref},mi)=>{
     const isLast=(mi===months.length-1);
     const divider=!isLast?'border-right:2px solid #c8d6e8;':'';
-    return `<th colspan="3" style="text-align:center;padding:4px 2px;background:${ref?'#d8d8d8':'#EDF2FA'};
-      font-size:12px;font-weight:700;color:${ref?'#888':'var(--blue)'};border-bottom:1px solid var(--bd);min-width:108px;${divider}">
-      ${MN[mm-1]}${ref?'&nbsp;<span style="font-size:10px;font-weight:400;color:#aaa;">(참고)</span>':''}
+    return `<th colspan="3" style="text-align:center;padding:4px 2px;background:${ref?'#e0e0e0':'#EDF2FA'};
+      font-size:12px;font-weight:700;color:${ref?'#555':'var(--blue)'};border-bottom:1px solid var(--bd);min-width:108px;${divider}">
+      ${MN[mm-1]}${ref?'&nbsp;<span style="font-size:10px;font-weight:400;color:#888;">(참고)</span>':''}
     </th>`;
   }).join('');
 
@@ -709,9 +709,9 @@ function buildManageView(){
     const isLast=(mi===months.length-1);
     const divider=!isLast?'border-right:2px solid #c8d6e8;':'';
     return `
-    <th style="padding:3px 2px;text-align:center;font-size:11px;font-weight:700;color:${ref?'#aaa':'var(--blue)'};background:${ref?'#e8e8e8':'#EDF2FA'};border-bottom:1px solid var(--bd);">건수</th>
-    <th style="padding:3px 2px;text-align:center;font-size:11px;font-weight:700;color:${ref?'#aaa':'var(--green)'};background:${ref?'#e8e8e8':'#EDF2FA'};border-bottom:1px solid var(--bd);">재렌탈</th>
-    <th style="padding:3px 2px;text-align:center;font-size:11px;font-weight:700;color:${ref?'#aaa':'var(--amber)'};background:${ref?'#e8e8e8':'#EDF2FA'};border-bottom:1px solid var(--bd);${divider}">%</th>`;
+    <th style="padding:3px 2px;text-align:center;font-size:11px;font-weight:700;color:${ref?'#666':'var(--blue)'};background:${ref?'#e8e8e8':'#EDF2FA'};border-bottom:1px solid var(--bd);">건수</th>
+    <th style="padding:3px 2px;text-align:center;font-size:11px;font-weight:700;color:${ref?'#666':'var(--green)'};background:${ref?'#e8e8e8':'#EDF2FA'};border-bottom:1px solid var(--bd);">재렌탈</th>
+    <th style="padding:3px 2px;text-align:center;font-size:11px;font-weight:700;color:${ref?'#666':'var(--amber)'};background:${ref?'#e8e8e8':'#EDF2FA'};border-bottom:1px solid var(--bd);${divider}">%</th>`;
   }).join('');
 
   return `
