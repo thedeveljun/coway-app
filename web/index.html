@@ -472,7 +472,7 @@ function renderDash(){
       </div>
       <!-- 관리계정 합산 실적 -->
       <div style="margin-top:12px;border-top:1px solid rgba(255,255,255,.25);padding-top:10px;">
-        <div style="font-size:13px;color:rgba(255,255,255,.75);margin-bottom:6px;">📊 관리계정 합산 (<span style="font-size:12px;">${mgLabel}</span>)</div>
+        <div style="font-size:13px;color:rgba(255,255,255,.75);margin-bottom:6px;">📊 소유권 도래 4개월 평균</div>
         <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:6px;">
           <div style="background:rgba(255,255,255,.18);border-radius:10px;padding:6px 4px;text-align:center;">
             <div style="font-size:22px;font-weight:700;color:#fff;line-height:1.1;">${mgG}</div>
@@ -551,7 +551,7 @@ function buildWeekNav(wds){
 function buildViewTabs(){
   return `<div class="view-tabs" style="display:flex;">
     <div class="vt ${wView==='input'?'active':''}" onclick="setWView('input')" style="font-size:16px;">✏️ 개인입력</div>
-    <div class="vt ${wView==='manage'?'active':''}" onclick="setWView('manage')" style="font-size:16px;">📊 관리계정</div>
+    <div class="vt ${wView==='manage'?'active':''}" onclick="setWView('manage')" style="font-size:16px;">📊 소유권</div>
     <div class="vt ${wView==='status'?'active':''}" onclick="setWView('status')" style="font-size:16px;">📋 팀현황표</div>
   </div>`;
 }
