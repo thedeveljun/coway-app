@@ -448,6 +448,8 @@ function renderDash(){
   });
   const MN=['1월','2월','3월','4월','5월','6월','7월','8월','9월','10월','11월','12월'];
   const mgLabel=mgMonths.map(x=>MN[x.mo-1]).join('·');
+  /* 달성률: 이번달 신규+정수+전략 합계 / 목표 */
+  const dashAchieveRate=S.mgGoal?((mtTotal/S.mgGoal)*100).toFixed(2)+'%':'-';
 
   el.innerHTML=`
     <div class="hero fi">
@@ -490,7 +492,7 @@ function renderDash(){
             <div style="font-size:13px;color:#0d3fa6;margin-top:2px;font-weight:600;">환산율</div>
           </div>
           <div style="background:rgba(255,255,255,.55);border-radius:10px;padding:6px 8px;display:flex;align-items:center;justify-content:center;min-height:52px;">
-            <div style="font-size:22px;font-weight:700;color:#0d3fa6;line-height:1;">${S.mgGoal?(mgG/S.mgGoal*100).toFixed(2)+'%':'-'}</div>
+            <div style="font-size:22px;font-weight:700;color:#0d3fa6;line-height:1;">${dashAchieveRate}</div>
           </div>
         </div>
       </div>
@@ -619,14 +621,16 @@ function setMgVal(y,mo,mid,field,value){
   if(tsg) tsg.textContent=ttG; if(tsr) tsr.textContent=ttR; if(tsp) tsp.textContent=mgRate(ttG,ttR);
   const kG=document.getElementById('mg-kpi-g');const kR=document.getElementById('mg-kpi-r');const kP=document.getElementById('mg-kpi-p');
   if(kG) kG.textContent=ttG; if(kR) kR.textContent=ttR; if(kP) kP.textContent=mgRate(ttG,ttR);
-  /* 달성률 갱신 */
+  /* 달성률 갱신: 이번달 신규+정수+전략 합계 기준 */
+  const mtNow=tmSum(Y,Mo);
+  const actual=mtNow.신규건수+mtNow.정수건수+mtNow.전략건수;
   const actualEl=document.getElementById('mg-achieve-actual');
-  if(actualEl) actualEl.textContent=ttG;
+  if(actualEl) actualEl.textContent=actual;
   if(S.mgGoal){
-    const rate=(ttG/S.mgGoal*100);
+    const rate=(actual/S.mgGoal*100);
     const rateEl=document.getElementById('mg-achieve-rate');
     const barEl=document.getElementById('mg-achieve-bar');
-    if(rateEl){rateEl.textContent=rate.toFixed(2)+'%';rateEl.style.color=ttG>=S.mgGoal?'var(--green)':'var(--amber)';}
+    if(rateEl){rateEl.textContent=rate.toFixed(2)+'%';rateEl.style.color=actual>=S.mgGoal?'var(--green)':'var(--amber)';}
     if(barEl) barEl.style.width=Math.min(rate,100).toFixed(2)+'%';
   }
 }
@@ -637,6 +641,9 @@ function buildManageView(){
   const months=getMgMonths(baseY,baseMo);
   const MN=['1월','2월','3월','4월','5월','6월','7월','8월','9월','10월','11월','12월'];
   const sumMonths=months.filter(x=>!x.ref);
+  /* 이번달 신규+정수+전략 합계 */
+  const _mt=tmSum(Y,Mo);
+  const mtTotal=_mt.신규건수+_mt.정수건수+_mt.전략건수;
 
   /* 입력 스타일: 스피너 완전 제거, 높이 30% 증가 21→27px */
   const inpStyle=(color,bg)=>`width:36px;height:27px;font-size:13px;font-weight:600;`+
@@ -806,11 +813,11 @@ function buildManageView(){
         </div>
         <div style="text-align:center;">
           <div style="font-size:12px;color:var(--text2);font-weight:600;margin-bottom:4px;">실적(합산)</div>
-          <div id="mg-achieve-actual" style="font-size:22px;font-weight:700;color:var(--blue);line-height:1.1;">${ttG}</div>
+          <div id="mg-achieve-actual" style="font-size:22px;font-weight:700;color:var(--blue);line-height:1.1;">${mtTotal}</div>
         </div>
-        <div style="text-align:center;background:${S.mgGoal&&ttG>=S.mgGoal?'#E8F5E9':'#FFF8E1'};border-radius:10px;padding:6px 4px;">
+        <div style="text-align:center;background:${S.mgGoal&&mtTotal>=S.mgGoal?'#E8F5E9':'#FFF8E1'};border-radius:10px;padding:6px 4px;">
           <div style="font-size:12px;color:var(--text2);font-weight:600;margin-bottom:4px;">달성률</div>
-          <div id="mg-achieve-rate" style="font-size:22px;font-weight:700;color:${S.mgGoal&&ttG>=S.mgGoal?'var(--green)':'var(--amber)'};line-height:1.1;">${S.mgGoal?(ttG/S.mgGoal*100).toFixed(2)+'%':'-'}</div>
+          <div id="mg-achieve-rate" style="font-size:22px;font-weight:700;color:${S.mgGoal&&mtTotal>=S.mgGoal?'var(--green)':'var(--amber)'};line-height:1.1;">${S.mgGoal?(mtTotal/S.mgGoal*100).toFixed(2)+'%':'-'}</div>
         </div>
       </div>
       <div style="margin-top:10px;background:var(--bg);border-radius:8px;height:10px;overflow:hidden;">
@@ -826,20 +833,19 @@ function setMgGoal(value){
   /* 목표 표시 */
   const gd=document.getElementById('mg-goal-disp');
   if(gd) gd.textContent=S.mgGoal?S.mgGoal.toLocaleString():'-';
-  /* 실적 가져오기 */
-  const baseY=parseInt(document.getElementById('mg-base-y')?.value||Y);
-  const baseMo=parseInt(document.getElementById('mg-base-mo')?.value||Mo);
-  const sumMonths=getMgMonths(baseY,baseMo).filter(x=>!x.ref);
-  let ttG=0;
-  sumMonths.forEach(({y:my,mo:mm})=>{S.members.forEach(m=>{ttG+=getMgRec(my,mm,m.id).건수||0;});});
+  /* 실적: 이번달 신규+정수+전략 합계 */
+  const mt=tmSum(Y,Mo);
+  const actual=mt.신규건수+mt.정수건수+mt.전략건수;
+  const actualEl=document.getElementById('mg-achieve-actual');
+  if(actualEl) actualEl.textContent=actual;
   /* 달성률 */
-  const rate=S.mgGoal?(ttG/S.mgGoal*100):0;
+  const rate=S.mgGoal?(actual/S.mgGoal*100):0;
   const rateEl=document.getElementById('mg-achieve-rate');
   const barEl=document.getElementById('mg-achieve-bar');
   const boxEl=rateEl?.parentElement;
   if(rateEl) rateEl.textContent=S.mgGoal?rate.toFixed(2)+'%':'-';
-  if(rateEl) rateEl.style.color=S.mgGoal&&ttG>=S.mgGoal?'var(--green)':'var(--amber)';
-  if(boxEl) boxEl.style.background=S.mgGoal&&ttG>=S.mgGoal?'#E8F5E9':'#FFF8E1';
+  if(rateEl) rateEl.style.color=S.mgGoal&&actual>=S.mgGoal?'var(--green)':'var(--amber)';
+  if(boxEl) boxEl.style.background=S.mgGoal&&actual>=S.mgGoal?'#E8F5E9':'#FFF8E1';
   if(barEl) barEl.style.width=S.mgGoal?Math.min(rate,100).toFixed(2)+'%':'0%';
 }
 
