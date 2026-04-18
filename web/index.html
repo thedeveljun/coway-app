@@ -639,6 +639,38 @@ function setMgVal(y,mo,mid,field,value){
   }
 }
 
+function setMgRateTarget(value){
+  const parsed=parseInt(value,10);
+  if(isNaN(parsed)||parsed<=0) return;
+  S.mgRateTarget=parsed;
+  save();
+  /* 부족 칸만 DOM 직접 업데이트 */
+  const rate=S.mgRateTarget/100;
+  S.members.forEach(m=>{
+    const baseY2=parseInt(document.getElementById('mg-base-y')?.value||Y);
+    const baseMo2=parseInt(document.getElementById('mg-base-mo')?.value||Mo);
+    const sumMs=getMgMonths(baseY2,baseMo2).filter(x=>!x.ref);
+    let mG=0,mR=0;
+    sumMs.forEach(({y:my,mo:mm})=>{const r=getMgRec(my,mm,m.id);mG+=r.건수||0;mR+=r.재렌탈||0;});
+    const short=Math.round(mG*rate)-mR;
+    const el=document.getElementById('mg-sum-short-'+m.id);
+    if(el){el.textContent=short<=0?'-':'-'+short;el.style.color=short<=0?'var(--text3)':'#C62828';}
+  });
+  /* 팀합계 부족 업데이트 */
+  let ttShort=0;
+  const baseY3=parseInt(document.getElementById('mg-base-y')?.value||Y);
+  const baseMo3=parseInt(document.getElementById('mg-base-mo')?.value||Mo);
+  const sumMs2=getMgMonths(baseY3,baseMo3).filter(x=>!x.ref);
+  S.members.forEach(m=>{
+    let mG=0,mR=0;
+    sumMs2.forEach(({y:my,mo:mm})=>{const r=getMgRec(my,mm,m.id);mG+=r.건수||0;mR+=r.재렌탈||0;});
+    const s=Math.round(mG*rate)-mR;
+    if(s>0) ttShort+=s;
+  });
+  const teamEl=document.getElementById('mg-team-sum-short');
+  if(teamEl){teamEl.textContent=ttShort<=0?'-':'-'+ttShort;teamEl.style.color=ttShort<=0?'var(--text3)':'#C62828';}
+}
+
 function buildManageView(){
   if(!S.manage) S.manage={};
   const baseY=Y, baseMo=Mo;
@@ -685,7 +717,7 @@ function buildManageView(){
     }).join('');
     let mG=0,mR=0;
     sumMonths.forEach(({y:my,mo:mm})=>{const r=getMgRec(my,mm,m.id);mG+=r.건수||0;mR+=r.재렌탈||0;});
-    const mTarget=Math.round(mG*0.55);
+    const mTarget=Math.round(mG*(S.mgRateTarget||55)/100);
     const mShort=mTarget-mR;
     const mShortColor=mShort<=0?'var(--text3)':'#C62828';
     const mShortText=mShort<=0?'-':'-'+mShort;
@@ -734,7 +766,7 @@ function buildManageView(){
   S.members.forEach(m=>{
     let mG=0,mR=0;
     sumMonths.forEach(({y:my,mo:mm})=>{const r=getMgRec(my,mm,m.id);mG+=r.건수||0;mR+=r.재렌탈||0;});
-    const s=Math.round(mG*0.55)-mR;
+    const s=Math.round(mG*(S.mgRateTarget||55)/100)-mR;
     if(s>0) ttShort+=s;
   });
 
@@ -760,8 +792,18 @@ function buildManageView(){
   return `
   <input type="hidden" id="mg-base-y" value="${baseY}">
   <input type="hidden" id="mg-base-mo" value="${baseMo}">
-  <div style="padding:6px 14px 3px;font-size:13px;color:var(--text2);display:flex;gap:10px;">
+  <div style="padding:6px 14px 3px;font-size:13px;color:var(--text2);display:flex;align-items:center;justify-content:space-between;gap:10px;">
     <span><span style="display:inline-block;width:10px;height:10px;background:#fff;border:1px solid var(--bd);border-radius:2px;margin-right:4px;vertical-align:middle;"></span>합산: ${sumMonths.map(x=>MN[x.mo-1]).join('·')}</span>
+    <span style="display:flex;align-items:center;gap:5px;flex-shrink:0;">
+      <span style="font-size:13px;font-weight:600;color:#C62828;">부족기준</span>
+      <input type="number" min="0" inputmode="numeric"
+        id="mg-rate-target-inp"
+        value="${S.mgRateTarget||55}"
+        style="width:52px;height:28px;border:1.5px solid #EF9A9A;border-radius:8px;text-align:center;font-size:13px;font-weight:700;color:#C62828;background:#FFF5F5;outline:none;"
+        onchange="setMgRateTarget(this.value)"
+        onblur="setMgRateTarget(this.value)">
+      <span style="font-size:13px;font-weight:600;color:#C62828;">%</span>
+    </span>
   </div>
   <div style="overflow-x:auto;-webkit-overflow-scrolling:touch;margin:4px 0 0 0;padding:0 14px 10px;">
     <table style="border-collapse:collapse;background:var(--surf);font-size:12px;white-space:nowrap;box-shadow:var(--sh);border-radius:var(--rs);overflow:hidden;">
