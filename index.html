@@ -623,7 +623,7 @@ function setMgVal(y,mo,mid,field,value){
   if(kG) kG.textContent=ttG; if(kR) kR.textContent=ttR; if(kP) kP.textContent=mgRate(ttG,ttR);
   /* 달성률 갱신: 이번달 신규+정수+전략 합계 기준 */
   const mtNow=tmSum(Y,Mo);
-  const actual=mtNow.신규건수+mtNow.정수건수+mtNow.전략건수;
+  const actual=(mtNow.신규건수||0)+(mtNow.정수건수||0)+(mtNow.전략건수||0);
   const actualEl=document.getElementById('mg-achieve-actual');
   if(actualEl) actualEl.textContent=actual;
   if(S.mgGoal){
@@ -641,9 +641,10 @@ function buildManageView(){
   const months=getMgMonths(baseY,baseMo);
   const MN=['1월','2월','3월','4월','5월','6월','7월','8월','9월','10월','11월','12월'];
   const sumMonths=months.filter(x=>!x.ref);
-  /* 이번달 신규+정수+전략 합계 */
+  /* 이번달 신규+정수+전략 합계 - 명시적으로 각 항목 합산 */
   const _mt=tmSum(Y,Mo);
-  const mtTotal=_mt.신규건수+_mt.정수건수+_mt.전략건수;
+  const _mtG=(_mt.신규건수||0)+(_mt.정수건수||0)+(_mt.전략건수||0);
+  const mtTotal=_mtG;
 
   /* 입력 스타일: 스피너 완전 제거, 높이 30% 증가 21→27px */
   const inpStyle=(color,bg)=>`width:36px;height:27px;font-size:13px;font-weight:600;`+
@@ -835,7 +836,7 @@ function setMgGoal(value){
   if(gd) gd.textContent=S.mgGoal?S.mgGoal.toLocaleString():'-';
   /* 실적: 이번달 신규+정수+전략 합계 */
   const mt=tmSum(Y,Mo);
-  const actual=mt.신규건수+mt.정수건수+mt.전략건수;
+  const actual=(mt.신규건수||0)+(mt.정수건수||0)+(mt.전략건수||0);
   const actualEl=document.getElementById('mg-achieve-actual');
   if(actualEl) actualEl.textContent=actual;
   /* 달성률 */
