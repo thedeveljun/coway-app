@@ -68,34 +68,34 @@ body{font-family:'Pretendard','Apple SD Gothic Neo','Malgun Gothic',sans-serif;c
 #toast.show{opacity:1;transform:translateX(-50%) translateY(0);}
 
 /* ===== HERO - 수정된 색상 ===== */
-.hero{background:#1e5fd4;padding:10px 16px 12px;color:#fff;}
-.hero-label{font-size:12px;opacity:.85;margin-bottom:3px;color:rgba(255,255,255,.85);}
-.hero-week{font-size:20px;font-weight:500;letter-spacing:-.2px;color:#fff;}
-.hero-date{font-size:12px;opacity:.75;margin-top:2px;color:rgba(255,255,255,.75);}
-.hero-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;margin-top:12px;}
-.hero-stat{background:rgba(255,255,255,.18);border-radius:12px;padding:7px 4px;text-align:center;box-shadow:0 1px 6px rgba(0,0,0,.15);}
-.hero-stat-val{font-size:24px;font-weight:700;line-height:1.1;color:#fff;}
-.hero-stat-lbl{font-size:13px;font-weight:400;opacity:.85;margin-top:3px;color:rgba(255,255,255,.85);}
+.hero{background:#1e5fd4;padding:7px 14px 9px;color:#fff;}
+.hero-label{font-size:11px;opacity:.85;margin-bottom:2px;color:rgba(255,255,255,.85);}
+.hero-week{font-size:17px;font-weight:500;letter-spacing:-.2px;color:#fff;}
+.hero-date{font-size:11px;opacity:.75;margin-top:1px;color:rgba(255,255,255,.75);}
+.hero-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:5px;margin-top:8px;}
+.hero-stat{background:rgba(255,255,255,.18);border-radius:10px;padding:5px 3px;text-align:center;box-shadow:0 1px 4px rgba(0,0,0,.12);}
+.hero-stat-val{font-size:20px;font-weight:700;line-height:1.1;color:#fff;}
+.hero-stat-lbl{font-size:11px;font-weight:400;opacity:.85;margin-top:2px;color:rgba(255,255,255,.85);}
 .hero-stat.total .hero-stat-val{color:#0d3fa6;font-weight:800;}
 .hero-stat.total .hero-stat-lbl{color:#0d3fa6;opacity:1;font-weight:700;}
 .hero-stat.total{background:rgba(255,255,255,.55);}
 
-.kpi-row{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;margin-bottom:10px;}
-.kpi{background:var(--surf);border-radius:12px;padding:6px 4px;text-align:center;box-shadow:var(--sh);}
-.kpi-v{font-size:19px;font-weight:600;margin-bottom:1px;}
-.kpi-l{font-size:14px;color:var(--text2);font-weight:500;line-height:1.2;white-space:nowrap;}
+.kpi-row{display:grid;grid-template-columns:repeat(4,1fr);gap:5px;margin-bottom:6px;}
+.kpi{background:var(--surf);border-radius:10px;padding:4px 3px;text-align:center;box-shadow:var(--sh);}
+.kpi-v{font-size:17px;font-weight:600;margin-bottom:0;}
+.kpi-l{font-size:12px;color:var(--text2);font-weight:500;line-height:1.2;white-space:nowrap;}
 .kpi.nw .kpi-v{color:var(--blue);}
 .kpi.gn .kpi-v{color:var(--green);}
 .kpi.am .kpi-v{color:var(--amber);}
-.rank-row{display:flex;align-items:center;gap:10px;padding:7px 14px;border-bottom:1px solid var(--bd);}
+.rank-row{display:flex;align-items:center;gap:8px;padding:4px 12px;border-bottom:1px solid var(--bd);}
 .rank-row:last-child{border-bottom:none;}
-.rnk{width:20px;height:20px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;flex-shrink:0;}
+.rnk{width:18px;height:18px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:9px;font-weight:700;flex-shrink:0;}
 .rnk.g{background:#FFF8E1;color:#F9A825;}
 .rnk.s{background:#F5F5F5;color:#757575;}
 .rnk.b{background:#FBE9E7;color:#BF360C;}
 .rnk.n{background:var(--bd);color:var(--text2);}
-.bm{display:flex;gap:4px;margin-top:3px;}
-.bt{flex:1;height:4px;background:var(--bd);border-radius:3px;overflow:hidden;}
+.bm{display:flex;gap:3px;margin-top:2px;}
+.bt{flex:1;height:3px;background:var(--bd);border-radius:3px;overflow:hidden;}
 .bf{height:100%;border-radius:3px;}
 .bf.nw{background:var(--blue);}
 .bf.gn{background:var(--green);}
@@ -473,7 +473,7 @@ function renderDash(){
         </div>
       </div>
       <!-- 관리계정 합산 실적 -->
-      <div style="margin-top:12px;border-top:1px solid rgba(255,255,255,.25);padding-top:10px;">
+      <div style="margin-top:8px;border-top:1px solid rgba(255,255,255,.25);padding-top:7px;">
         <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:6px;">
           <div style="font-size:13px;color:rgba(255,255,255,.75);">📊 소유권 도래 4개월 평균</div>
           <div style="font-size:13px;color:rgba(255,255,255,.75);">🎯 신규달성률</div>
@@ -497,8 +497,8 @@ function renderDash(){
         </div>
       </div>
     </div>
-    <div class="section" style="padding-top:10px;">
-      <div class="sec-title">이번 달 누적 (${Y}.${String(Mo).padStart(2,'0')})</div>
+    <div class="section" style="padding-top:6px;">
+      <div class="sec-title" style="font-size:14px;margin-bottom:4px;">이번 달 누적 (${Y}.${String(Mo).padStart(2,'0')})</div>
       <div class="kpi-row">
         <div class="kpi nw"><div class="kpi-v">${mt.신규건수}</div><div class="kpi-l">신규</div></div>
         <div class="kpi gn"><div class="kpi-v">${mt.정수건수}</div><div class="kpi-l">정수</div></div>
@@ -506,27 +506,27 @@ function renderDash(){
         <div class="kpi" style="background:var(--sky);"><div class="kpi-v" style="color:var(--blue);font-weight:700;">${mtTotal}</div><div class="kpi-l">합계</div></div>
       </div>
     </div>
-    <div class="section">
-      <div class="sec-title">이번 달 팀원 순위</div>
-      <div class="card">
+    <div class="section" style="padding-top:4px;padding-bottom:4px;">
+      <div class="sec-title" style="font-size:14px;margin-bottom:4px;">이번 달 팀원 순위</div>
+      <div class="card" style="margin-bottom:8px;">
         ${ranked.map((m,i)=>`
-          <div class="rank-row fi" style="animation-delay:${i*.05}s">
+          <div class="rank-row fi" style="animation-delay:${i*.03}s">
             <div class="rnk ${rc[i]||'n'}">${i<3?re[i]:i+1}</div>
             <div style="flex:1;min-width:0;">
-              <div style="display:flex;align-items:center;gap:6px;flex-wrap:wrap;">
-                <span style="font-weight:600;font-size:15px;white-space:nowrap;">${m.name}</span>
+              <div style="display:flex;align-items:center;gap:4px;">
+                <span style="font-weight:600;font-size:13px;white-space:nowrap;">${m.name}</span>
               </div>
               <div class="bm">
                 <div class="bt"><div class="bf nw" style="width:${Math.round((m.신규건수/mx)*100)}%"></div></div>
                 <div class="bt"><div class="bf gn" style="width:${Math.round((m.정수건수/mx)*100)}%"></div></div>
                 <div class="bt"><div class="bf am" style="width:${Math.round((m.전략건수/mx)*100)}%"></div></div>
               </div>
-              <div style="font-size:14px;font-weight:500;color:#222;margin-top:3px;white-space:nowrap;">
+              <div style="font-size:12px;font-weight:500;color:#333;margin-top:1px;white-space:nowrap;">
                 신규 ${m.신규건수} · 정수 ${m.정수건수} · 전략 ${m.전략건수}
               </div>
             </div>
-            <div style="text-align:right;flex-shrink:0;min-width:38px;">
-              <div style="font-size:18px;font-weight:500;color:var(--blue);line-height:1;">${m.total}</div>
+            <div style="text-align:right;flex-shrink:0;min-width:32px;">
+              <div style="font-size:16px;font-weight:600;color:var(--blue);line-height:1;">${m.total}</div>
             </div>
           </div>`).join('')}
       </div>
