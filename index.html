@@ -475,7 +475,7 @@ function renderDash(){
       <!-- 관리계정 합산 실적 -->
       <div style="margin-top:6px;border-top:1px solid rgba(255,255,255,.25);padding-top:5px;">
         <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:6px;">
-          <div style="font-size:13px;color:rgba(255,255,255,.75);">📊 소유권 도래 4개월 평균</div>
+          <div style="font-size:13px;color:rgba(255,255,255,.75);">📊 소유권 도래 6개월 평균</div>
           <div style="font-size:13px;color:rgba(255,255,255,.75);">🎯 신규달성률</div>
         </div>
         <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:4px;align-items:stretch;">
@@ -582,10 +582,10 @@ function mgRate1(g,r){
   if(!g||g===0) return '-';
   return (r/g*100).toFixed(1)+'%';
 }
-/* 5개월: 현재달=참고, +1~+4=합산 */
+/* 7개월: 현재달=참고, +1~+6=합산 */
 function getMgMonths(baseY,baseMo){
   const months=[];
-  for(let i=0;i<=4;i++){
+  for(let i=0;i<=6;i++){
     let mo=baseMo+i,y=baseY;
     if(mo>12){mo-=12;y++;}
     months.push({y,mo,ref:(i===0)});
@@ -811,7 +811,7 @@ function buildManageView(){
         <tr>
           <th rowspan="2" style="position:sticky;left:0;z-index:4;background:#EDF2FA;padding:4px 4px;font-size:11px;font-weight:600;color:var(--text2);border-right:2px solid var(--bd);border-bottom:1px solid var(--bd);text-align:center;min-width:44px;">이름</th>
           ${monthHdrs}
-          <th colspan="4" style="position:sticky;right:0;z-index:4;background:#DDE8F8;padding:4px 3px;font-size:13px;font-weight:700;color:var(--blue);border-left:2px solid var(--sky2);border-bottom:1px solid var(--bd);text-align:center;">4개월 합산</th>
+          <th colspan="4" style="position:sticky;right:0;z-index:4;background:#DDE8F8;padding:4px 3px;font-size:13px;font-weight:700;color:var(--blue);border-left:2px solid var(--sky2);border-bottom:1px solid var(--bd);text-align:center;">6개월 합산</th>
         </tr>
         <tr>${subHdrs}
           <th style="position:sticky;right:0;z-index:4;padding:3px 2px;text-align:center;font-size:11px;font-weight:700;color:var(--blue);background:#DDE8F8;border-bottom:1px solid var(--bd);border-left:2px solid var(--sky2);min-width:34px;">건수</th>
