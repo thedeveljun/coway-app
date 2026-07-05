@@ -34,6 +34,7 @@
   --blue:#0057B8;--blue2:#0071E3;--sky:#E8F2FF;--sky2:#C5D9F5;
   --kodak:#0057B8;--kodi:#C2185B;--kodi-lt:#FCE4EC;--kodak-lt:#E3F0FF;
   --green:#2E7D32;--green2:#43A047;--amber:#E65100;--amber2:#FB8C00;
+  --pink:#D81B60;--pink2:#EC407A;
   --bg:#F2F4F8;--surf:#FFFFFF;--surf2:#F8F9FC;
   --bd:#E4E8EF;--text:#111827;--text2:#6B7280;--text3:#9CA3AF;
   --r:16px;--rs:10px;--sh:0 2px 12px rgba(0,0,0,.08);
@@ -72,21 +73,22 @@ body{font-family:'Pretendard','Apple SD Gothic Neo','Malgun Gothic',sans-serif;c
 .hero-label{font-size:11px;opacity:.85;margin-bottom:1px;color:rgba(255,255,255,.85);}
 .hero-week{font-size:16px;font-weight:500;letter-spacing:-.2px;color:#fff;}
 .hero-date{font-size:11px;opacity:.75;margin-top:1px;color:rgba(255,255,255,.75);}
-.hero-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:4px;margin-top:6px;}
-.hero-stat{background:rgba(255,255,255,.18);border-radius:9px;padding:4px 3px;text-align:center;box-shadow:0 1px 4px rgba(0,0,0,.12);}
-.hero-stat-val{font-size:18px;font-weight:700;line-height:1.1;color:#fff;}
+.hero-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:3px;margin-top:6px;}
+.hero-stat{background:rgba(255,255,255,.18);border-radius:8px;padding:4px 2px;text-align:center;box-shadow:0 1px 4px rgba(0,0,0,.12);}
+.hero-stat-val{font-size:17px;font-weight:700;line-height:1.1;color:#fff;}
 .hero-stat-lbl{font-size:11px;font-weight:400;opacity:.85;margin-top:1px;color:rgba(255,255,255,.85);}
 .hero-stat.total .hero-stat-val{color:#0d3fa6;font-weight:800;}
 .hero-stat.total .hero-stat-lbl{color:#0d3fa6;opacity:1;font-weight:700;}
 .hero-stat.total{background:rgba(255,255,255,.55);}
 
-.kpi-row{display:grid;grid-template-columns:repeat(4,1fr);gap:4px;margin-bottom:4px;}
+.kpi-row{display:grid;grid-template-columns:repeat(5,1fr);gap:3px;margin-bottom:4px;}
 .kpi{background:var(--surf);border-radius:9px;padding:3px 3px;text-align:center;box-shadow:var(--sh);}
 .kpi-v{font-size:16px;font-weight:600;margin-bottom:0;}
 .kpi-l{font-size:11px;color:var(--text2);font-weight:500;line-height:1.2;white-space:nowrap;}
 .kpi.nw .kpi-v{color:var(--blue);}
 .kpi.gn .kpi-v{color:var(--green);}
 .kpi.am .kpi-v{color:var(--amber);}
+.kpi.pk .kpi-v{color:var(--pink);}
 .rank-row{display:flex;align-items:center;gap:8px;padding:5px 12px;border-bottom:1px solid var(--bd);}
 .rank-row:last-child{border-bottom:none;}
 .rnk{width:20px;height:20px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;flex-shrink:0;}
@@ -100,6 +102,7 @@ body{font-family:'Pretendard','Apple SD Gothic Neo','Malgun Gothic',sans-serif;c
 .bf.nw{background:var(--blue);}
 .bf.gn{background:var(--green);}
 .bf.am{background:var(--amber);}
+.bf.pk{background:var(--pink);}
 .week-nav{display:flex;align-items:center;justify-content:space-between;padding:11px 14px;background:var(--surf);border-bottom:1px solid var(--bd);}
 .wn-btn{width:36px;height:36px;border-radius:50%;background:var(--sky);border:none;color:var(--blue);font-size:18px;display:flex;align-items:center;justify-content:center;cursor:pointer;font-weight:700;}
 .wn-title{font-size:18px;font-weight:700;color:var(--blue);}
@@ -114,6 +117,7 @@ body{font-family:'Pretendard','Apple SD Gothic Neo','Malgun Gothic',sans-serif;c
 .num-input.nw{color:var(--blue);}
 .num-input.gn{color:var(--green);}
 .num-input.am{color:var(--amber);}
+.num-input.pk{color:var(--pink);}
 .status-wrap{padding:10px 14px 4px;}
 .seg{display:flex;background:var(--bg);border:1px solid var(--bd);border-radius:10px;padding:3px;gap:2px;margin-bottom:10px;}
 .sb{flex:1;padding:7px 2px;border-radius:7px;border:none;background:transparent;font-size:14px;font-weight:700;color:var(--text2);cursor:pointer;transition:all .15s;}
@@ -122,6 +126,7 @@ body{font-family:'Pretendard','Apple SD Gothic Neo','Malgun Gothic',sans-serif;c
 .sb.on.c1{color:var(--blue);}
 .sb.on.c2{color:var(--green);}
 .sb.on.c3{color:var(--amber);}
+.sb.on.c4{color:var(--pink);}
 .tbl-wrap{overflow-x:auto;-webkit-overflow-scrolling:touch;border-radius:var(--rs);box-shadow:var(--sh);margin-bottom:12px;}
 .tbl-wrap::-webkit-scrollbar{height:3px;}
 .tbl-wrap::-webkit-scrollbar-thumb{background:var(--bd);border-radius:2px;}
@@ -142,13 +147,14 @@ body{font-family:'Pretendard','Apple SD Gothic Neo','Malgun Gothic',sans-serif;c
 .month-nav{display:flex;align-items:center;justify-content:space-between;padding:12px 14px;background:var(--surf);border-bottom:1px solid var(--bd);}
 .mn-btn{width:36px;height:36px;border-radius:50%;background:var(--sky);border:none;color:var(--blue);font-size:18px;display:flex;align-items:center;justify-content:center;cursor:pointer;font-weight:700;}
 .mn-title{font-size:19px;font-weight:700;color:var(--blue);}
-.mkpi{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;padding:8px 14px;}
+.mkpi{display:grid;grid-template-columns:repeat(5,1fr);gap:4px;padding:8px 14px;}
 .mkpi-c{background:var(--surf);border-radius:12px;padding:6px 4px;text-align:center;box-shadow:var(--sh);}
 .mkpi-v{font-size:20px;font-weight:600;line-height:1.1;}
-.mkpi-l{font-size:14px;color:var(--text2);font-weight:600;margin-top:2px;line-height:1.2;white-space:nowrap;}
+.mkpi-l{font-size:12px;color:var(--text2);font-weight:600;margin-top:2px;line-height:1.2;white-space:nowrap;}
 .mkpi-c.nw .mkpi-v{color:var(--blue);}
 .mkpi-c.gn .mkpi-v{color:var(--green);}
 .mkpi-c.am .mkpi-v{color:var(--amber);}
+.mkpi-c.pk .mkpi-v{color:var(--pink);}
 .mtbl-wrap{overflow-x:auto;-webkit-overflow-scrolling:touch;}
 .mtbl{width:100%;border-collapse:collapse;font-size:13px;min-width:260px;}
 .mtbl th{background:var(--surf2);padding:6px 6px;text-align:center;font-weight:600;font-size:13px;color:var(--text2);border-bottom:1px solid var(--bd);}
@@ -202,6 +208,7 @@ body{font-family:'Pretendard','Apple SD Gothic Neo','Malgun Gothic',sans-serif;c
 .hbadge.nw{background:#E3F0FF;color:var(--blue);}
 .hbadge.gn{background:#E8F5E9;color:var(--green);}
 .hbadge.am{background:#FBE9E7;color:var(--amber);}
+.hbadge.pk{background:#FCE4EC;color:var(--pink);}
 input[type=number]::-webkit-outer-spin-button,
 input[type=number]::-webkit-inner-spin-button{-webkit-appearance:none;margin:0;}
 input[type=number]{-moz-appearance:textfield;appearance:textfield;}
@@ -285,8 +292,8 @@ let curPage='dashboard';
 let Y=today.getFullYear(), W=weekOfYear(today), Mo=today.getMonth()+1;
 let selMem=null, addType='kodi', editMemberId=null;
 let wView='input', statItem='total';
-const TYPES=['신규건수','정수건수','전략건수'];
-const TYPE_META={'신규건수':{cls:'nw'},'정수건수':{cls:'gn'},'전략건수':{cls:'am'}};
+const TYPES=['신규건수','정수건수','전략건수','얼정건수'];
+const TYPE_META={'신규건수':{cls:'nw'},'정수건수':{cls:'gn'},'전략건수':{cls:'am'},'얼정건수':{cls:'pk'}};
 
 function dayTotal(d){return TYPES.reduce((s,k)=>s+(d[k]||0),0);}
 function sumObj(a,b){const r={};TYPES.forEach(k=>r[k]=(a[k]||0)+(b[k]||0));return r;}
@@ -307,6 +314,7 @@ function load(){
             day.전략건수=(day.전략기존||0)+(day.전략신규||0);
             ['신규','정수','전략','정수기존','정수신규','전략기존','전략신규'].forEach(k=>delete day[k]);
           }
+          if(!('얼정건수' in day)) day.얼정건수=0;
         });
       });
       return;
@@ -320,6 +328,51 @@ function weekOfYear(date){
   d.setUTCDate(d.getUTCDate()+4-dn);
   const y=new Date(Date.UTC(d.getUTCFullYear(),0,1));
   return Math.ceil((((d-y)/86400000)+1)/7);
+}
+/* ===== 마감일 기준 월 귀속 로직 =====
+   한국 공휴일(2025~2027, 대체공휴일 포함). YYYY-MM-DD 문자열 Set. */
+const HOLIDAYS=new Set([
+  // 2025
+  '2025-01-01','2025-01-28','2025-01-29','2025-01-30','2025-03-01','2025-03-03',
+  '2025-05-05','2025-05-06','2025-06-06','2025-08-15','2025-10-03','2025-10-05',
+  '2025-10-06','2025-10-07','2025-10-08','2025-10-09','2025-12-25',
+  // 2026
+  '2026-01-01','2026-02-16','2026-02-17','2026-02-18','2026-03-01','2026-03-02',
+  '2026-05-05','2026-05-24','2026-05-25','2026-06-06','2026-08-15','2026-08-17',
+  '2026-09-24','2026-09-25','2026-09-26','2026-10-03','2026-10-05','2026-10-09',
+  '2026-12-25',
+  // 2027
+  '2027-01-01','2027-02-06','2027-02-07','2027-02-08','2027-02-09','2027-03-01',
+  '2027-05-05','2027-05-13','2027-06-06','2027-08-15','2027-08-16','2027-09-14',
+  '2027-09-15','2027-09-16','2027-10-03','2027-10-04','2027-10-09','2027-10-11',
+  '2027-12-25'
+]);
+function ymd(d){return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;}
+/* 토·일·공휴일이면 휴일 */
+function isHolidayOrWeekend(d){
+  const w=d.getDay();
+  if(w===0||w===6) return true;
+  return HOLIDAYS.has(ymd(d));
+}
+/* 해당 (y,mo)의 마감일: 말일의 달력상 2일 전 → 휴일이면 앞 평일로 당김 */
+function monthCutoff(y,mo){
+  const last=new Date(y,mo,0);            // 그 달 말일
+  const d=new Date(y,mo-1,last.getDate()-2); // 달력상 2일 전
+  while(isHolidayOrWeekend(d)) d.setDate(d.getDate()-1); // 휴일이면 앞 평일로
+  return d;
+}
+/* 특정 날짜 dt가 귀속되는 실적월 {y,mo} 반환.
+   규칙: (전월 마감일 다음날) ~ (당월 마감일) 사이 → 당월.
+   즉 dt가 당월 마감일 이하이면 당월, 초과하면 익월. */
+function recMonthOf(dt){
+  let y=dt.getFullYear(), mo=dt.getMonth()+1;
+  const cut=monthCutoff(y,mo);
+  if(dt.getTime()<=cut.getTime()){
+    return {y,mo};                        // 당월 마감일 이내 → 당월
+  }else{
+    let ny=y, nmo=mo+1; if(nmo>12){nmo=1;ny++;}
+    return {y:ny,mo:nmo};                 // 마감일 넘김 → 익월
+  }
 }
 function weekDates(year,week){
   const j=new Date(year,0,4);
@@ -342,16 +395,28 @@ function setRec(y,w,mid,days){S.records[rk(y,w,mid)]={days};save();}
 function wSum(y,w,mid){return getRec(y,w,mid).days.reduce((a,d)=>sumObj(a,d),zeroObj());}
 function mSum(y,mo,mid){
   const t=zeroObj();
-  for(let w=1;w<=53;w++){
-    const ds=weekDates(y,w);
-    if(!ds.some(d=>d.getFullYear()===y&&d.getMonth()+1===mo)){
-      if(ds[0].getFullYear()>y||(ds[0].getFullYear()===y&&ds[0].getMonth()+1>mo+1))break;
-      continue;
+  /* 대상 실적월(y,mo)의 데이터는 (전월 마감일+1)~(당월 마감일) 구간에 실제 입력됨.
+     그 구간은 달력상 전월 말경~당월 말경에 걸치므로, 전월 W주차부터 당월 W주차까지 스캔. */
+  for(let dy=y-1;dy<=y+1;dy++){
+    for(let w=1;w<=53;w++){
+      const ds=weekDates(dy,w);
+      /* 이 주의 날짜들이 대상월 귀속 구간과 전혀 무관하면 스킵 (성능) */
+      const anyRelevant=ds.some(d=>{
+        const rm=recMonthOf(d);
+        return rm.y===y&&rm.mo===mo;
+      });
+      if(!anyRelevant) continue;
+      const rec=S.records[rk(dy,w,mid)];
+      if(!rec) continue;
+      const days=rec.days||[];
+      ds.forEach((dt,i)=>{
+        const rm=recMonthOf(dt);
+        if(rm.y===y&&rm.mo===mo){
+          const d=days[i]||zeroObj();
+          TYPES.forEach(k=>t[k]+=(d[k]||0));
+        }
+      });
     }
-    getRec(y,w,mid).days.forEach((d,i)=>{
-      const dt=ds[i];
-      if(dt.getFullYear()===y&&dt.getMonth()+1===mo)TYPES.forEach(k=>t[k]+=(d[k]||0));
-    });
   }
   return t;
 }
@@ -430,8 +495,10 @@ function renderDash(){
   const wds=weekDates(Y,W);
   const wt=twSum(Y,W);
   const mt=tmSum(Y,Mo);
-  const wtTotal=wt.신규건수+wt.정수건수+wt.전략건수;
-  const mtTotal=mt.신규건수+mt.정수건수+mt.전략건수;
+  const wtTotal=total(wt);
+  const mtTotal=total(mt);
+  /* 소유권 달성률 기준(신규+정수+전략, 얼정 제외) */
+  const mtAchieveBase=mt.신규건수+mt.정수건수+mt.전략건수;
   const ranked=[...S.members].map(m=>{const s=mSum(Y,Mo,m.id);return{...m,...s,total:total(s)};}).sort((a,b)=>b.total-a.total);
   const mx=ranked[0]?.total||1;
   const rc=['g','s','b'];const re=['🥇','🥈','🥉'];
@@ -450,7 +517,7 @@ function renderDash(){
   const MN=['1월','2월','3월','4월','5월','6월','7월','8월','9월','10월','11월','12월'];
   const mgLabel=mgMonths.map(x=>MN[x.mo-1]).join('·');
   /* 달성률: 이번달 신규+정수+전략 합계 / 목표 */
-  const dashAchieveRate=S.mgGoal?((mtTotal/S.mgGoal)*100).toFixed(2)+'%':'-';
+  const dashAchieveRate=S.mgGoal?((mtAchieveBase/S.mgGoal)*100).toFixed(2)+'%':'-';
 
   el.innerHTML=`
     <div class="hero fi">
@@ -467,6 +534,10 @@ function renderDash(){
         <div class="hero-stat">
           <div class="hero-stat-val">${wt.전략건수}</div>
           <div class="hero-stat-lbl">전략건수</div>
+        </div>
+        <div class="hero-stat">
+          <div class="hero-stat-val">${wt.얼정건수}</div>
+          <div class="hero-stat-lbl">얼정건수</div>
         </div>
         <div class="hero-stat total">
           <div class="hero-stat-val">${wtTotal}</div>
@@ -504,6 +575,7 @@ function renderDash(){
         <div class="kpi nw"><div class="kpi-v">${mt.신규건수}</div><div class="kpi-l">신규</div></div>
         <div class="kpi gn"><div class="kpi-v">${mt.정수건수}</div><div class="kpi-l">정수</div></div>
         <div class="kpi am"><div class="kpi-v">${mt.전략건수}</div><div class="kpi-l">전략</div></div>
+        <div class="kpi pk"><div class="kpi-v">${mt.얼정건수}</div><div class="kpi-l">얼정</div></div>
         <div class="kpi" style="background:var(--sky);"><div class="kpi-v" style="color:var(--blue);font-weight:700;">${mtTotal}</div><div class="kpi-l">합계</div></div>
       </div>
     </div>
@@ -521,9 +593,10 @@ function renderDash(){
                 <div class="bt"><div class="bf nw" style="width:${Math.round((m.신규건수/mx)*100)}%"></div></div>
                 <div class="bt"><div class="bf gn" style="width:${Math.round((m.정수건수/mx)*100)}%"></div></div>
                 <div class="bt"><div class="bf am" style="width:${Math.round((m.전략건수/mx)*100)}%"></div></div>
+                <div class="bt"><div class="bf pk" style="width:${Math.round((m.얼정건수/mx)*100)}%"></div></div>
               </div>
               <div style="font-size:13px;font-weight:500;color:#333;margin-top:2px;white-space:nowrap;">
-                신규 ${m.신규건수} · 정수 ${m.정수건수} · 전략 ${m.전략건수}
+                신규 ${m.신규건수} · 정수 ${m.정수건수} · 전략 ${m.전략건수} · 얼정 ${m.얼정건수}
               </div>
             </div>
             <div style="text-align:right;flex-shrink:0;min-width:32px;">
@@ -973,7 +1046,8 @@ function buildInputView(wds){
         return `<td style="min-width:38px;padding:2px 2px;text-align:center;border-bottom:${ti===TYPES.length-1?'2px solid var(--sky2)':'1px solid var(--bd)'};${isTdy?'background:#F0F6FF;':''}"><input type="number" min="0" id="ni-${m.id}-${di}-${type}" class="num-input ${meta.cls} ${val===0?'zero':''}" style="width:36px;height:22px;font-size:13px;" value="${val===0?'':val}" placeholder="0" onfocus="handleFocus(this)" onblur="handleBlur(this,'${m.id}',${di},'${type}')" oninput="setDayValue('${m.id}',${di},'${type}',this.value)"></td>`;
       }).join('');
       const sumCell=isFirst?`<td rowspan="${TYPES.length}" style="position:sticky;right:0;z-index:3;background:var(--sky);border-left:2px solid var(--sky2);min-width:36px;padding:4px 3px;text-align:center;vertical-align:middle;border-bottom:2px solid var(--sky2);"><div id="wsi-tot-${m.id}" style="font-size:15px;font-weight:600;color:var(--blue);">${rowTotal||''}</div></td>`:'';
-      const lblCell=`<td style="position:sticky;right:${isFirst?36:0}px;z-index:3;background:var(--sky);border-left:${isFirst?'none':'2px solid var(--sky2)'};min-width:36px;padding:3px 3px;text-align:center;border-bottom:${ti===TYPES.length-1?'2px solid var(--sky2)':'1px solid var(--sky2)'};font-size:11px;font-weight:700;"><span style="font-size:11px;font-weight:700;color:${meta.cls==='nw'?'var(--blue)':meta.cls==='gn'?'var(--green)':'var(--amber)'};">${type.replace('건수','')}</span></td>`;
+      const _clsColor={nw:'var(--blue)',gn:'var(--green)',am:'var(--amber)',pk:'var(--pink)'};
+      const lblCell=`<td style="position:sticky;right:${isFirst?36:0}px;z-index:3;background:var(--sky);border-left:${isFirst?'none':'2px solid var(--sky2)'};min-width:36px;padding:3px 3px;text-align:center;border-bottom:${ti===TYPES.length-1?'2px solid var(--sky2)':'1px solid var(--sky2)'};font-size:11px;font-weight:700;"><span style="font-size:11px;font-weight:700;color:${_clsColor[meta.cls]||'var(--blue)'};">${type.replace('건수','')}</span></td>`;
       return `<tr>${nameCell}${lblCell}${cells}${sumCell}</tr>`;
     }).join('');
   }).join('');
@@ -983,7 +1057,22 @@ function buildInputView(wds){
     return `<td style="min-width:38px;padding:5px 2px;text-align:center;font-size:13px;font-weight:700;color:var(--blue);background:${isTdy?'#C5D9F5':'var(--sky)'};border-top:2px solid var(--sky2);">${v||'·'}</td>`;
   }).join('');
 
+  /* 이번 주 각 날짜가 어느 실적월에 귀속되는지 요약 */
+  const wkMonths=[...new Set(wds.map(d=>{const rm=recMonthOf(d);return rm.mo;}))];
+  let monthBadge='';
+  if(wkMonths.length===1){
+    monthBadge=`<span style="color:var(--blue);font-weight:700;">${wkMonths[0]}월 실적</span>에 반영`;
+  }else{
+    /* 월말 경계가 낀 주: 날짜별로 분기 표시 */
+    const parts=wds.map(d=>`${d.getMonth()+1}/${d.getDate()}→${recMonthOf(d).mo}월`);
+    const boundary=wds.find((d,i)=>i>0&&recMonthOf(d).mo!==recMonthOf(wds[i-1]).mo);
+    monthBadge=`마감 경계 주간 · <span style="color:var(--blue);font-weight:700;">${wkMonths.join('·')}월</span>로 분리 반영`;
+  }
+
   return `<div class="section" style="padding-top:8px;padding-bottom:14px;">
+    <div style="margin:0 0 8px;padding:7px 11px;background:#EDF2FA;border-radius:9px;font-size:12px;color:var(--text2);display:flex;align-items:center;gap:6px;">
+      <span style="font-size:13px;">📅</span><span>이번 주 입력은 ${monthBadge}</span>
+    </div>
     <div class="tbl-wrap" style="margin-bottom:10px;">
       <table class="stbl" style="font-size:12px;">
         <thead><tr>
@@ -1007,6 +1096,7 @@ function buildInputView(wds){
       <div class="kpi nw"><div class="kpi-v">${wt.신규건수}</div><div class="kpi-l">신규</div></div>
       <div class="kpi gn"><div class="kpi-v">${wt.정수건수}</div><div class="kpi-l">정수</div></div>
       <div class="kpi am"><div class="kpi-v">${wt.전략건수}</div><div class="kpi-l">전략</div></div>
+      <div class="kpi pk"><div class="kpi-v">${wt.얼정건수}</div><div class="kpi-l">얼정</div></div>
       <div class="kpi" style="background:var(--sky);"><div class="kpi-v" style="color:var(--blue);font-weight:700;">${total(wt)}</div><div class="kpi-l">합계</div></div>
     </div>
   </div>`;
@@ -1031,8 +1121,8 @@ function buildStatusView(wds){
   const teamDays=Array.from({length:7},(_,i)=>{
     const t=zeroObj();rows.forEach(r=>{TYPES.forEach(k=>t[k]+=(r.days[i]||zeroObj())[k]||0);});return t;
   });
-  const segBtns=[{k:'total',lbl:'전체',ci:'c0'},{k:'신규건수',lbl:'신규',ci:'c1'},{k:'정수건수',lbl:'정수',ci:'c2'},{k:'전략건수',lbl:'전략',ci:'c3'}];
-  const colorMap={total:'var(--blue)',신규건수:'var(--blue)',정수건수:'var(--green)',전략건수:'var(--amber)'};
+  const segBtns=[{k:'total',lbl:'전체',ci:'c0'},{k:'신규건수',lbl:'신규',ci:'c1'},{k:'정수건수',lbl:'정수',ci:'c2'},{k:'전략건수',lbl:'전략',ci:'c3'},{k:'얼정건수',lbl:'얼정',ci:'c4'}];
+  const colorMap={total:'var(--blue)',신규건수:'var(--blue)',정수건수:'var(--green)',전략건수:'var(--amber)',얼정건수:'var(--pink)'};
   const lc=colorMap[statItem]||'var(--blue)';
   function getVal(days,i){const d=days[i]||zeroObj();return statItem==='total'?dayTotal(d):(d[statItem]||0);}
   function getRowSum(days){if(statItem==='total')return days.reduce((s,d)=>s+dayTotal(d||zeroObj()),0);return days.reduce((s,d)=>s+((d||zeroObj())[statItem]||0),0);}
@@ -1052,6 +1142,7 @@ function buildStatusView(wds){
       <div class="kpi nw"><div class="kpi-v">${wt.신규건수}</div><div class="kpi-l">신규</div></div>
       <div class="kpi gn"><div class="kpi-v">${wt.정수건수}</div><div class="kpi-l">정수</div></div>
       <div class="kpi am"><div class="kpi-v">${wt.전략건수}</div><div class="kpi-l">전략</div></div>
+      <div class="kpi pk"><div class="kpi-v">${wt.얼정건수}</div><div class="kpi-l">얼정</div></div>
       <div class="kpi" style="background:var(--sky);"><div class="kpi-v" style="color:var(--blue);font-weight:700;">${total(wt)}</div><div class="kpi-l">합계</div></div>
     </div>
   </div>`;
@@ -1070,10 +1161,14 @@ function renderMonthly(){
     <div class="mn-title">${Y}년 ${Mo}월</div>
     <button class="mn-btn" onclick="chgMonth(1)">›</button>
   </div>
+  <div style="text-align:center;font-size:12px;color:var(--text3);margin:-4px 0 8px;">
+    집계 구간 ${(function(){const pc=monthCutoff(Mo===1?Y-1:Y,Mo===1?12:Mo-1);const cc=monthCutoff(Y,Mo);const s=new Date(pc);s.setDate(s.getDate()+1);return `${s.getMonth()+1}/${s.getDate()} ~ ${cc.getMonth()+1}/${cc.getDate()}`;})()} <span style="color:var(--text3);">(평일 마감 기준)</span>
+  </div>
   <div class="mkpi">
     <div class="mkpi-c nw"><div class="mkpi-v">${mt.신규건수}</div><div class="mkpi-l">신규</div></div>
     <div class="mkpi-c gn"><div class="mkpi-v">${mt.정수건수}</div><div class="mkpi-l">정수</div></div>
     <div class="mkpi-c am"><div class="mkpi-v">${mt.전략건수}</div><div class="mkpi-l">전략</div></div>
+    <div class="mkpi-c pk"><div class="mkpi-v">${mt.얼정건수}</div><div class="mkpi-l">얼정</div></div>
     <div class="mkpi-c" style="background:var(--sky);"><div class="mkpi-v" style="color:var(--blue);font-weight:700;">${total(mt)}</div><div class="mkpi-l">합계</div></div>
   </div>
   <div class="section">
@@ -1086,11 +1181,12 @@ function renderMonthly(){
             <th><span class="hbadge nw">신규</span></th>
             <th><span class="hbadge gn">정수</span></th>
             <th><span class="hbadge am">전략</span></th>
+            <th><span class="hbadge pk">얼정</span></th>
             <th style="font-size:13px;">합계</th>
           </tr></thead>
           <tbody>
-            ${rows.map(r=>`<tr><td class="ncl" style="font-size:13px;">${r.name}</td><td style="color:var(--blue);font-weight:500;font-size:13px;">${r.신규건수}</td><td style="color:var(--green);font-weight:500;font-size:13px;">${r.정수건수}</td><td style="color:var(--amber);font-weight:500;font-size:13px;">${r.전략건수}</td><td style="font-weight:600;font-size:13px;">${r.total}</td></tr>`).join('')}
-            <tr class="totrow"><td class="ncl" style="font-size:13px;">팀 합계</td><td style="font-size:13px;">${mt.신규건수}</td><td style="font-size:13px;">${mt.정수건수}</td><td style="font-size:13px;">${mt.전략건수}</td><td style="font-size:13px;">${total(mt)}</td></tr>
+            ${rows.map(r=>`<tr><td class="ncl" style="font-size:13px;">${r.name}</td><td style="color:var(--blue);font-weight:500;font-size:13px;">${r.신규건수}</td><td style="color:var(--green);font-weight:500;font-size:13px;">${r.정수건수}</td><td style="color:var(--amber);font-weight:500;font-size:13px;">${r.전략건수}</td><td style="color:var(--pink);font-weight:500;font-size:13px;">${r.얼정건수}</td><td style="font-weight:600;font-size:13px;">${r.total}</td></tr>`).join('')}
+            <tr class="totrow"><td class="ncl" style="font-size:13px;">팀 합계</td><td style="font-size:13px;">${mt.신규건수}</td><td style="font-size:13px;">${mt.정수건수}</td><td style="font-size:13px;">${mt.전략건수}</td><td style="font-size:13px;">${mt.얼정건수}</td><td style="font-size:13px;">${total(mt)}</td></tr>
           </tbody>
         </table>
       </div>
