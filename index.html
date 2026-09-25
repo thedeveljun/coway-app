@@ -1184,7 +1184,7 @@ function buildInputView(wds){
 
   const teamCells=wds.map((_,di)=>{
     const d=teamDays[di]||zeroObj();const v=dayTotal(d);const isTdy=di===todayIdx;
-    return `<td id="wtd-${di}" style="min-width:38px;padding:5px 2px;text-align:center;font-size:13px;font-weight:700;color:var(--blue);background:${isTdy?'#C5D9F5':'var(--sky)'};border-top:2px solid var(--sky2);">${v||'·'}</td>`;
+    return `<td id="wtd-${di}" style="min-width:38px;padding:5px 2px;text-align:center;font-size:13px;font-weight:700;color:var(--blue);background:${isTdy?'#C5D9F5':'var(--sky)'};border-top:2px solid var(--sky2);">${v||0}</td>`;
   }).join('');
 
   /* 이번 주 각 날짜가 어느 실적월에 귀속되는지 요약 */
@@ -1216,7 +1216,7 @@ function buildInputView(wds){
             <td class="cn" style="font-size:11px;font-weight:600;background:#DDE8F8;border-top:2px solid var(--sky2);">팀합계</td>
             <td style="background:var(--sky);border-top:2px solid var(--sky2);"></td>
             ${teamCells}
-            <td class="cs" style="background:#C5D9F5;font-size:13px;font-weight:700;color:var(--blue);border-top:2px solid var(--sky2);" id="wt-tot">${total(wt)||'·'}</td>
+            <td class="cs" style="background:#C5D9F5;font-size:13px;font-weight:700;color:var(--blue);border-top:2px solid var(--sky2);" id="wt-tot">${total(wt)||0}</td>
           </tr>
         </tbody>
       </table>
@@ -1251,10 +1251,10 @@ function refreshInputTotals(mid){
   for(let di=0;di<7;di++){
     const el=document.getElementById('wtd-'+di); if(!el) continue;
     let v=0; S.members.forEach(m=>{v+=dayTotal(getRec(WY,W,m.id).days[di]||zeroObj());});
-    el.textContent=v||'·';
+    el.textContent=v||0;
   }
   const wt=twSum(WY,W);
-  const tt=document.getElementById('wt-tot'); if(tt) tt.textContent=total(wt)||'·';
+  const tt=document.getElementById('wt-tot'); if(tt) tt.textContent=total(wt)||0;
   TYPES.forEach(k=>{const e=document.getElementById('wk-kpi-'+k); if(e) e.textContent=wt[k];});
   const ts=document.getElementById('wk-kpi-total'); if(ts) ts.textContent=total(wt);
 }
@@ -1277,7 +1277,7 @@ function buildStatusView(wds){
     return `<tr class="fi" style="animation-delay:${ri*.04}s"><td class="cn"><div style="font-size:12px;line-height:1.2;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:46px;">${m.name}</div></td>${Array.from({length:7},(_,i)=>{const v=getVal(m.days,i);const isTdy=i===todayIdx;return`<td class="dcel${v===0?' zero':''}${isTdy?' tdy':''}" style="${v>0?`color:${lc};`:''}">${v===0?'·':v}</td>`;}).join('')}<td class="cs" style="color:${lc};">${sum}</td></tr>`;
   }).join('');
   const teamSum=getRowSum(teamDays);
-  const teamRow=`<tr class="tr-team"><td class="cn" style="font-size:11px;font-weight:600;">팀 합계</td>${teamDays.map((day,i)=>{const v=getVal(teamDays,i);const isTdy=i===todayIdx;return`<td class="dcel${isTdy?' tdy':''}" style="color:${lc};font-weight:700;">${v===0?'·':v}</td>`;}).join('')}<td class="cs" style="color:${lc};font-size:13px;">${teamSum}</td></tr>`;
+  const teamRow=`<tr class="tr-team"><td class="cn" style="font-size:11px;font-weight:600;">팀 합계</td>${teamDays.map((day,i)=>{const v=getVal(teamDays,i);const isTdy=i===todayIdx;return`<td class="dcel${isTdy?' tdy':''}" style="color:${lc};font-weight:700;">${v||0}</td>`;}).join('')}<td class="cs" style="color:${lc};font-size:13px;">${teamSum||0}</td></tr>`;
   const wt=twSum(WY,W);
   return `<div class="status-wrap">${segHTML}<div class="tbl-wrap"><table class="stbl">${thead}<tbody>${tbody}${teamRow}</tbody></table></div></div>
   <div class="section" style="padding-bottom:16px;">
