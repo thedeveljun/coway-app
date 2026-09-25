@@ -692,7 +692,7 @@ function renderDash(){
       <!-- 관리계정 합산 실적 -->
       <div style="margin-top:10px;border-top:1px solid rgba(255,255,255,.25);padding-top:10px;">
         <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px;">
-          <div style="font-size:13px;color:rgba(255,255,255,.75);">📊 소유권 도래 6개월 평균</div>
+          <div style="font-size:13px;color:rgba(255,255,255,.75);">📊 소유권 도래 6개월 합산</div>
           <div style="font-size:13px;color:rgba(255,255,255,.75);">🎯 신규달성률</div>
         </div>
         <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:6px;align-items:stretch;">
@@ -2038,13 +2038,13 @@ function updateSYResults(){
   /* 부족기준도 즉시 저장 */
   try { localStorage.setItem(LS_THR, document.getElementById('thr-sy').value); } catch(e){}
 
-  let tN=0,tR=0,tS=0,tM=0,tPay=0;
+  let tN=0,tR=0,tS=0,tM=0,tPay=0,tHWsum=0;
   members.forEach(function(_,i){
     const d=dbData[i];
     if(!d) return;
     const mgmt=d.mgmt||0, n=d.n||0, r=d.r||0, s=d.s||0;
     const hw=calcHW(n,r,s), sy=calcSY(mgmt,n,r,s), syLv=getSYLv(sy);
-    tN+=n; tR+=r; tS+=s; tM+=mgmt;
+    tN+=n; tR+=r; tS+=s; tM+=mgmt; tHWsum+=hw;
     const hasInput=(n||r||s);
 
     let syTx='-', syCl='dash';
@@ -2086,7 +2086,7 @@ function updateSYResults(){
     '<td class="name">팀합계</td>'+
     '<td style="color:var(--purple);font-weight:700;">'+tM+'</td>'+
     '<td>'+tN+'</td><td>'+tR+'</td><td>'+tS+'</td>'+
-    '<td></td><td></td><td></td>'+
+    '<td>'+((tM&&tHWsum)?(tHWsum/tM*100).toFixed(2)+'%':'-')+'</td><td class="nb">'+(tHWsum?tHWsum.toFixed(1):'-')+'</td><td></td>'+
     '<td class="'+(tPay>0?'pay-cell':'no-pay-cell')+'">'+tPayStr+'</td>'+
     '</tr>';
 }
@@ -2113,14 +2113,14 @@ function renderSY(){
 
 /* ── 3.6.9 결과 갱신 ── */
 function update369Results(){
-  let tN=0,tR=0,tS=0;
+  let tN=0,tR=0,tS=0,tAmtSum=0;
   members.forEach(function(_,i){
     const d=dbData[i];
     if(!d) return;
     const n=d.n||0,r=d.r||0,s=d.s||0;
     const hw=calcHW(n,r,s), tot=n+r+s;
     const price=p369Price(hw), amt=price>0?hw*price:0;
-    tN+=n; tR+=r; tS+=s;
+    tN+=n; tR+=r; tS+=s; tAmtSum+=amt;
     const row=document.getElementById('p369-row-'+i);
     if(row){
       setCell(row.cells[4], tot?'nb':'dash', tot?hw.toFixed(1):'-');
@@ -2129,12 +2129,13 @@ function update369Results(){
       if(ac){ ac.className=amt>0?'pay-cell':'no-pay-cell'; ac.style.fontWeight='700'; ac.style.fontSize='11px'; ac.textContent=amt>0?amt.toFixed(1)+'만':'-'; }
     }
   });
-  const tHW=calcHW(tN,tR,tS), tPrice=p369Price(tHW), tAmt=tPrice>0?tHW*tPrice:0;
+  /* 팀합계 금액 = 팀원별 금액의 합 (팀 전체 건수로 단가를 다시 매기지 않음) */
+  const tHW=calcHW(tN,tR,tS), tAmt=tAmtSum;
   document.getElementById('p369-tfoot').innerHTML=
     '<tr class="total-row">'+
     '<td class="name">팀합계</td>'+
     '<td>'+tN+'</td><td>'+tR+'</td><td>'+tS+'</td>'+
-    '<td></td><td></td>'+
+    '<td class="nb">'+((tN||tR||tS)?tHW.toFixed(1):'-')+'</td><td></td>'+
     '<td class="'+(tAmt>0?'pay-cell':'no-pay-cell')+'" style="font-weight:700;">'+(tAmt>0?tAmt.toFixed(1)+'만':'-')+'</td>'+
     '</tr>';
 }
@@ -2624,7 +2625,8 @@ function calcSY(){
     const sy=hw/mgmt*100;const syLv=getSYLv(sy);
     const clr=syLv>=3?'v-green':syLv>=2?'v-blue':syLv>=1?'v-orange':'v-red';
     setText('res-sy',sy.toFixed(2)+'%',clr);
-    const diff=(mgmt*(thr/100))-hw;
+    /* 매니저와 동일: 목표계정수 = 올림(관리계정 × 부족기준%) */
+    const diff=Math.ceil(mgmt*(thr/100))-hw;
     if(diff<=0){setText('res-short','+'+Math.abs(diff).toFixed(1)+'건 초과','v-green');}
     else{setText('res-short',diff.toFixed(1)+'건 부족','v-red');}
     const bonus=getSYBonus(hw,syLv);const payAmt=bonus>0?hw*bonus:0;
