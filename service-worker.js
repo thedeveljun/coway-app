@@ -1,6 +1,6 @@
 /* 코웨이 통합관리: 항상 최신 버전을 먼저 받고(네트워크 우선), 인터넷이 끊겼을 때만 저장본 사용 */
-const CACHE = 'coway-app-v1';
-const ASSETS = ['./', './index.html', './manifest.json', './web/icons/Icon-192.png', './web/icons/Icon-512.png', './web/favicon.png'];
+const CACHE = 'coway-app-v3';
+const ASSETS = ['./', './index.html', './manifest.json', './web/icons/Icon-192.png', './web/icons/Icon-512.png', './web/icons/apple-touch-icon.png', './web/favicon.png'];
 self.addEventListener('install', e => {
   e.waitUntil(caches.open(CACHE).then(c => c.addAll(ASSETS)).catch(() => {}));
   self.skipWaiting();
