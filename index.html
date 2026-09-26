@@ -69,7 +69,7 @@ body{font-family:'Pretendard','Apple SD Gothic Neo','Malgun Gothic',sans-serif;c
 #toast.show{opacity:1;transform:translateX(-50%) translateY(0);}
 
 /* ===== HERO - 수정된 색상 ===== */
-.hero{background:#1e5fd4;padding:5px 14px 16px;color:#fff;}
+.hero{background:#1e5fd4;padding:5px 14px 12px;color:#fff;}
 .hero-label{font-size:11px;opacity:.85;margin-bottom:1px;color:rgba(255,255,255,.85);}
 .hero-week{font-size:16px;font-weight:500;letter-spacing:-.2px;color:#fff;}
 .hero-date{font-size:11px;opacity:.75;margin-top:1px;color:rgba(255,255,255,.75);}
@@ -619,7 +619,7 @@ function renderDash(){
 
   el.innerHTML=`
   <div style="padding:10px 14px 6px;background:#1e5fd4;">
-    <div class="sec-title" style="font-size:16px;margin-bottom:6px;color:#fff;">합산 실적 <span style="font-size:15px;">(${mgMonths.map(x=>MN[x.mo-1]).join('+')})</span></div>
+    <div class="sec-title" style="font-size:16px;margin-bottom:6px;color:#fff;">소유권 도래 6개월 합산 <span style="font-size:15px;">(${mgMonths.length?MN[mgMonths[0].mo-1]+'~'+MN[mgMonths[mgMonths.length-1].mo-1]:''})</span></div>
     <div style="display:grid;grid-template-columns:1fr 1fr 1.3fr;gap:8px;width:100%;">
       <div style="background:var(--surf);border-radius:12px;padding:7px 8px;box-shadow:var(--sh);display:flex;align-items:baseline;justify-content:center;gap:6px;white-space:nowrap;">
         <div style="font-size:13px;color:var(--text2);font-weight:600;">건수</div>
@@ -689,32 +689,8 @@ function renderDash(){
           <div class="hero-stat-lbl">합계</div>
         </div>
       </div>
-      <!-- 관리계정 합산 실적 -->
-      <div style="margin-top:10px;border-top:1px solid rgba(255,255,255,.25);padding-top:10px;">
-        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px;">
-          <div style="font-size:13px;color:rgba(255,255,255,.75);">📊 소유권 도래 6개월 합산</div>
-          <div style="font-size:13px;color:rgba(255,255,255,.75);">🎯 신규달성률</div>
-        </div>
-        <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:6px;align-items:stretch;">
-          <div style="background:rgba(255,255,255,.18);border-radius:10px;padding:10px 4px;text-align:center;">
-            <div style="font-size:22px;font-weight:700;color:#fff;line-height:1.1;">${mgG}</div>
-            <div style="font-size:13px;color:rgba(255,255,255,.8);margin-top:2px;">건수</div>
-          </div>
-          <div style="background:rgba(255,255,255,.18);border-radius:10px;padding:10px 4px;text-align:center;">
-            <div style="font-size:22px;font-weight:700;color:#fff;line-height:1.1;">${mgR}</div>
-            <div style="font-size:13px;color:rgba(255,255,255,.8);margin-top:2px;">재렌탈</div>
-          </div>
-          <div style="background:rgba(255,255,255,.55);border-radius:10px;padding:10px 4px;text-align:center;">
-            <div style="font-size:22px;font-weight:700;color:#0d3fa6;line-height:1.1;">${mgRate1(mgG,mgR)}</div>
-            <div style="font-size:13px;color:#0d3fa6;margin-top:2px;font-weight:600;">환산율</div>
-          </div>
-          <div style="background:rgba(255,255,255,.55);border-radius:10px;padding:10px 8px;display:flex;align-items:center;justify-content:center;min-height:62px;">
-            <div id="dash-achieve-rate" style="font-size:22px;font-weight:700;color:#0d3fa6;line-height:1;">${dashAchieveRate}</div>
-          </div>
-        </div>
-      </div>
     </div>
-    <div class="section" style="padding-top:12px;padding-bottom:12px;margin-top:2px;background:#6B7280;">
+    <div class="section" style="padding:12px 10px 12px;margin:4px 6px 0;background:#6B7280;border-radius:10px;">
       <div class="sec-title" style="font-size:14px;margin-bottom:6px;color:#fff;">이번 달 누적 (${CUR_M.y}.${String(CUR_M.mo).padStart(2,'0')})</div>
       <div class="kpi-row">
         <div class="kpi nw"><div class="kpi-v">${mt.신규건수}</div><div class="kpi-l">신규</div></div>
@@ -832,13 +808,13 @@ function mgRate1(g,r){
 /* 7개월: 현재달=참고, +1~+6=합산 */
 /* 소유권 기준 시작월: 저장값(S.mgBase) 우선, 없으면 오늘 기준.
    시작월(mo)만 저장하고, 연도는 오늘 기준으로 가장 가까운 해로 자동 보정 */
+function mIdx(y,mo){return y*12+(mo-1);}
 function getMgBase(){
-  if(S.mgBase && S.mgBase.mo){
-    const mo=S.mgBase.mo;
-    let y=(S.mgBase.y)|| CUR_M.y;
-    return {y, mo};
-  }
-  return {y:CUR_M.y, mo:CUR_M.mo};
+  /* 시작월은 '이번 달 기준 몇 개월 앞/뒤'로 저장 → 달이 바뀌면 기간도 자동으로 한 달씩 넘어감 */
+  /* 기본: 이번 실적월부터 6개월 합산 (기준월=지난달) */
+  const off=(S.mgBase&&typeof S.mgBase.off==='number')?S.mgBase.off:-1;
+  const i=mIdx(CUR_M.y,CUR_M.mo)+off;
+  return {y:Math.floor(i/12), mo:(i%12)+1};
 }
 function setMgBaseMonth(mo){
   mo=parseInt(mo,10); if(!mo||mo<1||mo>12) return;
@@ -847,7 +823,7 @@ function setMgBaseMonth(mo){
   const diff=mo-CUR_M.mo;
   if(diff>6) y=CUR_M.y-1;        /* 시작월이 한참 앞이면 작년으로 */
   else if(diff<-6) y=CUR_M.y+1;  /* 시작월이 한참 뒤면 내년으로 */
-  S.mgBase={y, mo};
+  S.mgBase={off:mIdx(y,mo)-mIdx(CUR_M.y,CUR_M.mo)};
   save(); renderWeekly();
 }
 function getMgMonths(baseY,baseMo){
@@ -1598,6 +1574,8 @@ function init(){
   migrateWeekKeys();
   normalizeRecords();
   CUR_M=recMonthOf(today); Y=CUR_M.y; Mo=CUR_M.mo;
+  /* 합산 기간을 '이번 실적월부터 6개월'로 한 번 맞춤 (예: 9월~2월) */
+  if(S.mgBaseV!==2){S.mgBase={off:-1};S.mgBaseV=2;save();}
   S.members=S.members.map(m=>({phone:'',...m}));
   const d=today;
   document.getElementById('tb-date').textContent=`${d.getFullYear()}.${String(d.getMonth()+1).padStart(2,'0')}.${String(d.getDate()).padStart(2,'0')} (${['일','월','화','수','목','금','토'][d.getDay()]})`;
