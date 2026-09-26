@@ -815,8 +815,8 @@ function mgRate1(g,r){
 function mIdx(y,mo){return y*12+(mo-1);}
 function getMgBase(){
   /* 시작월은 '이번 달 기준 몇 개월 앞/뒤'로 저장 → 달이 바뀌면 기간도 자동으로 한 달씩 넘어감 */
-  /* 기본: 이번 실적월부터 6개월 합산 (기준월=지난달) */
-  const off=(S.mgBase&&typeof S.mgBase.off==='number')?S.mgBase.off:-1;
+  /* 기본: 다음 달부터 6개월 합산 (기준월=이번 실적월) */
+  const off=(S.mgBase&&typeof S.mgBase.off==='number')?S.mgBase.off:0;
   const i=mIdx(CUR_M.y,CUR_M.mo)+off;
   return {y:Math.floor(i/12), mo:(i%12)+1};
 }
@@ -1578,8 +1578,8 @@ function init(){
   migrateWeekKeys();
   normalizeRecords();
   CUR_M=recMonthOf(today); Y=CUR_M.y; Mo=CUR_M.mo;
-  /* 합산 기간을 '이번 실적월부터 6개월'로 한 번 맞춤 (예: 9월~2월) */
-  if(S.mgBaseV!==2){S.mgBase={off:-1};S.mgBaseV=2;save();}
+  /* 합산 기간을 '다음 달부터 6개월'로 한 번 맞춤 (예: 10월~3월) */
+  if(S.mgBaseV!==3){S.mgBase={off:0};S.mgBaseV=3;save();}
   S.members=S.members.map(m=>({phone:'',...m}));
   const d=today;
   document.getElementById('tb-date').textContent=`${d.getFullYear()}.${String(d.getMonth()+1).padStart(2,'0')}.${String(d.getDate()).padStart(2,'0')} (${['일','월','화','수','목','금','토'][d.getDay()]})`;
