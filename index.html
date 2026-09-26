@@ -1247,8 +1247,8 @@ function buildStatusView(wds){
   const segBtns=[{k:'total',lbl:'전체',ci:'c0'},{k:'신규건수',lbl:'신규',ci:'c1'},{k:'정수건수',lbl:'정수',ci:'c2'},{k:'전략건수',lbl:'전략',ci:'c3'},{k:'얼정건수',lbl:'얼정',ci:'c4'}];
   const colorMap={total:'var(--blue)',신규건수:'var(--blue)',정수건수:'var(--green)',전략건수:'var(--amber)',얼정건수:'var(--pink)'};
   const lc=colorMap[statItem]||'var(--blue)';
-  function getVal(days,i){const d=days[i]||zeroObj();return statItem==='total'?dayTotal(d):(d[statItem]||0);}
-  function getRowSum(days){if(statItem==='total')return days.reduce((s,d)=>s+dayTotal(d||zeroObj()),0);return days.reduce((s,d)=>s+((d||zeroObj())[statItem]||0),0);}
+  function getVal(days,i){const d=days[i]||zeroObj();return statItem==='total'?dayTotal(d):num(d[statItem]);}
+  function getRowSum(days){if(statItem==='total')return days.reduce((s,d)=>s+dayTotal(d||zeroObj()),0);return days.reduce((s,d)=>s+num((d||zeroObj())[statItem]),0);}
   const segHTML=`<div class="seg">${segBtns.map(b=>`<button class="sb${statItem===b.k?' on '+b.ci:''}" onclick="statItem='${b.k}';renderWeekly()">${b.lbl}</button>`).join('')}</div>`;
   const thead=`<thead><tr><th class="cn">이름</th>${wds.map((d,i)=>{const isTdy=i===todayIdx,isWk=i>=5;return`<th class="cd${isTdy?' tdy':''}${isWk?' wkd':''}">${DAYS[i]}<br><span style="font-size:12px;font-weight:400;">${fmt(d)}</span></th>`;}).join('')}<th class="cs">합계</th></tr></thead>`;
   const tbody=rows.map((m,ri)=>{
