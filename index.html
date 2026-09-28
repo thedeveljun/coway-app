@@ -468,10 +468,11 @@ function isHolidayOrWeekend(d){
   if(w===0||w===6) return true;
   return HOLIDAYS.has(ymd(d));
 }
-/* 해당 (y,mo)의 마감일: 말일의 달력상 2일 전 → 휴일이면 앞 평일로 당김 */
+/* 해당 (y,mo)의 마감일: 말일의 2일 전(예: 9월 30일 → 28일)까지 당월, 다음 날부터 익월
+   → 그날이 주말·공휴일이면 앞 평일로 당김 */
 function monthCutoff(y,mo){
   const last=new Date(y,mo,0);            // 그 달 말일
-  const d=new Date(y,mo-1,last.getDate()-2); // 달력상 2일 전
+  const d=new Date(y,mo-1,last.getDate()-2); // 말일 2일 전
   while(isHolidayOrWeekend(d)) d.setDate(d.getDate()-1); // 휴일이면 앞 평일로
   return d;
 }
@@ -479,9 +480,11 @@ function monthCutoff(y,mo){
    규칙: (전월 마감일 다음날) ~ (당월 마감일) 사이 → 당월.
    즉 dt가 당월 마감일 이하이면 당월, 초과하면 익월. */
 function recMonthOf(dt){
-  let y=dt.getFullYear(), mo=dt.getMonth()+1;
+  /* 시간은 빼고 날짜만 비교 (마감일 당일 오전에 입력해도 당월로 처리) */
+  const d0=new Date(dt.getFullYear(),dt.getMonth(),dt.getDate());
+  let y=d0.getFullYear(), mo=d0.getMonth()+1;
   const cut=monthCutoff(y,mo);
-  if(dt.getTime()<=cut.getTime()){
+  if(d0.getTime()<=cut.getTime()){
     return {y,mo};                        // 당월 마감일 이내 → 당월
   }else{
     let ny=y, nmo=mo+1; if(nmo>12){nmo=1;ny++;}
