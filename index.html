@@ -270,6 +270,7 @@ body{background:var(--bg);}
 #splash{position:fixed;inset:0;z-index:2000;background:#003E8A;display:flex;align-items:center;justify-content:center;transition:opacity .25s ease;}
 #splash img{width:120px;height:120px;border-radius:26px;box-shadow:0 10px 30px rgba(0,0,0,.25);}
 #splash.hide{opacity:0;pointer-events:none;}
+.mr-ach{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:5px;}
   </style>
   <link rel="manifest" href="manifest.json">
 </head>
@@ -452,14 +453,14 @@ const HOLIDAYS=new Set([
   '2025-10-06','2025-10-07','2025-10-08','2025-10-09','2025-12-25',
   // 2026
   '2026-01-01','2026-02-16','2026-02-17','2026-02-18','2026-03-01','2026-03-02',
-  '2026-05-05','2026-05-24','2026-05-25','2026-06-06','2026-08-15','2026-08-17',
+  '2026-05-05','2026-05-24','2026-05-25','2026-06-03','2026-06-06','2026-08-15','2026-08-17',
   '2026-09-24','2026-09-25','2026-09-26','2026-10-03','2026-10-05','2026-10-09',
   '2026-12-25',
   // 2027
   '2027-01-01','2027-02-06','2027-02-07','2027-02-08','2027-02-09','2027-03-01',
   '2027-05-05','2027-05-13','2027-06-06','2027-08-15','2027-08-16','2027-09-14',
   '2027-09-15','2027-09-16','2027-10-03','2027-10-04','2027-10-09','2027-10-11',
-  '2027-12-25'
+  '2027-12-25','2027-12-27'
 ]);
 function ymd(d){return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;}
 /* 토·일·공휴일이면 휴일 */
@@ -468,12 +469,17 @@ function isHolidayOrWeekend(d){
   if(w===0||w===6) return true;
   return HOLIDAYS.has(ymd(d));
 }
-/* 해당 (y,mo)의 마감일: 말일의 2일 전(예: 9월 30일 → 28일)까지 당월, 다음 날부터 익월
-   → 그날이 주말·공휴일이면 앞 평일로 당김 */
+/* 해당 (y,mo)의 마감일 (평일 기준):
+   그 달의 마지막 평일(주말·공휴일 제외)에서 평일로 2일 앞선 날까지 당월, 다음 날부터 익월.
+   예) 2026년 9월: 마지막 평일 30(수) → 29 → 28(월) 마감
+       10월: 31(토)이라 마지막 평일 30(금) → 29 → 28(수) 마감
+       11월: 마지막 평일 30(월) → 27(금) → 26(목) 마감 (28·29 주말 제외)
+       12월: 마지막 평일 31(목) → 30 → 29(화) 마감 */
 function monthCutoff(y,mo){
-  const last=new Date(y,mo,0);            // 그 달 말일
-  const d=new Date(y,mo-1,last.getDate()-2); // 말일 2일 전
-  while(isHolidayOrWeekend(d)) d.setDate(d.getDate()-1); // 휴일이면 앞 평일로
+  const d=new Date(y,mo,0);                                   // 그 달 말일
+  while(isHolidayOrWeekend(d)) d.setDate(d.getDate()-1);      // 마지막 평일
+  let n=0;
+  while(n<2){ d.setDate(d.getDate()-1); if(!isHolidayOrWeekend(d)) n++; } // 평일로 2일 앞
   return d;
 }
 /* 특정 날짜 dt가 귀속되는 실적월 {y,mo} 반환.
@@ -830,21 +836,22 @@ function mgRate1(g,r){
 /* 소유권 기준 시작월: 저장값(S.mgBase) 우선, 없으면 오늘 기준.
    시작월(mo)만 저장하고, 연도는 오늘 기준으로 가장 가까운 해로 자동 보정 */
 function mIdx(y,mo){return y*12+(mo-1);}
+function calMonth(){const d=new Date();return {y:d.getFullYear(),mo:d.getMonth()+1};}
 function getMgBase(){
   /* 시작월은 '이번 달 기준 몇 개월 앞/뒤'로 저장 → 달이 바뀌면 기간도 자동으로 한 달씩 넘어감 */
-  /* 기본: 다음 달부터 6개월 합산 (기준월=이번 실적월) */
+  /* 기본: 다음 달부터 6개월 합산 (기준월=달력상 이번 달, 매월 1일에 넘어감 — 영업실적 마감일과 무관) */
   const off=(S.mgBase&&typeof S.mgBase.off==='number')?S.mgBase.off:0;
-  const i=mIdx(CUR_M.y,CUR_M.mo)+off;
+  const i=mIdx(calMonth().y,calMonth().mo)+off;
   return {y:Math.floor(i/12), mo:(i%12)+1};
 }
 function setMgBaseMonth(mo){
   mo=parseInt(mo,10); if(!mo||mo<1||mo>12) return;
   /* 선택한 시작월에 대해 오늘과 가장 가까운 연도 자동 결정 */
-  let y=CUR_M.y;
-  const diff=mo-CUR_M.mo;
-  if(diff>6) y=CUR_M.y-1;        /* 시작월이 한참 앞이면 작년으로 */
-  else if(diff<-6) y=CUR_M.y+1;  /* 시작월이 한참 뒤면 내년으로 */
-  S.mgBase={off:mIdx(y,mo)-mIdx(CUR_M.y,CUR_M.mo)};
+  let y=calMonth().y;
+  const diff=mo-calMonth().mo;
+  if(diff>6) y=calMonth().y-1;        /* 시작월이 한참 앞이면 작년으로 */
+  else if(diff<-6) y=calMonth().y+1;  /* 시작월이 한참 뒤면 내년으로 */
+  S.mgBase={off:mIdx(y,mo)-mIdx(calMonth().y,calMonth().mo)};
   save(); renderWeekly();
 }
 function getMgMonths(baseY,baseMo){
@@ -1295,6 +1302,8 @@ function renderMonthly(){
   const rows=S.members.map(m=>{const s=mSum(Y,Mo,m.id);return{...m,...s,total:total(s)};});
   const sorted=[...rows].sort((a,b)=>b.total-a.total);
   const mx=sorted[0]?.total||1;
+  /* 관리계정 달성률: 실적(합산) = 이 달 합계(신규+정수+전략+얼정), 관리계정 = 종합관리에서 입력한 값 */
+  const _mrAct=total(mt), _mrOk=!!S.mgGoal&&_mrAct>=S.mgGoal;
   el.innerHTML=`
   <div class="month-nav">
     <button class="mn-btn" onclick="chgMonth(-1)">‹</button>
@@ -1310,6 +1319,14 @@ function renderMonthly(){
     <div class="mkpi-c am"><div class="mkpi-v">${mt.전략건수}</div><div class="mkpi-l">전략</div></div>
     <div class="mkpi-c pk"><div class="mkpi-v">${mt.얼정건수}</div><div class="mkpi-l">얼정</div></div>
     <div class="mkpi-c" style="background:var(--sky);"><div class="mkpi-v" style="color:var(--blue);font-weight:700;">${total(mt)}</div><div class="mkpi-l">합계</div></div>
+  </div>
+  <div class="section" style="padding-top:10px;">
+    <div class="sec-title" style="margin-bottom:6px;">관리계정 달성률</div>
+    <div class="mr-ach">
+      <div class="mg-tile" style="background:#FFFFFF;border:1px solid #D5DAE1;box-shadow:0 1px 3px rgba(0,0,0,.06);"><div style="font-size:12px;color:#555E6B;font-weight:600;">관리계정</div><div style="font-size:17px;font-weight:700;color:var(--text);">${S.mgGoal?S.mgGoal:'-'}</div></div>
+      <div class="mg-tile" style="background:#E8F2FF;border:1px solid #C5D9F5;"><div style="font-size:12px;color:var(--blue);font-weight:600;">실적(합산)</div><div style="font-size:17px;font-weight:700;color:var(--blue);">${_mrAct}</div></div>
+      <div class="mg-tile" style="background:${_mrOk?'#E8F5E9':'#FFF8E1'};border:1px solid ${_mrOk?'#A5D6A7':'#FFE0A3'};"><div style="font-size:12px;color:${_mrOk?'var(--green)':'var(--amber)'};font-weight:600;">달성률</div><div style="font-size:17px;font-weight:700;color:${_mrOk?'var(--green)':'var(--amber)'};">${S.mgGoal?(_mrAct/S.mgGoal*100).toFixed(2)+'%':'-'}</div></div>
+    </div>
   </div>
   <div class="section">
     <div class="sec-title">팀원별 월간 실적</div>
@@ -1332,14 +1349,7 @@ function renderMonthly(){
       </div>
     </div>
   </div>
-  <div class="section" style="padding-bottom:20px;">
-    <div class="sec-title">팀원별 합계 비교</div>
-    <div class="card">
-      <div style="padding:14px;">
-        ${sorted.map(r=>`<div style="display:flex;align-items:center;gap:6px;margin-bottom:9px;"><div style="width:36px;font-size:13px;font-weight:600;text-align:right;color:var(--text2);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">${r.name}</div><div style="flex:1;background:var(--bd);border-radius:6px;height:22px;overflow:hidden;"><div style="width:${Math.round(r.total/mx*100)}%;height:100%;background:var(--blue);border-radius:6px;display:flex;align-items:center;padding-left:7px;min-width:2px;">${r.total>0?`<span style="font-size:11px;font-weight:600;color:#fff;">${r.total}</span>`:''}</div></div>${r.total===0?`<span style="font-size:11px;color:var(--text3);">0</span>`:''}</div>`).join('')}
-      </div>
-    </div>
-  </div>`;
+  <div style="height:20px;"></div>`;
 }
 function chgMonth(d){Mo+=d;if(Mo<1){Y--;Mo=12;}if(Mo>12){Y++;Mo=1;}renderMonthly();}
 
@@ -1596,7 +1606,7 @@ function init(){
   normalizeRecords();
   CUR_M=recMonthOf(today); Y=CUR_M.y; Mo=CUR_M.mo;
   /* 합산 기간을 '다음 달부터 6개월'로 한 번 맞춤 (예: 10월~3월) */
-  if(S.mgBaseV!==3){S.mgBase={off:0};S.mgBaseV=3;save();}
+  if(S.mgBaseV!==4){S.mgBase={off:0};S.mgBaseV=4;save();}
   S.members=S.members.map(m=>({phone:'',...m}));
   const d=today;
   document.getElementById('tb-date').textContent=`${d.getFullYear()}.${String(d.getMonth()+1).padStart(2,'0')}.${String(d.getDate()).padStart(2,'0')} (${['일','월','화','수','목','금','토'][d.getDay()]})`;
