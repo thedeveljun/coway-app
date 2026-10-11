@@ -383,7 +383,8 @@ let WY=CUR_WY, W=CUR_W;
 let Y=CUR_M.y, Mo=CUR_M.mo;
 let selMem=null, addType='kodi', editMemberId=null;
 let wView='input', statItem='total';
-const TYPES=['신규건수','정수건수','전략건수','얼정건수'];
+const TYPES=['신규건수','정수건수','얼정건수','전략건수']; /* 화면 순서: 신규·정수·비+청·전략 */
+const TYPE_LBL={'신규건수':'신규','정수건수':'정수','얼정건수':'비+청','전략건수':'전략'}; /* 얼정건수 데이터는 '비+청'으로 표시 */
 const TYPE_META={'신규건수':{cls:'nw'},'정수건수':{cls:'gn'},'전략건수':{cls:'am'},'얼정건수':{cls:'pk'}};
 
 const num=v=>{const n=Number(v);return isFinite(n)?n:0;};
@@ -726,12 +727,12 @@ function renderDash(){
           <div class="hero-stat-lbl">정수건수</div>
         </div>
         <div class="hero-stat">
-          <div class="hero-stat-val">${wt.전략건수}</div>
-          <div class="hero-stat-lbl">전략건수</div>
+          <div class="hero-stat-val">${wt.얼정건수}</div>
+          <div class="hero-stat-lbl">비+청건수</div>
         </div>
         <div class="hero-stat">
-          <div class="hero-stat-val">${wt.얼정건수}</div>
-          <div class="hero-stat-lbl">얼정건수</div>
+          <div class="hero-stat-val">${wt.전략건수}</div>
+          <div class="hero-stat-lbl">전략건수</div>
         </div>
         <div class="hero-stat total">
           <div class="hero-stat-val">${wtTotal}</div>
@@ -744,8 +745,8 @@ function renderDash(){
       <div class="kpi-row">
         <div class="kpi nw"><div class="kpi-v">${mt.신규건수}</div><div class="kpi-l">신규</div></div>
         <div class="kpi gn"><div class="kpi-v">${mt.정수건수}</div><div class="kpi-l">정수</div></div>
+        <div class="kpi pk"><div class="kpi-v">${mt.얼정건수}</div><div class="kpi-l">비+청</div></div>
         <div class="kpi am"><div class="kpi-v">${mt.전략건수}</div><div class="kpi-l">전략</div></div>
-        <div class="kpi pk"><div class="kpi-v">${mt.얼정건수}</div><div class="kpi-l">얼정</div></div>
         <div class="kpi" style="background:var(--sky);"><div class="kpi-v" style="color:var(--blue);font-weight:700;">${mtTotal}</div><div class="kpi-l">합계</div></div>
       </div>
     </div>
@@ -790,11 +791,11 @@ function renderRank(){
               <div class="bm">
                 <div class="bt"><div class="bf nw" style="width:${Math.round((m.신규건수/mx)*100)}%"></div></div>
                 <div class="bt"><div class="bf gn" style="width:${Math.round((m.정수건수/mx)*100)}%"></div></div>
-                <div class="bt"><div class="bf am" style="width:${Math.round((m.전략건수/mx)*100)}%"></div></div>
                 <div class="bt"><div class="bf pk" style="width:${Math.round((m.얼정건수/mx)*100)}%"></div></div>
+                <div class="bt"><div class="bf am" style="width:${Math.round((m.전략건수/mx)*100)}%"></div></div>
               </div>
               <div style="font-size:13px;font-weight:500;color:#333;margin-top:2px;white-space:nowrap;">
-                신규 ${m.신규건수} · 정수 ${m.정수건수} · 전략 ${m.전략건수} · 얼정 ${m.얼정건수}
+                신규 ${m.신규건수} · 정수 ${m.정수건수} · 비+청 ${m.얼정건수} · 전략 ${m.전략건수}
               </div>
             </div>
             <div style="text-align:right;flex-shrink:0;min-width:32px;">
@@ -1205,7 +1206,7 @@ function buildInputView(wds){
       }).join('');
       const sumCell=isFirst?`<td rowspan="${TYPES.length}" style="position:sticky;right:0;z-index:3;background:var(--sky);border-left:2px solid var(--sky2);min-width:36px;padding:4px 3px;text-align:center;vertical-align:middle;border-bottom:2px solid var(--sky2);"><div id="wsi-tot-${m.id}" style="font-size:15px;font-weight:600;color:var(--blue);">${rowTotal||''}</div></td>`:'';
       const _clsColor={nw:'var(--blue)',gn:'var(--green)',am:'var(--amber)',pk:'var(--pink)'};
-      const lblCell=`<td style="position:sticky;right:${isFirst?36:0}px;z-index:3;background:var(--sky);border-left:${isFirst?'none':'2px solid var(--sky2)'};min-width:36px;padding:3px 3px;text-align:center;border-bottom:${ti===TYPES.length-1?'2px solid var(--sky2)':'1px solid var(--sky2)'};font-size:11px;font-weight:700;"><span style="font-size:11px;font-weight:700;color:${_clsColor[meta.cls]||'var(--blue)'};">${type.replace('건수','')}</span></td>`;
+      const lblCell=`<td style="position:sticky;right:${isFirst?36:0}px;z-index:3;background:var(--sky);border-left:${isFirst?'none':'2px solid var(--sky2)'};min-width:36px;padding:3px 3px;text-align:center;border-bottom:${ti===TYPES.length-1?'2px solid var(--sky2)':'1px solid var(--sky2)'};font-size:11px;font-weight:700;"><span style="font-size:11px;font-weight:700;color:${_clsColor[meta.cls]||'var(--blue)'};">${TYPE_LBL[type]}</span></td>`;
       return `<tr>${nameCell}${lblCell}${cells}${sumCell}</tr>`;
     }).join('');
   }).join('');
@@ -1253,8 +1254,8 @@ function buildInputView(wds){
     <div class="kpi-row">
       <div class="kpi nw"><div class="kpi-v" id="wk-kpi-신규건수">${wt.신규건수}</div><div class="kpi-l">신규</div></div>
       <div class="kpi gn"><div class="kpi-v" id="wk-kpi-정수건수">${wt.정수건수}</div><div class="kpi-l">정수</div></div>
+      <div class="kpi pk"><div class="kpi-v" id="wk-kpi-얼정건수">${wt.얼정건수}</div><div class="kpi-l">비+청</div></div>
       <div class="kpi am"><div class="kpi-v" id="wk-kpi-전략건수">${wt.전략건수}</div><div class="kpi-l">전략</div></div>
-      <div class="kpi pk"><div class="kpi-v" id="wk-kpi-얼정건수">${wt.얼정건수}</div><div class="kpi-l">얼정</div></div>
       <div class="kpi" style="background:var(--sky);"><div class="kpi-v" id="wk-kpi-total" style="color:var(--blue);font-weight:700;">${total(wt)}</div><div class="kpi-l">합계</div></div>
     </div>
   </div>`;
@@ -1293,7 +1294,7 @@ function buildStatusView(wds){
   const teamDays=Array.from({length:7},(_,i)=>{
     const t=zeroObj();rows.forEach(r=>{TYPES.forEach(k=>t[k]+=num((r.days[i]||zeroObj())[k]));});return t;
   });
-  const segBtns=[{k:'total',lbl:'전체',ci:'c0'},{k:'신규건수',lbl:'신규',ci:'c1'},{k:'정수건수',lbl:'정수',ci:'c2'},{k:'전략건수',lbl:'전략',ci:'c3'},{k:'얼정건수',lbl:'얼정',ci:'c4'}];
+  const segBtns=[{k:'total',lbl:'전체',ci:'c0'},{k:'신규건수',lbl:'신규',ci:'c1'},{k:'정수건수',lbl:'정수',ci:'c2'},{k:'얼정건수',lbl:'비+청',ci:'c4'},{k:'전략건수',lbl:'전략',ci:'c3'}];
   const colorMap={total:'var(--blue)',신규건수:'var(--blue)',정수건수:'var(--green)',전략건수:'var(--amber)',얼정건수:'var(--pink)'};
   const lc=colorMap[statItem]||'var(--blue)';
   function getVal(days,i){const d=days[i]||zeroObj();return statItem==='total'?dayTotal(d):num(d[statItem]);}
@@ -1313,8 +1314,8 @@ function buildStatusView(wds){
     <div class="kpi-row">
       <div class="kpi nw"><div class="kpi-v">${wt.신규건수}</div><div class="kpi-l">신규</div></div>
       <div class="kpi gn"><div class="kpi-v">${wt.정수건수}</div><div class="kpi-l">정수</div></div>
+      <div class="kpi pk"><div class="kpi-v">${wt.얼정건수}</div><div class="kpi-l">비+청</div></div>
       <div class="kpi am"><div class="kpi-v">${wt.전략건수}</div><div class="kpi-l">전략</div></div>
-      <div class="kpi pk"><div class="kpi-v">${wt.얼정건수}</div><div class="kpi-l">얼정</div></div>
       <div class="kpi" style="background:var(--sky);"><div class="kpi-v" style="color:var(--blue);font-weight:700;">${total(wt)}</div><div class="kpi-l">합계</div></div>
     </div>
   </div>`;
@@ -1508,8 +1509,8 @@ function rankData(){
 function rankText(){
   const d=rankData(), md=['🥇','🥈','🥉'];
   const lines=[`🏆 코웨이 팀원 순위 ${d.y}.${String(d.mo).padStart(2,'0')}`,`(집계 ${d.range})`,''];
-  d.ranked.forEach((m,i)=>lines.push(`${i<3?md[i]:(i+1)+'위'} ${m.name}  ${m.total}건  (신규 ${m.신규건수} · 정수 ${m.정수건수} · 전략 ${m.전략건수} · 얼정 ${m.얼정건수})`));
-  lines.push('',`팀 합계 ${total(d.team)}건 (신규 ${d.team.신규건수} · 정수 ${d.team.정수건수} · 전략 ${d.team.전략건수} · 얼정 ${d.team.얼정건수})`);
+  d.ranked.forEach((m,i)=>lines.push(`${i<3?md[i]:(i+1)+'위'} ${m.name}  ${m.total}건  (신규 ${m.신규건수} · 정수 ${m.정수건수} · 비+청 ${m.얼정건수} · 전략 ${m.전략건수})`));
+  lines.push('',`팀 합계 ${total(d.team)}건 (신규 ${d.team.신규건수} · 정수 ${d.team.정수건수} · 비+청 ${d.team.얼정건수} · 전략 ${d.team.전략건수})`);
   return lines.join('\n');
 }
 async function shareRankText(){
@@ -1532,7 +1533,7 @@ function drawRankCanvas(){
   const cy=headH+24, cw=W-P*2, ch=d.ranked.length*rowH;
   g.fillStyle='#fff'; rr(g,P,cy,cw,ch,28); g.fill();
   const medal=[['#FFF8E1','#F9A825'],['#F1F3F6','#757575'],['#FBE9E7','#BF360C']];
-  const TC=[['신규건수','신규','#0057B8'],['정수건수','정수','#2E7D32'],['전략건수','전략','#E65100'],['얼정건수','얼정','#D81B60']];
+  const TC=[['신규건수','신규','#0057B8'],['정수건수','정수','#2E7D32'],['얼정건수','비+청','#D81B60'],['전략건수','전략','#E65100']];
   const mx=d.ranked[0]?.total||1;
   d.ranked.forEach((m,i)=>{
     const y0=cy+i*rowH;
@@ -1554,7 +1555,7 @@ function drawRankCanvas(){
   g.fillStyle='#0057B8'; g.font=`600 36px ${F}`; g.fillText('팀 합계',P+36,fy+61);
   g.textAlign='right'; g.font=`700 44px ${F}`; g.fillText(`${total(d.team)}건`,P+cw-36,fy+63); g.textAlign='left';
   g.font=`400 28px ${F}`; g.fillStyle='#6B7280';
-  g.fillText(`신규 ${d.team.신규건수} · 정수 ${d.team.정수건수} · 전략 ${d.team.전략건수} · 얼정 ${d.team.얼정건수}`,P+200,fy+60);
+  g.fillText(`신규 ${d.team.신규건수} · 정수 ${d.team.정수건수} · 비+청 ${d.team.얼정건수} · 전략 ${d.team.전략건수}`,P+200,fy+60);
   return c;
   function rr(g,x,y,w,h,r){g.beginPath();g.moveTo(x+r,y);g.arcTo(x+w,y,x+w,y+h,r);g.arcTo(x+w,y+h,x,y+h,r);g.arcTo(x,y+h,x,y,r);g.arcTo(x,y,x+w,y,r);g.closePath();}
 }
