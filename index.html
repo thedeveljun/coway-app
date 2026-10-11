@@ -1316,8 +1316,8 @@ function renderMonthly(){
   <div class="mkpi">
     <div class="mkpi-c nw"><div class="mkpi-v">${mt.신규건수}</div><div class="mkpi-l">신규</div></div>
     <div class="mkpi-c gn"><div class="mkpi-v">${mt.정수건수}</div><div class="mkpi-l">정수</div></div>
-    <div class="mkpi-c am"><div class="mkpi-v">${mt.전략건수}</div><div class="mkpi-l">전략</div></div>
     <div class="mkpi-c pk"><div class="mkpi-v">${mt.얼정건수}</div><div class="mkpi-l">얼정</div></div>
+    <div class="mkpi-c am"><div class="mkpi-v">${mt.전략건수}</div><div class="mkpi-l">비+청</div></div>
     <div class="mkpi-c" style="background:var(--sky);"><div class="mkpi-v" style="color:var(--blue);font-weight:700;">${total(mt)}</div><div class="mkpi-l">합계</div></div>
   </div>
   <div class="section" style="padding-top:10px;">
@@ -1337,13 +1337,13 @@ function renderMonthly(){
             <th style="text-align:center;font-size:13px;">이름</th>
             <th><span class="hbadge nw">신규</span></th>
             <th><span class="hbadge gn">정수</span></th>
-            <th><span class="hbadge am">전략</span></th>
             <th><span class="hbadge pk">얼정</span></th>
+            <th><span class="hbadge am">비+청</span></th>
             <th style="font-size:13px;">합계</th>
           </tr></thead>
           <tbody>
-            ${rows.map(r=>`<tr><td class="ncl" style="font-size:13px;">${r.name}</td><td style="color:var(--blue);font-weight:500;font-size:13px;">${r.신규건수}</td><td style="color:var(--green);font-weight:500;font-size:13px;">${r.정수건수}</td><td style="color:var(--amber);font-weight:500;font-size:13px;">${r.전략건수}</td><td style="color:var(--pink);font-weight:500;font-size:13px;">${r.얼정건수}</td><td style="font-weight:600;font-size:13px;">${r.total}</td></tr>`).join('')}
-            <tr class="totrow"><td class="ncl" style="font-size:13px;">팀 합계</td><td style="font-size:13px;">${mt.신규건수}</td><td style="font-size:13px;">${mt.정수건수}</td><td style="font-size:13px;">${mt.전략건수}</td><td style="font-size:13px;">${mt.얼정건수}</td><td style="font-size:13px;">${total(mt)}</td></tr>
+            ${rows.map(r=>`<tr><td class="ncl" style="font-size:13px;">${r.name}</td><td style="color:var(--blue);font-weight:500;font-size:13px;">${r.신규건수}</td><td style="color:var(--green);font-weight:500;font-size:13px;">${r.정수건수}</td><td style="color:var(--pink);font-weight:500;font-size:13px;">${r.얼정건수}</td><td style="color:var(--amber);font-weight:500;font-size:13px;">${r.전략건수}</td><td style="font-weight:600;font-size:13px;">${r.total}</td></tr>`).join('')}
+            <tr class="totrow"><td class="ncl" style="font-size:13px;">팀 합계</td><td style="font-size:13px;">${mt.신규건수}</td><td style="font-size:13px;">${mt.정수건수}</td><td style="font-size:13px;">${mt.얼정건수}</td><td style="font-size:13px;">${mt.전략건수}</td><td style="font-size:13px;">${total(mt)}</td></tr>
           </tbody>
         </table>
       </div>
