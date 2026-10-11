@@ -1,0 +1,18 @@
+{
+  "name": "3.6.9 & 정청비 투게더",
+  "short_name": "정청비 투게더",
+  "description": "2026년 10월 3.6.9 점프업·정청비 투게더·생산율 점프업 지급 예상 계산기",
+  "lang": "ko",
+  "start_url": "./",
+  "scope": "./",
+  "id": "./",
+  "display": "standalone",
+  "background_color": "#F4F4F1",
+  "theme_color": "#F4F4F1",
+  "icons": [
+    {"src": "icons/icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any"},
+    {"src": "icons/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any"},
+    {"src": "icons/icon-maskable-192.png", "sizes": "192x192", "type": "image/png", "purpose": "maskable"},
+    {"src": "icons/icon-maskable-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable"}
+  ]
+}
